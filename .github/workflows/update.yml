@@ -1,0 +1,115 @@
+name: Mise à jour des données
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "full (tout) ou orderflow (signal seulement)"
+        required: true
+        default: full
+        type: choice
+        options:
+          - full
+          - orderflow
+      notifier:
+        description: "Forcer la notification de séance, pour un essai"
+        required: true
+        default: non
+        type: choice
+        options:
+          - non
+          - oui
+  schedule:
+    # Heure de Paris, hiver (UTC+1) et été (UTC+2).
+    # Le résumé ntfy ne part que si l'heure de Paris est à ±20 min
+    # de 06:55, 07:55, 13:55, 16:55 ou 21:00.
+    - cron: "55 4 * * 1-5"   # 06:55 été
+    - cron: "55 5 * * 1-5"   # 06:55 hiver / 07:55 été
+    - cron: "55 6 * * 1-5"   # 07:55 hiver
+    - cron: "55 11 * * 1-5"  # 13:55 été
+    - cron: "55 12 * * 1-5"  # 13:55 hiver
+    - cron: "55 14 * * 1-5"  # 16:55 été
+    - cron: "55 15 * * 1-5"  # 16:55 hiver
+    - cron: "0 19 * * 1-5"   # 21:00 été
+    - cron: "0 20 * * 1-5"   # 21:00 hiver
+    # Contrôle orderflow toutes les heures, 07:05–21:05 heure de Paris (union été + hiver).
+    - cron: "5 5-20 * * 1-5"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: xauusd-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Tests des règles
+        run: python scripts/test_desk.py
+
+      - name: Choisir le mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "mode=${{ inputs.mode }}" >> "$GITHUB_OUTPUT"
+            if [ "${{ inputs.notifier }}" = "oui" ]; then
+              echo "extra=--force-summary" >> "$GITHUB_OUTPUT"
+            else
+              echo "extra=" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            case "${{ github.event.schedule }}" in
+              5\ *) echo "mode=orderflow" >> "$GITHUB_OUTPUT" ;;
+              *) echo "mode=full" >> "$GITHUB_OUTPUT" ;;
+            esac
+            echo "extra=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Télécharger et calculer
+        env:
+          PYTHONUNBUFFERED: "1"
+          NTFY_TOPIC: ${{ vars.NTFY_TOPIC || secrets.NTFY_TOPIC }}
+          PAGES_URL: https://geoffreygrandon-lang.github.io/xauusd-desk/
+        run: python scripts/desk.py --mode "${{ steps.mode.outputs.mode }}" ${{ steps.mode.outputs.extra }} --max-hours 24
+
+      - name: Enregistrer les données
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/latest.json data/candles.json data/alert_state.json data/macro_cache.json
+          if [ -f data/absent_hours.json ]; then git add data/absent_hours.json; fi
+          if git diff --staged --quiet; then
+            echo "Aucun changement de données"
+          else
+            git commit -m "data: mise à jour XAU/USD"
+            git pull --rebase origin main
+            git push
+          fi
+
+      - name: Assembler le site
+        run: bash scripts/assemble_site.sh
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

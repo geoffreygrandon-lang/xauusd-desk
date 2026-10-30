@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0d12">
+  <meta name="description" content="Macro Desk — lecture macro et orderflow du spot XAU/USD. Pas un conseil financier.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Macro Desk">
+  <title>Macro Desk — XAU/USD</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <style>
+    :root {
+      --bg: #0d0d12;
+      --card: #15151c;
+      --tile: #1c1c26;
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #f3f3f7;
+      --muted: #9a9aaf;
+      --purple: #7c6cff;
+      --green: #3ddc97;
+      --red: #ff5d6c;
+      --amber: #ffc14d;
+      --blue: #6cb6ff;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--text); }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      font-variant-numeric: tabular-nums;
+      padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+      min-height: 100vh;
+    }
+    button, summary { font: inherit; color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 14px 14px 56px; }
+    header.top {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      gap: 12px; margin-bottom: 14px;
+    }
+    .brand { letter-spacing: 0.16em; font-weight: 750; font-size: 15px; }
+    .brand b { color: var(--purple); font-weight: 750; }
+    .brand span { display: block; letter-spacing: 0.08em; color: var(--muted); font-size: 12px; font-weight: 600; margin-top: 4px; }
+    .maj { text-align: right; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .maj strong { color: var(--text); font-weight: 650; }
+    .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-right: 5px; }
+    .dot.warn { background: var(--amber); }
+    .dot.off { background: var(--muted); }
+    .banner {
+      border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-bottom: 12px;
+      background: #17171f;
+    }
+    .banner .k { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .banner h1 { margin: 4px 0 0; font-size: 22px; line-height: 1.2; font-weight: 720; }
+    .banner.bear { background: #1c1216; border-color: rgba(255, 93, 108, 0.35); }
+    .banner.bear h1 { color: #ff8d98; }
+    .banner.bull { background: #101a16; border-color: rgba(61, 220, 151, 0.35); }
+    .banner.bull h1 { color: #8ee8c4; }
+    .cols { display: grid; gap: 12px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px;
+    }
+    .kicker {
+      margin: 0 0 10px; color: var(--purple); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; font-weight: 700;
+    }
+    .hero { display: grid; gap: 12px; }
+    .gauge { display: grid; justify-items: center; }
+    .gauge svg { width: min(100%, 280px); height: auto; }
+    .gauge .score { font-size: 40px; font-weight: 720; fill: var(--text); }
+    .gauge .sub { font-size: 12px; fill: var(--muted); letter-spacing: 0.12em; }
+    .price-head { color: var(--muted); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .px { font-size: 40px; font-weight: 720; letter-spacing: -0.03em; margin: 4px 0; }
+    .chg { font-size: 15px; font-weight: 650; }
+    .chg.up { color: var(--green); }
+    .chg.down { color: var(--red); }
+    .chg.flat { color: var(--muted); }
+    .subline { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .bar { display: flex; height: 12px; border-radius: 999px; overflow: hidden; margin-top: 14px; background: #2a2a34; }
+    .bar .buy { background: var(--green); }
+    .bar .sell { background: var(--red); }
+    .bar-legend { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-top: 6px; }
+    .bar-legend .up { color: var(--green); }
+    .bar-legend .down { color: var(--red); }
+    .sessions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .tile { background: var(--tile); border-radius: 14px; padding: 10px; min-width: 0; }
+    .tile header { display: flex; flex-direction: column; color: var(--muted); font-size: 11px; gap: 2px; }
+    .tile header b { color: var(--text); font-size: 13px; }
+    .tile .bias { margin: 8px 0 4px; font-size: 16px; font-weight: 720; }
+    .tile p { margin: 2px 0; color: var(--muted); font-size: 12px; }
+    .tile.up .bias { color: var(--green); }
+    .tile.down .bias { color: var(--red); }
+    .tile.flat .bias { color: var(--muted); }
+    .prefere { text-align: center; padding: 18px 14px; }
+    .prefere h2 { margin: 0; font-size: 18px; letter-spacing: 0.02em; line-height: 1.35; }
+    .prefere .base { color: var(--muted); margin-top: 8px; font-size: 13px; }
+    .warn {
+      margin: 8px 0 0; padding: 8px 10px; border-radius: 10px;
+      background: rgba(255, 193, 77, 0.1); color: var(--amber); font-size: 13px;
+    }
+    .chart-wrap { position: relative; }
+    canvas { width: 100%; height: 240px; display: block; touch-action: none; }
+    .legend { display: flex; flex-wrap: wrap; gap: 10px 14px; color: var(--muted); font-size: 12px; margin: 4px 0 10px; }
+    .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; }
+    .tip {
+      position: absolute; pointer-events: none; display: none; min-width: 140px;
+      background: #0d0d12; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px;
+      font-size: 12px; line-height: 1.45;
+    }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .stat { background: var(--tile); border-radius: 14px; padding: 10px 12px; }
+    .stat .lbl { color: var(--muted); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .stat .val { font-size: 20px; font-weight: 720; margin-top: 4px; }
+    .stat .hint { color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .up { color: var(--green); }
+    .down { color: var(--red); }
+    .tech { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .row { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--line); }
+    .row:first-of-type { border-top: 0; }
+    .row .name { font-weight: 650; }
+    .row .state { color: var(--muted); font-size: 13px; }
+    .pill { font-size: 12px; font-weight: 700; text-align: right; }
+    .pill.positif { color: var(--green); }
+    .pill.negatif { color: var(--red); }
+    .pill.neutre, .pill.none { color: var(--muted); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cell { background: var(--tile); border-radius: 14px; padding: 12px; text-align: center; }
+    .cell span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+    .cell b { font-size: 16px; }
+    .align-label { text-align: center; margin: 14px 0 0; font-size: 20px; letter-spacing: 0.08em; font-weight: 760; }
+    .align-sub { text-align: center; color: var(--muted); margin: 4px 0 0; font-size: 13px; }
+    .levels { list-style: none; margin: 0; padding: 0; }
+    .levels li { display: flex; justify-content: space-between; gap: 8px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 14px; }
+    .levels li:first-child { border-top: 0; }
+    .levels .name { color: var(--muted); }
+    .brief { line-height: 1.55; font-size: 15px; margin: 0; }
+    .alerts { list-style: none; margin: 0; padding: 0; }
+    .alerts li { padding: 8px 0 8px 14px; border-top: 1px solid var(--line); position: relative; font-size: 14px; line-height: 1.4; }
+    .alerts li:first-child { border-top: 0; }
+    .alerts li::before { content: ""; position: absolute; left: 0; top: 14px; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+    .alerts li.important::before { background: var(--red); }
+    .alerts li.attention::before { background: var(--amber); }
+    .alerts li.info::before { background: var(--purple); }
+    details.parts, details.rules { margin-top: 10px; }
+    details summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+    .parts ul, .comp { list-style: none; margin: 8px 0 0; padding: 0; }
+    .parts li, .comp li { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; padding: 4px 0; color: var(--muted); }
+    .parts li.on { color: var(--text); }
+    .note { color: var(--muted); font-size: 12px; line-height: 1.45; margin: 8px 0 0; }
+    .rules p, .rules li { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .disclaimer { color: var(--muted); font-size: 12px; line-height: 1.5; margin-top: 14px; }
+    .install {
+      margin-top: 12px; background: var(--tile); border-radius: 14px; padding: 12px; font-size: 14px; line-height: 1.45;
+    }
+    .install button { background: var(--purple); color: white; border: 0; border-radius: 999px; padding: 8px 12px; margin-top: 8px; }
+    .status { color: var(--muted); padding: 24px 8px; }
+    @media (min-width: 720px) {
+      .hero { grid-template-columns: 0.9fr 1.1fr; align-items: center; }
+      .stats { grid-template-columns: repeat(4, 1fr); }
+      .px { font-size: 48px; }
+    }
+    @media (min-width: 980px) {
+      .cols { grid-template-columns: 1.25fr 0.85fr; align-items: start; }
+      .wrap { padding-top: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">MACRO <b>DESK</b><span>XAU/USD · SPOT</span></div>
+      <div class="maj" id="maj">Chargement…</div>
+    </header>
+    <div id="app"><p class="status">Chargement des données…</p></div>
+    <section class="card rules">
+      <h2 class="kicker">Règles de calcul</h2>
+      <p>Tout ce qui s'affiche vient d'une règle fixe. Aucun chiffre n'est inventé : s'il manque, l'app écrit « indisponible ».</p>
+      <ul>
+        <li><b>Séances (heure de Paris).</b> Asie 23:00–08:00, Londres 08:00–16:55, New York 14:30–22:00. Quatre notes de −1 à +1 : variation au-delà de ±0,15 %, clôture contre ouverture, clôture dans le range (sous 33 % / au-dessus de 67 %), structure face à la séance précédente (plus hauts et plus bas, ou l'inverse). Total ≤ −2 baissière, ≥ +2 haussière, sinon neutre. Une séance en cours reste grise.</li>
+        <li><b>Sens privilégié.</b> Il suit la dernière séance terminée. Haussière → ACHAT, baissière → VENTE, neutre → ATTENDRE, pour la séance d'après.</li>
+        <li><b>Orderflow.</b> Sur chaque bougie horaire Dukascopy, part acheteuse = (clôture − plus bas) / (plus haut − plus bas) × volume tick bid. Delta = achat − vente. Le signal utilise les 40 dernières bougies clôturées. Écart = |% achat − % vente|. NEUTRE si écart &lt; 10 (conviction BASSE), sinon ACHETEUR ou VENDEUR, MODÉRÉE de 10 à 19, ÉLEVÉE à partir de 20.</li>
+        <li><b>Confiance (0 à 100).</b> Conviction orderflow 30 si ÉLEVÉE, 18 si MODÉRÉE. Puis, seulement en cas d'accord : moyenne 20 +15, moyenne 100 +10, RSI (achat si ≥ 55, vente si ≤ 45) +10, dernière séance +15, macro +10, proxy flux +10. Si l'orderflow est NEUTRE, le score reste à 10. 0–39 FAIBLE, 40–69 MODÉRÉE, 70–100 ÉLEVÉE.</li>
+        <li><b>Macro.</b> DXY : ±0,30 % sur 5 séances (baisse = positif pour l'or). VIX : ≥ 20 et en hausse = risk off = positif ; ≤ 16 et en baisse = risk on = négatif. Taux réels (FRED DFII10) : ±5 points de base. Inflation (point mort 10 ans) : hausse &gt; 5 pb = positif, baisse = neutre. Fed, banques centrales, géopolitique : uniquement ce qui est écrit dans data/macro.json.</li>
+        <li><b>Proxy flux (« heatmap »).</b> Prix et delta net dans le même sens : accumulation ou distribution. En sens opposé : divergence. Ce n'est pas un carnet d'ordres.</li>
+      </ul>
+    </section>
+    <p class="disclaimer">Pas un conseil financier. Ceci décrit des règles mécaniques sur des données publiques. L'orderflow est une estimation à partir du volume tick Dukascopy (spot XAU/USD, côté bid), pas un orderflow centralisé ni le flux de ton courtier CFD. Les séances Londres et New York se chevauchent : chacune est notée sur sa propre plage horaire.</p>
+    <div id="install" class="install" hidden></div>
+  </div>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let latest = null;
+    let chartCandles = [];
+    let refreshTimer = 0;
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+    }
+    function fr(value, digits = 2, signed = false) {
+      if (value === null || value === undefined || Number.isNaN(Number(value))) return "indisponible";
+      const number = Number(value);
+      const text = new Intl.NumberFormat("fr-FR", { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(Math.abs(number));
+      if (number < 0) return "-" + text;
+      if (signed && number > 0) return "+" + text;
+      return text;
+    }
+    function pct(value) { return fr(value, 2, true) + " %"; }
+    function money(value) { return fr(value, 2) + " $"; }
+    function cls(value) { return value > 0 ? "up" : value < 0 ? "down" : "flat"; }
+    function impactWord(impact) {
+      return impact === "positif" ? "Positif" : impact === "negatif" ? "Négatif" : impact === "neutre" ? "Neutre" : "Indisponible";
+    }
+    function dirClass(direction) {
+      if (direction === "HAUSSIER" || direction === "haussière") return "bull";
+      if (direction === "BAISSIER" || direction === "baissière") return "bear";
+      return "flat";
+    }
+    function wordClass(word) {
+      if (word === "HAUSSIER" || word === "haussière" || word === "Accumulation") return "up";
+      if (word === "BAISSIER" || word === "baissière" || word === "Distribution") return "down";
+      return "";
+    }
+    function ago(iso) {
+      const seconds = (Date.now() - new Date(iso).getTime()) / 1000;
+      if (!Number.isFinite(seconds) || seconds < 0) return "";
+      if (seconds < 90) return "à l'instant";
+      if (seconds < 3600) return "il y a " + Math.round(seconds / 60) + " min";
+      return "il y a " + Math.floor(seconds / 3600) + " h";
+    }
+
+    function render(data) {
+      latest = data;
+      const direction = data.banner?.direction || "NEUTRE";
+      const market = data.market || {};
+      const dot = !market.ouvert ? "off" : (market.libelle || "").includes("retard") ? "warn" : "";
+      $("maj").innerHTML = `<span class="dot ${dot}"></span><strong>Dernière MAJ</strong><br>${esc(data.generated_label || "")}<br>${esc(ago(data.generated_at))} · Paris`;
+      const sessions = data.sessions?.seances || [];
+      const flow = data.orderflow || {};
+      const price = data.price || {};
+      const conf = data.confidence || { score: 0, label: "FAIBLE", parts: [] };
+      const change = price.change_24h;
+      const ready = !!flow.complet;
+      const buy = ready ? flow.buy_pct : null;
+      const sell = ready ? flow.sell_pct : null;
+      $("app").innerHTML = `
+        <section class="banner ${dirClass(direction)}">
+          <div class="k">Signal</div>
+          <h1>${esc(data.banner?.titre || "Indisponible")}</h1>
+        </section>
+        <div class="cols">
+          <div>
+            <div class="hero">
+              <article class="card gauge">${gaugeSvg(conf)}</article>
+              <article class="card">
+                <div class="price-head">XAU/USD · spot Dukascopy</div>
+                <div class="px">${price.last == null ? "indisponible" : esc(fr(price.last, 2))}</div>
+                <div class="chg ${change == null ? "flat" : cls(change)}">${change == null ? "Variation 24 h indisponible" : esc(fr(change, 2, true) + " · " + pct(price.change_24h_pct) + " · 24 h")}</div>
+                <div class="subline">${price.change_jour_pct == null ? "" : "Depuis l'ouverture Asie : " + esc(pct(price.change_jour_pct))}${price.en_cours ? " · bougie en cours" : ""}</div>
+                ${buy == null ? "" : `<div class="bar" aria-hidden="true"><div class="buy" style="width:${buy}%"></div><div class="sell" style="width:${sell}%"></div></div>
+                <div class="bar-legend"><span class="up">Achat ${buy} %</span><span class="down">Vente ${sell} %</span></div>`}
+              </article>
+            </div>
+            <section class="card" style="margin-top:12px">
+              <h2 class="kicker">Séances du ${esc(data.sessions?.jour_label || "jour")}</h2>
+              <div class="sessions">${sessions.map(sessionTile).join("") || "<p class='note'>Indisponible</p>"}</div>
+              <details class="parts"><summary>Détail des scores</summary>${sessions.map(sessionDetail).join("")}</details>
+            </section>
+            <section class="card prefere" style="margin-top:12px">
+              <h2>${esc(data.prefere?.phrase || "SENS PRIVILÉGIÉ : INDISPONIBLE")}</h2>
+              <div class="base">${data.prefere?.base_session ? "D'après " + esc(data.prefere.base_session) + (data.prefere.base_biais ? " (" + esc(data.prefere.base_biais) + ")" : "") : "Aucune séance terminée exploitable."}</div>
+              ${(data.prefere?.warnings || []).map((item) => `<p class="warn">${esc(item)}</p>`).join("")}
+            </section>
+            <section class="card" style="margin-top:12px">
+              <h2 class="kicker">Signal orderflow</h2>
+              <div class="legend">
+                <span><i style="background:#3ddc97"></i>Pression acheteuse</span>
+                <span><i style="background:#ff5d6c"></i>Pression vendeuse</span>
+                <span><i style="background:#6cb6ff"></i>Delta cumulé</span>
+              </div>
+              <div class="chart-wrap">
+                <canvas id="chart" height="240"></canvas>
+                <div class="tip" id="tip"></div>
+              </div>
+              <p class="note">40 dernières bougies horaires clôturées · heure de Paris. ${esc(flow.complet ? "" : "Historique incomplet : le signal officiel attend 40 bougies.")}</p>
+              <div class="stats" style="margin-top:10px">
+                ${stat("Delta net", !ready || flow.net_delta == null ? "indisponible" : fr(flow.net_delta, 2, true), ready && flow.net_delta > 0 ? "up" : ready && flow.net_delta < 0 ? "down" : "", "volume tick estimé")}
+                ${stat("Achat / vente", buy == null ? "indisponible" : buy + " / " + sell, "", "en %")}
+                ${stat("Signal", flow.signal || "indisponible", flow.signal === "ACHETEUR" ? "up" : flow.signal === "VENDEUR" ? "down" : "", flow.gap == null ? "" : "écart " + flow.gap + " pts")}
+                ${stat("Conviction", flow.conviction || "indisponible", "", "voir les règles")}
+              </div>
+            </section>
+            <section class="card" style="margin-top:12px">
+              <h2 class="kicker">Technique · bougies horaires</h2>
+              <div class="tech">
+                ${techTile("Prix vs M20", data.technicals?.vs_sma20 || "indisponible", data.technicals?.sma20 == null ? "" : money(data.technicals.sma20))}
+                ${techTile("Prix vs M100", data.technicals?.vs_sma100 || "indisponible", data.technicals?.sma100 == null ? "" : money(data.technicals.sma100))}
+                ${techTile("RSI 14", data.technicals?.rsi14 == null ? "indisponible" : fr(data.technicals.rsi14, 1), data.technicals?.rsi14 == null ? "" : (data.technicals.rsi14 < 30 || data.technicals.rsi14 > 70) ? "extrême" : "14 périodes")}
+                ${techTile("Tendance", data.technicals?.tendance || "indisponible", "")}
+              </div>
+              <details class="parts">
+                <summary>Pourquoi cette confiance (${esc(String(conf.score))})</summary>
+                <ul>${(conf.parts || []).map((part) => `<li class="${part.actif ? "on" : ""}"><span>${esc(part.label)}</span><b>${part.points > 0 ? "+" : ""}${esc(part.points)}</b></li>`).join("")}</ul>
+              </details>
+            </section>
+          </div>
+          <div>
+            <section class="card">
+              <h2 class="kicker">XAU — lecture macro</h2>
+              <p class="note" style="margin-top:0">Biais <b class="${wordClass(data.macro?.biais)}">${esc(data.macro?.biais || "NEUTRE")}</b> · conviction ${esc((data.macro?.conviction || "indisponible").toLowerCase())}</p>
+              ${(data.macro?.drivers || []).map(driverRow).join("") || "<p class='note'>Indisponible</p>"}
+              <p class="note">Saisies manuelles${data.macro?.derniere_mise_a_jour_manuelle ? " du " + esc(data.macro.derniere_mise_a_jour_manuelle) : " : pas de date"}.</p>
+            </section>
+            <section class="card" style="margin-top:12px">
+              <h2 class="kicker">Alignement</h2>
+              <div class="grid2">
+                ${cell("Macro", data.alignment?.macro)}
+                ${cell("Biais", data.alignment?.biais)}
+                ${cell("Orderflow", data.alignment?.orderflow)}
+                ${cell("Flux", data.alignment?.heatmap)}
+              </div>
+              <h3 class="align-label">${esc(data.alignment?.label || "INDISPONIBLE")}</h3>
+              <p class="align-sub">Confiance : ${esc(String(data.alignment?.confiance ?? "—"))} %</p>
+              <p class="note">Le flux est un proxy prix / delta, pas une heatmap de carnet.</p>
+            </section>
+            <section class="card" style="margin-top:12px">
+              <h2 class="kicker">Niveaux clés</h2>
+              <ul class="levels">${(data.levels || []).map(levelRow).join("") || "<li>Indisponible</li>"}</ul>
+            </section>
+            <section class="card" style="margin-top:12px">
+              <h2 class="kicker">Brief marché</h2>
+              <p class="brief">${esc(data.brief || "Indisponible")}</p>
+            </section>
+            <section class="card" style="margin-top:12px">
+              <h2 class="kicker">Alertes macro</h2>
+              <ul class="alerts">${(data.alertes || []).map((item) => `<li class="${esc(item.niveau)}">${esc(item.texte)}</li>`).join("")}</ul>
+            </section>
+          </div>
+        </div>`;
+      chartCandles = flow.candles || [];
+      drawChart();
+      const canvas = $("chart");
+      if (canvas) {
+        canvas.addEventListener("pointermove", onChartPointer);
+        canvas.addEventListener("pointerleave", () => { const tip = $("tip"); if (tip) tip.style.display = "none"; });
+      }
+    }
+
+    function gaugeSvg(conf) {
+      const score = Math.max(0, Math.min(100, Number(conf.score) || 0));
+      const length = Math.PI * 80;
+      const dash = (score / 100) * length;
+      const color = conf.direction === "HAUSSIER" ? "#3ddc97" : conf.direction === "BAISSIER" ? "#ff5d6c" : "#7c6cff";
+      return `<svg viewBox="0 0 200 128" role="img" aria-label="Confiance ${score}">
+        <path d="M20 108 A80 80 0 0 1 180 108" fill="none" stroke="#2a2a36" stroke-width="14" stroke-linecap="round"/>
+        <path d="M20 108 A80 80 0 0 1 180 108" fill="none" stroke="${color}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${dash} ${length}"/>
+        <text class="score" x="100" y="96" text-anchor="middle">${score}</text>
+        <text class="sub" x="100" y="118" text-anchor="middle">${esc(conf.label || "")} · ${esc(conf.direction || "")}</text>
+      </svg>
+      <p class="note">Confiance du signal orderflow. Le détail des points est sous la technique.</p>`;
+    }
+    function sessionTile(session) {
+      const klass = session.statut === "terminee" && session.biais === "haussière" ? "up" : session.statut === "terminee" && session.biais === "baissière" ? "down" : "flat";
+      const label = session.statut === "a_venir" ? "À venir" : session.statut === "en_cours" ? "En cours" : session.biais ? session.biais[0].toUpperCase() + session.biais.slice(1) : "Indisponible";
+      const variation = session.statut === "a_venir" || session.variation_pct == null ? "—" : pct(session.variation_pct);
+      const range = session.range == null ? "—" : fr(session.range, 1) + " $";
+      return `<article class="tile ${klass}"><header><b>${esc(session.nom)}</b><span>${esc(session.fenetre)}</span></header><div class="bias">${esc(label)}</div><p>${esc(variation)}</p><p>Range ${esc(range)}</p><p>${esc(session.structure || "")}</p></article>`;
+    }
+    function sessionDetail(session) {
+      if (!session.composantes || !session.composantes.length) return "";
+      return `<p class="note">${esc(session.nom)} · score ${esc(session.score)}</p><ul class="comp">${session.composantes.map((part) => `<li><span>${esc(part.nom)} · ${esc(part.detail)}</span><b>${part.points > 0 ? "+" : ""}${esc(part.points)}</b></li>`).join("")}</ul>`;
+    }
+    function stat(label, value, klass, hint) {
+      return `<article class="stat"><div class="lbl">${esc(label)}</div><div class="val ${klass}">${esc(value)}</div><div class="hint">${esc(hint || "")}</div></article>`;
+    }
+    function techTile(label, value, hint) {
+      return `<article class="stat"><div class="lbl">${esc(label)}</div><div class="val">${esc(value)}</div><div class="hint">${esc(hint || "")}</div></article>`;
+    }
+    function driverRow(driver) {
+      const impact = driver.impact || "none";
+      const meta = [driver.etat, driver.detail, driver.as_of].filter(Boolean).join(" · ");
+      return `<div class="row"><div><div class="name">${esc(driver.nom)}</div><div class="state">${esc(meta)}</div></div><div class="pill ${esc(impact)}">${esc(impactWord(driver.impact))}</div></div>`;
+    }
+    function cell(label, value) {
+      return `<article class="cell"><span>${esc(label)}</span><b class="${wordClass(value)}">${esc(value || "Indisponible")}</b></article>`;
+    }
+    function levelRow(level) {
+      const side = level.distance > 0 ? "au-dessus" : level.distance < 0 ? "en dessous" : "sur le prix";
+      return `<li><span class="name">${esc(level.nom)}</span><span>${esc(money(level.prix))} <span class="${cls(level.distance)}">${esc(fr(level.distance, 2, true))}</span></span></li>`;
+    }
+
+    function drawChart() {
+      const canvas = $("chart");
+      if (!canvas) return;
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.clientWidth || 320;
+      const height = 240;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
+      const candles = chartCandles;
+      if (!candles.length) {
+        ctx.fillStyle = "#9a9aaf";
+        ctx.font = "14px system-ui";
+        ctx.fillText("Pas encore de bougies.", 12, 32);
+        return;
+      }
+      const pad = { l: 8, r: 8, t: 12, b: 26 };
+      const plotW = width - pad.l - pad.r;
+      const plotH = height - pad.t - pad.b;
+      const maxVol = Math.max(...candles.map((item) => Math.max(item.buy, item.sell)), 1e-6);
+      let minC = Math.min(...candles.map((item) => item.cum_delta));
+      let maxC = Math.max(...candles.map((item) => item.cum_delta));
+      if (minC === maxC) { minC -= 1; maxC += 1; }
+      const slot = plotW / candles.length;
+      const zeroY = pad.t + plotH * 0.56;
+      const barMax = plotH * 0.40;
+      ctx.strokeStyle = "rgba(255,255,255,.12)";
+      ctx.beginPath();
+      ctx.moveTo(pad.l, zeroY);
+      ctx.lineTo(width - pad.r, zeroY);
+      ctx.stroke();
+      candles.forEach((item, index) => {
+        const x = pad.l + index * slot + slot / 2;
+        const bw = Math.max(2, slot * 0.46);
+        ctx.fillStyle = "#3ddc97";
+        ctx.fillRect(x - bw / 2, zeroY - (item.buy / maxVol) * barMax, bw, (item.buy / maxVol) * barMax);
+        ctx.fillStyle = "#ff5d6c";
+        ctx.fillRect(x - bw / 2, zeroY, bw, (item.sell / maxVol) * barMax);
+      });
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#6cb6ff";
+      candles.forEach((item, index) => {
+        const x = pad.l + index * slot + slot / 2;
+        const y = pad.t + (1 - (item.cum_delta - minC) / (maxC - minC)) * plotH;
+        if (index === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      ctx.fillStyle = "#9a9aaf";
+      ctx.font = "11px system-ui";
+      const step = Math.max(1, Math.ceil(candles.length / 4));
+      for (let index = 0; index < candles.length; index += step) {
+        ctx.fillText(candles[index].label, pad.l + index * slot, height - 6);
+      }
+      canvas._geom = { pad, slot, width };
+    }
+    function onChartPointer(event) {
+      const canvas = event.currentTarget;
+      const geom = canvas._geom;
+      const tip = $("tip");
+      if (!geom || !tip || !chartCandles.length) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      let index = Math.floor((x - geom.pad.l) / geom.slot);
+      index = Math.max(0, Math.min(chartCandles.length - 1, index));
+      const item = chartCandles[index];
+      tip.style.display = "block";
+      tip.style.left = Math.min(x + 8, rect.width - 150) + "px";
+      tip.style.top = "8px";
+      tip.innerHTML = `<b>${esc(item.label)}</b><br>Achat ${esc(fr(item.buy, 2))} · Vente ${esc(fr(item.sell, 2))}<br>Delta ${esc(fr(item.delta, 2, true))}<br>Cumul ${esc(fr(item.cum_delta, 2, true))}<br>Cours ${esc(fr(item.c, 2))}`;
+    }
+
+    async function load() {
+      try {
+        const response = await fetch("data/latest.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("http " + response.status);
+        render(await response.json());
+      } catch (error) {
+        $("app").innerHTML = `<p class="status">Données indisponibles pour le moment (${esc(error.message)}). Réessaie dans une minute : la mise à jour automatique les publie en semaine.</p>`;
+      }
+    }
+
+    function installHint() {
+      const box = $("install");
+      const standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+      if (standalone) return;
+      const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      if (ios && !localStorage.getItem("hide-install")) {
+        box.hidden = false;
+        box.innerHTML = `Pour l'installer sur l'iPhone : dans Safari, touche Partager, puis « Sur l'écran d'accueil ».<br><button type="button" id="hide-install">Masquer</button>`;
+        $("hide-install").onclick = () => { localStorage.setItem("hide-install", "1"); box.hidden = true; };
+      }
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        box.hidden = false;
+        box.innerHTML = `Tu peux ajouter Macro Desk à l'écran d'accueil.<br><button type="button" id="do-install">Installer</button>`;
+        $("do-install").onclick = async () => { event.prompt(); box.hidden = true; };
+      });
+    }
+
+    load();
+    installHint();
+    refreshTimer = setInterval(load, 60000);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+    window.addEventListener("resize", drawChart);
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+  </script>
+</body>
+</html>
