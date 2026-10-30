@@ -100,4 +100,4 @@ Ensuite lance **Actions → Mise à jour des données → Run workflow** (ou att
 
 - « Indisponible » veut dire que la source n'a pas répondu, ou que la case n'est pas remplie. Ce n'est pas un zéro.
 - Pas de notification : vérifie que le secret s'appelle exactement `NTFY_TOPIC`, et que l'app ntfy est abonnée au même nom sur `ntfy.sh`.
-- Le site GitHub Pages se publie avec **GitHub Actions**. S'il n'est pas encore en ligne : dépôt → **Settings** → **Pages** → **Build and deployment** → Source : **GitHub Actions**.
+- Le site n'est pas encore public tant que GitHub Pages n'est pas activé. Une seule fois : ouvre le dépôt → **Settings** → **Pages** → **Build and deployment** → **Source** : **GitHub Actions**. Ensuite, onglet **Actions** → **Publier le site** → le dernier essai → **Re-run failed jobs**. L'adresse sera <https://geoffreygrandon-lang.github.io/xauusd-desk/>.

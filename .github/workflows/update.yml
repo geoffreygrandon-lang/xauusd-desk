@@ -105,13 +105,18 @@ jobs:
       - name: Assembler le site
         run: bash scripts/assemble_site.sh
 
+      # Tant que Pages n'est pas activé dans les réglages du dépôt, ces étapes
+      # échouent sans faire échouer la mise à jour des données.
       - uses: actions/configure-pages@v5
+        continue-on-error: true
         with:
           enablement: true
 
       - uses: actions/upload-pages-artifact@v3
+        continue-on-error: true
         with:
           path: _site
 
       - id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
