@@ -1,6 +1,10 @@
 name: Mise à jour des données
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update.yml"
   workflow_dispatch:
     inputs:
       mode:
