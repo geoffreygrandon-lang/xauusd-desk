@@ -31,6 +31,8 @@ jobs:
       - name: Assembler le site
         run: bash scripts/assemble_site.sh
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
