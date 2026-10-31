@@ -20,18 +20,19 @@ on:
           - non
           - oui
   schedule:
-    # Heure de Paris, hiver (UTC+1) et été (UTC+2).
-    # Le résumé ntfy ne part que si l'heure de Paris est à ±20 min
-    # de 06:55, 07:55, 13:55, 16:55 ou 21:00.
-    - cron: "55 4 * * 1-5"   # 06:55 été
-    - cron: "55 5 * * 1-5"   # 06:55 hiver / 07:55 été
-    - cron: "55 6 * * 1-5"   # 07:55 hiver
-    - cron: "55 11 * * 1-5"  # 13:55 été
-    - cron: "55 12 * * 1-5"  # 13:55 hiver
-    - cron: "55 14 * * 1-5"  # 16:55 été
-    - cron: "55 15 * * 1-5"  # 16:55 hiver
-    - cron: "0 19 * * 1-5"   # 21:00 été
-    - cron: "0 20 * * 1-5"   # 21:00 hiver
+    # Publication environ 15 min avant la lecture du bureau.
+    # Heures de Paris : 06:40, 07:40, 13:40, 16:40, 20:45.
+    # Les deux décalages (hiver UTC+1, été UTC+2) sont couverts.
+    # Le résumé ntfy part à la fin du run si l'heure de Paris est dans la fenêtre.
+    - cron: "40 4 * * 1-5"   # 06:40 été
+    - cron: "40 5 * * 1-5"   # 06:40 hiver / 07:40 été
+    - cron: "40 6 * * 1-5"   # 07:40 hiver
+    - cron: "40 11 * * 1-5"  # 13:40 été
+    - cron: "40 12 * * 1-5"  # 13:40 hiver
+    - cron: "40 14 * * 1-5"  # 16:40 été
+    - cron: "40 15 * * 1-5"  # 16:40 hiver
+    - cron: "45 18 * * 1-5"  # 20:45 été
+    - cron: "45 19 * * 1-5"  # 20:45 hiver
     # Contrôle orderflow toutes les heures, 07:05–21:05 heure de Paris (union été + hiver).
     - cron: "5 5-20 * * 1-5"
 
@@ -86,7 +87,7 @@ jobs:
           PYTHONUNBUFFERED: "1"
           NTFY_TOPIC: ${{ vars.NTFY_TOPIC || secrets.NTFY_TOPIC }}
           PAGES_URL: https://geoffreygrandon-lang.github.io/xauusd-desk/
-        run: python scripts/desk.py --mode "${{ steps.mode.outputs.mode }}" ${{ steps.mode.outputs.extra }} --max-hours 24
+        run: python scripts/desk.py --mode "${{ steps.mode.outputs.mode }}" ${{ steps.mode.outputs.extra }} --max-hours 6
 
       - name: Enregistrer les données
         run: |
@@ -96,6 +97,7 @@ jobs:
           if [ -f data/absent_hours.json ]; then git add data/absent_hours.json; fi
           if [ -f data/minutes.json ]; then git add data/minutes.json; fi
           if [ -f data/ff_calendar.json ]; then git add data/ff_calendar.json; fi
+          if [ -f data/news_cache.json ]; then git add data/news_cache.json; fi
           if git diff --staged --quiet; then
             echo "Aucun changement de données"
           else

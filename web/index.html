@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-title" content="Macro Desk">
   <title>Macro Desk — XAU/USD</title>
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon-192.png">
+  <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="icon-180.png">
   <style>
     :root {
@@ -40,7 +40,8 @@
       display: flex; justify-content: space-between; align-items: flex-end;
       gap: 12px; margin-bottom: 14px;
     }
-    .brand { letter-spacing: 0.16em; font-weight: 750; font-size: 15px; }
+    .brand { display: flex; align-items: center; gap: 10px; letter-spacing: 0.16em; font-weight: 750; font-size: 15px; }
+    .brand img { width: 36px; height: 36px; border-radius: 8px; display: block; }
     .brand b { color: var(--purple); font-weight: 750; }
     .brand span { display: block; letter-spacing: 0.08em; color: var(--muted); font-size: 12px; font-weight: 600; margin-top: 4px; }
     .maj { text-align: right; color: var(--muted); font-size: 12px; line-height: 1.45; }
@@ -144,7 +145,8 @@
     .sq.dn { background: var(--green); }
     .prix-line { text-align: center; font-weight: 760; letter-spacing: .04em; padding: 10px 0; color: var(--purple); }
     .risque-num { font-size: 22px; font-weight: 720; margin: 4px 0; }
-    .event { display: flex; justify-content: space-between; gap: 8px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 13px; }
+    .event { display: flex; justify-content: space-between; gap: 8px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 13px; color: inherit; text-decoration: none; }
+    a.event b { color: var(--text); }
     .event.fort .name { color: var(--amber); font-weight: 700; }
     .profile { display: flex; align-items: flex-end; gap: 2px; height: 92px; margin-top: 8px; }
     .profile i { flex: 1; background: #2a2a36; height: 100%; display: flex; align-items: flex-end; border-radius: 2px 2px 0 0; min-width: 0; }
@@ -198,7 +200,7 @@
 <body>
   <div class="wrap">
     <header class="top">
-      <div class="brand">MACRO <b>DESK</b><span>XAU/USD · SPOT</span></div>
+      <div class="brand"><img src="logo.svg" alt=""><div>MACRO <b>DESK</b><span>XAU/USD · SPOT</span></div></div>
       <div class="maj" id="maj">Chargement…</div>
     </header>
     <div id="app"><p class="status">Chargement des données…</p></div>
@@ -212,7 +214,7 @@
         <li><b>Alignement.</b> Cinq tuiles : Macro, Biais (prix contre les VWAP), Momentum (orderflow), Tendance (moyennes), Heatmap. Les cinq dans le même sens : alignement total. Au moins trois : partiel. Sinon aucun. Confiance = moitié de la force macro + moitié de la moyenne des quatre autres. ≥ 70 élevée, 50 à 69 modérée, en dessous faible.</li>
         <li><b>Sens privilégié.</b> Il suit la dernière séance terminée. Haussière → ACHAT, baissière → VENTE, neutre → ATTENDRE, pour la séance d'après.</li>
         <li><b>Orderflow.</b> Sur chaque bougie horaire Dukascopy, part acheteuse = (clôture − plus bas) / (plus haut − plus bas) × volume tick bid. Delta = achat − vente. Le signal utilise les 40 dernières bougies clôturées. Écart = |% achat − % vente|. NEUTRE si écart &lt; 10 (conviction BASSE), sinon ACHETEUR ou VENDEUR, MODÉRÉE de 10 à 19, ÉLEVÉE à partir de 20.</li>
-        <li><b>Confiance (0 à 100).</b> Conviction orderflow 30 si ÉLEVÉE, 18 si MODÉRÉE. Puis, seulement en cas d'accord : moyenne 20 +15, moyenne 100 +10, RSI (achat si ≥ 55, vente si ≤ 45) +10, dernière séance +15, macro +10, proxy flux +10. Si l'orderflow est NEUTRE, le score reste à 10. 0–39 FAIBLE, 40–69 MODÉRÉE, 70–100 ÉLEVÉE.</li>
+        <li><b>Confiance.</b> 0,5 × force macro (tous les moteurs, jour et mois) + 0,5 × moyenne des tuiles biais, momentum, tendance et heatmap. Conviction : ≥ 70 élevée, 50–69 modérée, &lt; 50 faible. Jauge : FAIBLE sous 50, FORTE de 50 à 79, EXTRÊME à partir de 80.</li>
         <li><b>Macro.</b> DXY : ±0,30 % sur 5 séances (baisse = positif pour l'or). VIX : ≥ 20 et en hausse = risk off = positif ; ≤ 16 et en baisse = risk on = négatif. Taux réels : ±5 pb. Inflation : hausse du point mort &gt; 5 pb = positif. Fed et les autres banques centrales viennent du calendrier Forex Factory : un taux plus haut que prévu est négatif pour l'or s'il est américain, positif s'il est étranger. Sans chiffre publié, le score est 0 et l'impact Neutre. La géopolitique est un proxy VIX + or/dollar, pas un fil d'actualité.</li>
         <li><b>Proxy flux (« heatmap »).</b> Prix et delta net dans le même sens : accumulation ou distribution. En sens opposé : divergence. Ce n'est pas un carnet d'ordres.</li>
       </ul>
@@ -363,6 +365,7 @@
               <h2 class="kicker">Gameplan</h2>
               <p class="gameplan">${esc(data.gameplan || "Indisponible")}</p>
             </section>
+            ${newsHtml(data.news)}
             <section class="card" style="margin-top:12px">
               <h2 class="kicker">Brief IA</h2>
               <p class="brief">${esc(data.brief || "Indisponible")}</p>
@@ -451,6 +454,11 @@
       const max = Math.max(...(profile.bins || []).map((bin) => bin.volume), 1);
       const bars = (profile.bins || []).map((bin) => `<i class="${bin.poc ? "poc" : ""} ${bin.va ? "va" : ""}" title="${bin.bas}–${bin.haut}"><span style="height:${Math.max(4, bin.volume / max * 100)}%"></span></i>`).join("");
       return `<section class="card"><h2 class="kicker">Heatmap volume</h2><p class="note" style="margin-top:0">X = ${esc(fr(profile.x_pct, 1))} % du volume du jour au-dessus du prix · ${esc(profile.etat)}. POC ${esc(fr(profile.poc_bas, 0))}–${esc(fr(profile.poc_haut, 0))}. Valeur ${esc(fr(profile.va_bas, 0))}–${esc(fr(profile.va_haut, 0))}.</p><div class="profile">${bars}</div></section>`;
+    }
+    function newsHtml(items) {
+      if (!items || !items.length) return `<section class="card" style="margin-top:12px"><h2 class="kicker">Dernières news</h2><p class="note">Aucune dépêche or, Fed, dollar ou tensions sur les 12 dernières heures.</p></section>`;
+      const rows = items.map((item) => `<a class="event" href="${esc(item.lien)}" target="_blank" rel="noopener"><span><b>${esc(item.titre)}</b><br><span style="color:#9a9aaf">${esc(item.source)} · ${esc(item.heure)}</span></span></a>`).join("");
+      return `<section class="card" style="margin-top:12px"><h2 class="kicker">Dernières news</h2><p class="note">Investing.com, 12 heures, mots-clés or / Fed / dollar / tensions.</p>${rows}</section>`;
     }
     function risqueHtml(risque) {
       if (!risque) return "";

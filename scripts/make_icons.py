@@ -1,88 +1,73 @@
 #!/usr/bin/env python3
-"""Icônes PWA sans dépendance externe."""
+"""Rend les icônes PWA à partir du même dessin que web/logo.svg."""
 
-import math
-import struct
-import zlib
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1] / "web"
+from PIL import Image, ImageDraw
+
+ROOT = Path(__file__).resolve().parents[1]
+WEB = ROOT / "web"
+ASSETS = ROOT / "assets"
+BG = (13, 13, 18, 255)
+GOLD = (232, 196, 122, 255)
+DIM = (154, 122, 69, 255)
 
 
-def write_png(path, size, pixel):
-    raw = bytearray()
-    for y in range(size):
-        raw.append(0)
-        for x in range(size):
-            raw.extend(pixel(x, y, size))
-
-    def chunk(tag, data):
-        return struct.pack(">I", len(data)) + tag + data + struct.pack(">I", zlib.crc32(tag + data) & 0xFFFFFFFF)
-
-    ihdr = struct.pack(">IIBBBBB", size, size, 8, 6, 0, 0, 0)
-    png = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", ihdr) + chunk(b"IDAT", zlib.compress(bytes(raw), 9)) + chunk(b"IEND", b"")
-    path.write_bytes(png)
+def _candle(draw, size, cx, wick_top, wick_bot, body_top, body_bot, width, color):
+    x = cx * size
+    half = width * size / 2
+    draw.line([(x, wick_top * size), (x, wick_bot * size)], fill=color, width=max(2, int(size * 0.02)))
+    top = min(body_top, body_bot) * size
+    bot = max(body_top, body_bot) * size
+    draw.rectangle([x - half, top, x + half, bot], fill=color)
 
 
-def icon_pixel(x, y, size):
-    nx = (x + 0.5) / size
-    ny = (y + 0.5) / size
-    # fond arrondi
-    margin = 0.08
-    radius = 0.18
-    left, top, right, bottom = margin, margin, 1 - margin, 1 - margin
-    inside = left <= nx <= right and top <= ny <= bottom
-    if inside:
-        dx = 0
-        if nx < left + radius:
-            dx = left + radius - nx
-        elif nx > right - radius:
-            dx = nx - (right - radius)
-        dy = 0
-        if ny < top + radius:
-            dy = top + radius - ny
-        elif ny > bottom - radius:
-            dy = ny - (bottom - radius)
-        if dx * dx + dy * dy > radius * radius:
-            inside = False
-    if not inside:
-        return (0, 0, 0, 0)
-    # carte
-    color = (21, 21, 28, 255)
-    cx, cy, radius_arc = 0.50, 0.60, 0.26
-    dx = nx - cx
-    dy = ny - cy
-    dist = math.hypot(dx, dy)
-    # piste du demi-cercle
-    if dy <= 0.012 and 0.205 < dist < 0.275:
-        # angle 0 à gauche, 1 à droite
-        progress = (math.atan2(-dy, dx) ) / math.pi  # 1 at left? atan2(y, x) with y up
-        # dx negative = left. We want a purple arc covering ~72% from the left.
-        # angle from +pi (left) to 0 (right): use atan2(-dy, -dx) ... 
-        angle = math.atan2(-dy, -dx)  # 0 at left, pi at right, upper half positive? 
-        # simpler: fraction along the semicircle using dx
-        frac = (dx / radius_arc + 1) / 2  # 0 left, 1 right
-        if 0 <= frac <= 0.72:
-            color = (124, 108, 255, 255)
-        else:
-            color = (42, 42, 54, 255)
-    # point en bout d'arc
-    end_angle = math.pi * (1 - 0.72)
-    ex = cx + math.cos(math.pi - end_angle) * 0.24
-    ey = cy - math.sin(end_angle) * 0.24
-    if math.hypot(nx - ex, ny - ey) < 0.035:
-        color = (61, 220, 151, 255)
-    # petit trait de prix
-    if 0.34 < nx < 0.66 and 0.74 < ny < 0.78:
-        color = (243, 243, 247, 255)
-    return color
+def render(size, maskable=False):
+    image = Image.new("RGBA", (size, size), BG)
+    draw = ImageDraw.Draw(image)
+    if maskable:
+        # Zone sûre au centre : le système rogne les bords.
+        scale = 0.72
+        ox = (1 - scale) / 2
+        def n(value):
+            return ox + value * scale
+    else:
+        radius = int(size * 0.22)
+        mask = Image.new("L", (size, size), 0)
+        ImageDraw.Draw(mask).rounded_rectangle((0, 0, size - 1, size - 1), radius=radius, fill=255)
+        plate = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+        ImageDraw.Draw(plate).rounded_rectangle((0, 0, size - 1, size - 1), radius=radius, fill=BG)
+        image = plate
+        draw = ImageDraw.Draw(image)
+        def n(value):
+            return value
+        inset = int(size * 0.08)
+        draw.rounded_rectangle(
+            (inset, inset, size - 1 - inset, size - 1 - inset),
+            radius=int(radius * 0.75),
+            outline=(*GOLD[:3], 72),
+            width=max(2, size // 64),
+        )
+    _candle(draw, size, n(0.30), n(0.42), n(0.70), n(0.48), n(0.64), 0.10 if not maskable else 0.08, DIM)
+    _candle(draw, size, n(0.50), n(0.22), n(0.78), n(0.36), n(0.64), 0.22 if not maskable else 0.16, GOLD)
+    _candle(draw, size, n(0.70), n(0.34), n(0.66), n(0.38), n(0.56), 0.10 if not maskable else 0.08, GOLD)
+    return image
 
 
 def main():
-    ROOT.mkdir(parents=True, exist_ok=True)
-    for size, name in ((180, "icon-180.png"), (192, "icon-192.png"), (512, "icon-512.png")):
-        write_png(ROOT / name, size, icon_pixel)
-        print(name, size)
+    WEB.mkdir(parents=True, exist_ok=True)
+    ASSETS.mkdir(parents=True, exist_ok=True)
+    outputs = {
+        WEB / "icon-192.png": render(192),
+        WEB / "icon-512.png": render(512),
+        WEB / "icon-180.png": render(180),
+        WEB / "favicon.png": render(32),
+        WEB / "icon-maskable-512.png": render(512, maskable=True),
+        ASSETS / "logo-preview.png": render(512),
+    }
+    for path, image in outputs.items():
+        image.save(path, "PNG")
+        print(path.name, image.size)
 
 
 if __name__ == "__main__":

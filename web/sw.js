@@ -1,11 +1,11 @@
-const CACHE = "macro-desk-v1";
+const CACHE = "macro-desk-v2";
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE).then((cache) =>
       Promise.all(
-        ["./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-180.png", "./icon-512.png"].map((url) =>
+        ["./index.html", "./manifest.webmanifest", "./logo.svg", "./favicon.png", "./icon-192.png", "./icon-180.png", "./icon-512.png", "./icon-maskable-512.png"].map((url) =>
           cache.add(url).catch(() => undefined)
         )
       )

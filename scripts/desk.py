@@ -19,6 +19,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
@@ -27,7 +28,7 @@ UTC = timezone.utc
 
 DEFAULT_PAGES_URL = "https://geoffreygrandon-lang.github.io/xauusd-desk/"
 USER_AGENT = "Mozilla/5.0 (compatible; MacroDesk/1.0; +https://github.com/geoffreygrandon-lang/xauusd-desk)"
-FULL_SLOTS = ((6, 55), (7, 55), (13, 55), (16, 55), (21, 0))
+FULL_SLOTS = ((6, 40), (7, 40), (13, 40), (16, 40), (20, 45))
 SLOT_WINDOW_MIN = 20
 SESSION_GRACE = timedelta(minutes=15)
 
@@ -363,8 +364,16 @@ def confidence_score(signal, conviction, price, sma20, sma100, rsi, session_biai
         parts.append({"label": f"Proxy flux : {heatmap}", "points": awarded, "actif": agrees})
 
     score = max(0, min(100, int(round(score))))
-    label = "ÉLEVÉE" if score >= 70 else "MODÉRÉE" if score >= 40 else "FAIBLE"
-    return {"score": score, "label": label, "direction": direction, "parts": parts}
+    return {"score": score, "label": gauge_label(score), "direction": direction, "parts": parts}
+
+
+def gauge_label(score):
+    """Libellé de la jauge, distinct de la conviction macro."""
+    if score >= 80:
+        return "EXTRÊME"
+    if score >= 50:
+        return "FORTE"
+    return "FAIBLE"
 
 
 def banner_for(direction, conviction):
@@ -1151,7 +1160,7 @@ def drivers_from_sources(cache, manual):
     drivers = []
 
     dxy = cache.get("dxy") or {}
-    dxy_rule = "Jour : ±0,30 % (baisse du dollar = +1 pour l'or). Mois : ±1,00 %. L'impact est le signe de la somme des deux scores."
+    dxy_rule = "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme."
     if dxy.get("price") is None or (dxy.get("variation") is None and dxy.get("change_jour") is None):
         drivers.append(_driver(
             "dxy", "USD (DXY)", "indisponible", "Cours ou variation indisponible",
@@ -1162,9 +1171,9 @@ def drivers_from_sources(cache, manual):
         jour_change = dxy["change_jour"] if "change_jour" in dxy else change
         if change is None:
             state, impact = "Niveau seul", None
-        elif change < -0.30:
+        elif change < -0.25:
             state, impact = "En repli", "positif"
-        elif change > 0.30:
+        elif change > 0.25:
             state, impact = "En hausse", "negatif"
         else:
             state, impact = "Stable", "neutre"
@@ -1175,8 +1184,8 @@ def drivers_from_sources(cache, manual):
             "dxy", "USD (DXY)", state, detail,
             impact, "Yahoo Finance DX-Y.NYB", dxy.get("as_of"), dxy_rule,
             value=dxy["price"], variation=change,
-            score_jour=_signed_score(jour_change, 0.30, invert=True),
-            score_mois=_signed_score(dxy.get("change_mois"), 1.0, invert=True),
+            score_jour=_signed_score(jour_change, 0.25, invert=True),
+            score_mois=_signed_score(dxy.get("change_mois"), 0.25, invert=True),
         ))
 
     vix = cache.get("vix") or {}
@@ -1596,6 +1605,7 @@ def alignment_five(tiles):
         "label": label,
         "confiance": score,
         "conviction": conviction,
+        "jauge": gauge_label(score),
         "direction": direction,
         "force_macro": macro["force"],
         "moyenne_technique": round(technical, 1),
@@ -1936,6 +1946,172 @@ def upcoming_from_calendar(raw_events, now_paris):
         seen.add(key)
         unique.append(event)
     return unique[:8]
+
+
+NEWS_FEEDS = (
+    ("Forex", "https://fr.investing.com/rss/news_1.rss"),
+    ("Matières premières", "https://fr.investing.com/rss/news_11.rss"),
+)
+NEWS_WINDOW = timedelta(hours=12)
+
+
+def _parse_rss_time(text):
+    if not text:
+        return None
+    raw = str(text).strip()
+    for fmt in ("%Y-%m-%d %H:%M:%S", "%a, %d %b %Y %H:%M:%S %z", "%a, %d %b %Y %H:%M:%S GMT"):
+        try:
+            moment = datetime.strptime(raw, fmt)
+            if moment.tzinfo is None:
+                moment = moment.replace(tzinfo=UTC)
+            return moment.astimezone(PARIS)
+        except ValueError:
+            continue
+    try:
+        moment = datetime.fromisoformat(raw)
+        if moment.tzinfo is None:
+            moment = moment.replace(tzinfo=UTC)
+        return moment.astimezone(PARIS)
+    except ValueError:
+        return None
+
+
+def _news_relevant(title):
+    text = title.lower()
+    if re.search(r"\bor\b", text) or "l'or" in text or "l’or" in text or "gold" in text or "xau" in text:
+        return True
+    return any(token in text for token in (
+        "fed", "fomc", "powell", "bce", "ecb", "dollar", "guerre", "tension",
+        "sanction", "élection", "election", "tarif", "boe", "boj", "banque centrale",
+    ))
+
+
+def _news_tone(title):
+    """Ton simple et affiché. +1 soutient l'or, −1 le pèse."""
+    text = title.lower()
+    fed = any(token in text for token in ("fed", "fomc", "powell"))
+    foreign = any(token in text for token in ("bce", "ecb", "boe", "boj", "banque d'angleterre", "banque du japon"))
+    hawk = any(token in text for token in ("hawkish", "resserrement", "relève ses taux", "relève les taux", "hausse de taux", "hausses de taux"))
+    dove = any(token in text for token in ("dovish", "assoupl", "baisse de taux", "baisses de taux"))
+    tension = any(token in text for token in ("guerre", "tension", "sanction", "militaire", "conflit", "élection", "election", "tarif", "droits de douane"))
+    if fed and hawk and not dove:
+        return "fed", -1
+    if fed and dove and not hawk:
+        return "fed", 1
+    if foreign and hawk and not dove:
+        return "banques", 1
+    if foreign and dove and not hawk:
+        return "banques", -1
+    if tension:
+        return "geo", 1
+    return None, 0
+
+
+def _parse_rss(raw, source):
+    root = ET.fromstring(raw)
+    items = []
+    for node in root.findall("./channel/item"):
+        title = (node.findtext("title") or "").strip()
+        if not title or not _news_relevant(title):
+            continue
+        moment = _parse_rss_time(node.findtext("pubDate"))
+        if moment is None:
+            continue
+        bucket, tone = _news_tone(title)
+        items.append({
+            "titre": title,
+            "lien": (node.findtext("link") or "").strip(),
+            "source": source,
+            "t": moment.isoformat(timespec="minutes"),
+            "heure": _paris_short(moment),
+            "ton": tone,
+            "ton_bucket": bucket,
+        })
+    return items
+
+
+def _fetch_bytes(url):
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml, application/xml"})
+    try:
+        with urllib.request.urlopen(request, timeout=25) as response:
+            if response.status == 429:
+                return None, 429
+            return response.read(), response.status
+    except urllib.error.HTTPError as exc:
+        return None, exc.code
+    except Exception as exc:
+        print(f"  rss {type(exc).__name__} {url.split('/')[-1]}")
+        return None, 0
+
+
+def load_news(path, now_paris, fetch=True):
+    """Deux flux Investing, une fois par run complet. 429 ou erreur : ce flux garde son cache."""
+    now_paris = now_paris.astimezone(PARIS)
+    cached = _read_json(path, None)
+    cached_items = cached.get("items") if isinstance(cached, dict) else []
+    if not isinstance(cached_items, list):
+        cached_items = []
+    by_source = {}
+    for item in cached_items:
+        if isinstance(item, dict) and item.get("source"):
+            by_source.setdefault(item["source"], []).append(item)
+    if fetch:
+        for source, url in NEWS_FEEDS:
+            raw, status = _fetch_bytes(url)
+            if raw is None or status == 429:
+                print(f"  {source} indisponible ({status}), cache conservé")
+                continue
+            try:
+                by_source[source] = _parse_rss(raw, source)
+            except Exception as exc:
+                print(f"  rss illisible {source}: {type(exc).__name__}")
+        cached_items = [item for rows in by_source.values() for item in rows]
+        _write_json(path, {"fetched_at": now_paris.isoformat(timespec="seconds"), "items": cached_items})
+    window = []
+    for item in cached_items:
+        try:
+            moment = datetime.fromisoformat(item["t"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if moment.tzinfo is None:
+            moment = moment.replace(tzinfo=PARIS)
+        if now_paris - NEWS_WINDOW <= moment.astimezone(PARIS) <= now_paris + timedelta(minutes=5):
+            window.append(item)
+    window.sort(key=lambda item: item.get("t") or "", reverse=True)
+    return window[:12]
+
+
+def _blend_news_score(base, news_score):
+    base = 0 if base is None else base
+    if not news_score:
+        return base
+    if base == 0:
+        return news_score
+    if base == news_score:
+        return base
+    return 0
+
+
+def apply_news_drivers(drivers, headlines):
+    grouped = {"fed": [], "banques": [], "geo": []}
+    for item in headlines or []:
+        bucket = item.get("ton_bucket")
+        if bucket in grouped and item.get("ton"):
+            grouped[bucket].append(item)
+    by_id = {driver["id"]: driver for driver in drivers}
+    for driver_id, bucket in (("fed", "fed"), ("banques", "banques"), ("geo", "geo")):
+        driver = by_id.get(driver_id)
+        hits = grouped[bucket]
+        if driver is None or not hits:
+            continue
+        news_score = _clamp_score(sum(item["ton"] for item in hits))
+        jour = _blend_news_score(driver.get("score_jour"), news_score)
+        driver["score_jour"] = jour
+        driver["impact"] = _impact_from_scores(jour, driver.get("score_mois"), "neutre")
+        titles = " · ".join(item["titre"] for item in hits[:2])
+        driver["etat"] = f"{driver.get('etat') or ''} · dépêche : {titles}".strip(" ·")
+        driver["news"] = [item["titre"] for item in hits[:3]]
+    return drivers
 
 
 def fetch_calendar(now_paris):
@@ -2329,7 +2505,7 @@ def desk_context(minutes, trading_day, price):
     return levels, profile
 
 
-def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_events=None, calendar_ok=False):
+def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_events=None, calendar_ok=False, headlines=None):
     now_paris = now_paris.astimezone(PARIS)
     now_utc = now_paris.astimezone(UTC)
     candles = sorted(candles, key=lambda item: item["t"])
@@ -2376,25 +2552,32 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
         drivers = apply_calendar_drivers(
             drivers, ff_events or [], now_paris, cache, price.get("change_jour_pct"),
         )
+        macro["calendrier"] = "Forex Factory"
+    if headlines:
+        drivers = apply_news_drivers(drivers, headlines)
+    if calendar_ok or headlines:
         biais, conviction = macro_bias(drivers)
         macro["biais"] = biais
         macro["conviction"] = conviction
         macro["drivers"] = drivers
-        macro["calendrier"] = "Forex Factory"
     board = build_alignment(macro, tech, orderflow, profile, desk_levels, last_price)
     conf = {
         "score": board["confiance"],
-        "label": board["conviction"],
+        "label": board["jauge"],
+        "conviction": board["conviction"],
         "direction": board["direction"],
         "parts": [
-            {"label": "Force macro (moyenne des scores jour et mois)", "points": board["force_macro"], "actif": True},
-            {"label": "Moyenne des tuiles Biais, Momentum, Tendance, Heatmap", "points": board["moyenne_technique"], "actif": True},
-            {"label": "Confiance = moitié macro + moitié moyenne technique", "points": board["confiance"], "actif": True},
+            {"label": "Force macro (tous les moteurs, jour et mois)", "points": board["force_macro"], "actif": True},
+            {"label": "Moyenne technique (biais, momentum, tendance, heatmap)", "points": board["moyenne_technique"], "actif": True},
+            {"label": "Confiance = 0,5 × macro + 0,5 × moyenne technique", "points": board["confiance"], "actif": True},
         ],
     }
     market = market_status(now_paris, last)
     manual_note = None if calendar_ok else manual_freshness(manual, now_paris.date())
     brief = build_brief(price, orderflow, preferred, tech, macro, levels)
+    if headlines:
+        titles = " ; ".join(f"« {item['titre']} »" for item in headlines[:2])
+        brief = f"{brief} Dépêches Investing (12 h) : {titles}."
     alerts = build_alerts(orderflow, tech, macro, preferred, market, manual_note)
     gameplan = build_gameplan(last_price, preferred, desk_levels, profile, orderflow, tech.get("rsi14"))
     if events is None and minutes is not None:
@@ -2422,6 +2605,12 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
         "price": price,
         "banner": banner,
         "confidence": conf,
+        "jauge": {
+            "score": conf["score"],
+            "label": conf["label"],
+            "conviction": conf["conviction"],
+            "direction": conf["direction"],
+        },
         "sessions": {
             "jour": day.isoformat(),
             "jour_label": f"{JOURS[day.weekday()]} {day.day} {MOIS[day.month - 1]}",
@@ -2438,6 +2627,7 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
         "gameplan": gameplan,
         "risque": risque,
         "brief": brief,
+        "news": headlines or [],
         "alertes": alerts,
         "sources": {
             "prix": "Dukascopy XAUUSD spot, volume tick côté bid",
@@ -2969,8 +3159,11 @@ def run(data_dir, mode, max_hours, force_summary, pages_url, topic, dry_run=Fals
     print("Calendrier Forex Factory (un seul appel)…")
     ff_raw, calendar_ok = load_ff_week(os.path.join(data_dir, "ff_calendar.json"))
     events = upcoming_from_calendar(ff_raw, now) if calendar_ok else []
+    print("News Investing…" if mode == "full" else "News Investing : cache")
+    headlines = load_news(os.path.join(data_dir, "news_cache.json"), now, fetch=(mode == "full"))
+    print(f"  {len(headlines)} dépêche(s) sur 12 h")
     payload, sessions = analyze(
-        candles, manual, cache, now, minute_bars, events, ff_raw, calendar_ok,
+        candles, manual, cache, now, minute_bars, events, ff_raw, calendar_ok, headlines,
     )
     if payload.get("risque") is not None:
         payload["risque"]["calendrier_ok"] = calendar_ok

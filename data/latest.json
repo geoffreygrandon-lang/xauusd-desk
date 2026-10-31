@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-10-31T14:29:56+01:00",
-  "generated_label": "samedi 31 octobre 2026, 14:29",
+  "generated_at": "2026-10-31T14:35:37+01:00",
+  "generated_label": "samedi 31 octobre 2026, 14:35",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": false,
@@ -27,24 +27,31 @@
   "confidence": {
     "score": 47,
     "label": "FAIBLE",
+    "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
-        "label": "Force macro (moyenne des scores jour et mois)",
+        "label": "Force macro (tous les moteurs, jour et mois)",
         "points": 8,
         "actif": true
       },
       {
-        "label": "Moyenne des tuiles Biais, Momentum, Tendance, Heatmap",
+        "label": "Moyenne technique (biais, momentum, tendance, heatmap)",
         "points": 86.8,
         "actif": true
       },
       {
-        "label": "Confiance = moitié macro + moitié moyenne technique",
+        "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
         "points": 47,
         "actif": true
       }
     ]
+  },
+  "jauge": {
+    "score": 47,
+    "label": "FAIBLE",
+    "conviction": "FAIBLE",
+    "direction": "BAISSIER"
   },
   "sessions": {
     "jour": "2026-10-30",
@@ -587,7 +594,7 @@
         "score_mois": 0,
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-10-30",
-        "regle": "Jour : ±0,30 % (baisse du dollar = +1 pour l'or). Mois : ±1,00 %. L'impact est le signe de la somme des deux scores.",
+        "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
         "valeur": 101.964,
         "variation": 0.06875522689599563
       },
@@ -716,6 +723,7 @@
     "label": "ALIGNEMENT PARTIEL",
     "confiance": 47,
     "conviction": "FAIBLE",
+    "jauge": "FAIBLE",
     "direction": "BAISSIER",
     "force_macro": 8,
     "moyenne_technique": 86.8,
@@ -1281,6 +1289,7 @@
     "calendrier_ok": true
   },
   "brief": "L'or spot XAU/USD cote 3 874,59 $, en baisse de 1,17 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 39 % contre vente 61 %, écart 22 pts, conviction ÉLEVÉE, delta net -24,61. La séance de New York est baissière. Le sens privilégié pour Asie est la VENTE. Le RSI 14 est à 17,4, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est neutre, conviction faible (USD (DXY) neutre, Sentiment de risque neutre, Taux réels US 10 ans positif, Fed neutre). RSI en survente (< 30) : extrême, prudence. Sur 24 h, le plus haut est 4 032,33 $ et le plus bas 3 869,98 $.",
+  "news": [],
   "alertes": [
     {
       "niveau": "info",

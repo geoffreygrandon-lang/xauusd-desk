@@ -86,7 +86,13 @@ def test_confidence_bounds():
     full = desk.confidence_score("VENDEUR", "ÉLEVÉE", 90, 100, 110, 30, "baissière", "BAISSIER", "Distribution")
     assert full["score"] == 100
     assert full["direction"] == "BAISSIER"
-    assert full["label"] == "ÉLEVÉE"
+    assert full["label"] == "EXTRÊME"
+    assert desk.gauge_label(49) == "FAIBLE"
+    assert desk.gauge_label(50) == "FORTE"
+    assert desk.gauge_label(79) == "FORTE"
+    assert desk.gauge_label(80) == "EXTRÊME"
+    assert desk._signed_score(0.2, 0.25, invert=True) == 0
+    assert desk._signed_score(-0.3, 0.25, invert=True) == 1
     moderate = desk.confidence_score("ACHETEUR", "MODÉRÉE", 120, 100, 90, 60, "haussière", "HAUSSIER", "Accumulation")
     assert moderate["score"] == 88
     neutre = desk.confidence_score("NEUTRE", "BASSE", 100, 90, 80, 55, "haussière", "HAUSSIER", "Accumulation")
@@ -469,6 +475,23 @@ def test_geopolitics_proxy_and_calendar_cache():
     fed = next(item for item in drivers if item["id"] == "fed")
     assert fed["impact"] == "neutre"
     assert fed["etat"] != "non renseigné"
+
+
+def test_investing_headline_tone():
+    assert desk._news_tone("La Fed reste hawkish et évoque un resserrement") == ("fed", -1)
+    assert desk._news_tone("La BCE relève les taux plus que prévu") == ("banques", 1)
+    assert desk._news_tone("Tensions militaires et sanctions autour du détroit") == ("geo", 1)
+    assert desk._news_relevant("Pourquoi le dollar recule avant les élections")
+    assert not desk._news_relevant("L'offre mondiale de charbon peine à suivre")
+    drivers = [{
+        "id": "geo", "score_jour": 0, "score_mois": 0, "impact": "neutre", "etat": "proxy (VIX/refuge) : calme",
+    }]
+    updated = desk.apply_news_drivers(drivers, [{
+        "titre": "Sanctions et tensions au Moyen-Orient", "ton": 1, "ton_bucket": "geo",
+    }])
+    assert updated[0]["score_jour"] == 1
+    assert updated[0]["impact"] == "positif"
+    assert "dépêche" in updated[0]["etat"]
 
 
 def test_dxy_rule_thresholds():
