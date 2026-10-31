@@ -184,8 +184,8 @@ def test_preferred_direction_follows_last_completed_session():
     assert names["Asie"] == "terminee"
     assert names["Londres"] == "terminee"
     assert names["New York"] == "en_cours"
-    # 07:55 : l'Asie se termine à 08:00, la grâce de 15 min la compte comme finie.
-    morning = datetime(2026, 10, 30, 7, 55, tzinfo=PARIS)
+    # 08:50 : l'Asie se termine à 09:00, la grâce de 15 min la compte comme finie.
+    morning = datetime(2026, 10, 30, 8, 50, tzinfo=PARIS)
     last, nxt, imminent = desk.alert_session_pair(sessions, morning)
     assert last["nom"] == "Asie" and imminent is True
     assert nxt["nom"] == "Londres"
@@ -296,6 +296,97 @@ def test_brief_does_not_sign_an_absolute_percent():
     assert "en baisse de 3,46 %" in text
     assert "baisse de +" not in text
     assert "hausse de -" not in text
+
+
+def _minute(moment, price, volume=2.0, span=1.0):
+    return {"t": moment, "o": price, "h": price + span, "l": price - span, "c": price, "v": volume}
+
+
+def test_vwap_and_profile_reference_shape():
+    start = datetime(2026, 10, 29, 22, 0, tzinfo=UTC)  # 23:00 Paris
+    bars = []
+    for index in range(60):
+        bars.append(_minute(start + timedelta(minutes=index), 100 + index * 0.01, volume=1, span=0.2))
+    value = desk.vwap_of(bars)
+    assert value is not None and 99 < value < 102
+    profile = desk.volume_profile(bars, bars[-1]["c"])
+    assert profile["x_pct"] <= 100
+    assert profile["poc_haut"] == profile["poc_bas"] + 5
+    assert profile["va_haut"] > profile["va_bas"]
+
+
+def test_merge_levels_within_one_point():
+    supply, demand = desk.merge_key_levels([
+        (3900.2, "Haut NY"),
+        (3900.8, "Haut jour"),
+        (3870.0, "Bas jour"),
+        (3869.4, "Bas semaine"),
+        (4000, "Rond 4000"),
+    ], 3880)
+    assert len(supply) == 2
+    assert "Haut NY" in supply[0]["label"] and "Haut jour" in supply[0]["label"]
+    assert supply[0]["prix"] < supply[1]["prix"]
+    assert len(demand) == 1
+    assert "Bas jour" in demand[0]["label"] and "Bas semaine" in demand[0]["label"]
+    assert demand[0]["distance_pct"] < 0 < supply[0]["distance_pct"]
+
+
+def test_alignment_counts():
+    def tile(name, direction, force=80):
+        return {"id": name, "nom": name, "direction": direction, "force": force}
+
+    total = desk.alignment_five([
+        tile("macro", "BAISSIER"), tile("biais", "BAISSIER"), tile("momentum", "BAISSIER"),
+        tile("tendance", "BAISSIER"), tile("heatmap", "BAISSIER", 96),
+    ])
+    assert total["label"] == "ALIGNEMENT TOTAL"
+    assert total["confiance"] >= 70 and total["conviction"] == "ÉLEVÉE"
+    partial = desk.alignment_five([
+        tile("macro", "NEUTRE", 0), tile("biais", "BAISSIER", 90), tile("momentum", "BAISSIER", 55),
+        tile("tendance", "BAISSIER", 100), tile("heatmap", "BAISSIER", 96),
+    ])
+    assert partial["label"] == "ALIGNEMENT PARTIEL"
+    assert partial["confiance"] == round(0.5 * 0 + 0.5 * ((90 + 55 + 100 + 96) / 4))
+    assert partial["conviction"] == "FAIBLE"
+    none = desk.alignment_five([
+        tile("macro", "HAUSSIER", 40), tile("biais", "BAISSIER", 40), tile("momentum", "NEUTRE", 10),
+        tile("tendance", "HAUSSIER", 40), tile("heatmap", "NEUTRE", 10),
+    ])
+    assert none["label"] == "AUCUN"
+
+
+def test_gameplan_rsi_warning_and_weekend():
+    levels = {
+        "offre": [
+            {"prix": 3900, "label": "VWAP NY", "distance_pct": 0.6},
+            {"prix": 3950, "label": "VWAP jour", "distance_pct": 1.9},
+        ],
+        "demande": [{"prix": 3850, "label": "Bas jour", "distance_pct": -0.6}],
+        "ouverture": 4021.52,
+    }
+    text = desk.build_gameplan(3874.59, {"direction": "VENTE"}, levels, {"va_bas": 3875, "va_haut": 4015, "poc_bas": 3895, "poc_haut": 3900}, {"signal": "VENDEUR"}, 18)
+    assert "ne pas vendre le plus bas" in text
+    assert "VWAP NY" in text
+    assert "3 850,00" in text or "3 850" in text
+    assert desk.weekend_gap_warning(datetime(2026, 10, 30, 22, 5, tzinfo=PARIS)) is True
+    assert desk.weekend_gap_warning(datetime(2026, 10, 30, 18, 0, tzinfo=PARIS)) is False
+    assert desk.trading_day_for(datetime(2026, 10, 31, 12, 0, tzinfo=PARIS)).isoformat() == "2026-10-30"
+
+
+def test_volume_above_matches_friday_shape():
+    # Une séance qui ne fait que baisser : presque tout le volume est au-dessus du dernier prix.
+    start = datetime(2026, 10, 29, 22, 0, tzinfo=UTC)
+    bars = []
+    price = 4021.5
+    for index in range(120):
+        high = price + 0.4
+        low = price - 1.2
+        close = price - 0.8
+        bars.append({"t": start + timedelta(minutes=index), "o": price, "h": high, "l": low, "c": close, "v": 1.0})
+        price = close
+    profile = desk.volume_profile(bars, bars[-1]["c"])
+    assert profile["etat"] == "Distribution"
+    assert profile["x_pct"] >= 65
 
 
 def test_dxy_rule_thresholds():

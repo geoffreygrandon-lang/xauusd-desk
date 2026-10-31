@@ -131,6 +131,34 @@
     .cell b { font-size: 16px; }
     .align-label { text-align: center; margin: 14px 0 0; font-size: 20px; letter-spacing: 0.08em; font-weight: 760; }
     .align-sub { text-align: center; color: var(--muted); margin: 4px 0 0; font-size: 13px; }
+    .tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .cell small { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+    .vwaps { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .vwaps div { background: var(--tile); border-radius: 12px; padding: 10px; }
+    .vwaps span { display: block; color: var(--muted); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .vwaps b { font-size: 18px; }
+    .lv { list-style: none; margin: 0; padding: 0; }
+    .lv li { display: grid; grid-template-columns: 14px 1fr auto; gap: 8px; align-items: center; padding: 7px 0; border-top: 1px solid var(--line); font-size: 14px; }
+    .sq { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    .sq.up { background: var(--red); }
+    .sq.dn { background: var(--green); }
+    .prix-line { text-align: center; font-weight: 760; letter-spacing: .04em; padding: 10px 0; color: var(--purple); }
+    .risque-num { font-size: 22px; font-weight: 720; margin: 4px 0; }
+    .event { display: flex; justify-content: space-between; gap: 8px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 13px; }
+    .event.fort .name { color: var(--amber); font-weight: 700; }
+    .profile { display: flex; align-items: flex-end; gap: 2px; height: 92px; margin-top: 8px; }
+    .profile i { flex: 1; background: #2a2a36; height: 100%; display: flex; align-items: flex-end; border-radius: 2px 2px 0 0; min-width: 0; }
+    .profile i span { display: block; width: 100%; background: #5a5188; }
+    .profile i.va span { background: #7c6cff; }
+    .profile i.poc span { background: #ffc14d; }
+    .matrix { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .matrix th { text-align: left; color: var(--muted); font-weight: 650; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 4px 4px 8px; }
+    .matrix td { border-top: 1px solid var(--line); padding: 7px 4px; vertical-align: top; }
+    .matrix td.num { text-align: center; font-weight: 700; }
+    .gameplan { white-space: pre-wrap; line-height: 1.55; font-size: 15px; margin: 0; }
+    @media (min-width: 720px) {
+      .tiles { grid-template-columns: repeat(5, 1fr); }
+    }
     .levels { list-style: none; margin: 0; padding: 0; }
     .levels li { display: flex; justify-content: space-between; gap: 8px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 14px; }
     .levels li:first-child { border-top: 0; }
@@ -178,7 +206,10 @@
       <h2 class="kicker">Règles de calcul</h2>
       <p>Tout ce qui s'affiche vient d'une règle fixe. Aucun chiffre n'est inventé : s'il manque, l'app écrit « indisponible ».</p>
       <ul>
-        <li><b>Séances (heure de Paris).</b> Asie 23:00–08:00, Londres 08:00–16:55, New York 14:30–22:00. Quatre notes de −1 à +1 : variation au-delà de ±0,15 %, clôture contre ouverture, clôture dans le range (sous 33 % / au-dessus de 67 %), structure face à la séance précédente (plus hauts et plus bas, ou l'inverse). Total ≤ −2 baissière, ≥ +2 haussière, sinon neutre. Une séance en cours reste grise.</li>
+        <li><b>Séances (heure de Paris).</b> La journée va de 23:00 la veille à 22:00. Asie 23:00–09:00, Londres 09:00–15:30, New York 14:30–22:00. La semaine commence à l'ouverture du dimanche. Quatre notes de −1 à +1 : variation au-delà de ±0,15 %, clôture contre ouverture, clôture dans le range (sous 33 % / au-dessus de 67 %), structure face à la séance précédente. Total ≤ −2 baissière, ≥ +2 haussière, sinon neutre.</li>
+        <li><b>Niveaux.</b> VWAP = somme de (haut+bas+clôture)/3 × volume, divisée par le volume, depuis 23:00 (jour) et depuis 14:30 (New York). Offre au-dessus du prix, demande en dessous. Deux niveaux à moins d'un point sont fusionnés. Les ronds sont tous les 25 $, dans une bande de ±2 %.</li>
+        <li><b>Heatmap.</b> Le volume de chaque minute est étalé sur son range par pas de 0,50 $, puis regroupé par bacs de 5 $. Le POC est le bac le plus plein. La zone de valeur est les bacs les plus lourds qui couvrent 70 % du volume. X est le % du volume du jour traité au-dessus du prix : ≥ 65 distribution, ≤ 35 accumulation, sinon neutre.</li>
+        <li><b>Alignement.</b> Cinq tuiles : Macro, Biais (prix contre les VWAP), Momentum (orderflow), Tendance (moyennes), Heatmap. Les cinq dans le même sens : alignement total. Au moins trois : partiel. Sinon aucun. Confiance = moitié de la force macro + moitié de la moyenne des quatre autres. ≥ 70 élevée, 50 à 69 modérée, en dessous faible.</li>
         <li><b>Sens privilégié.</b> Il suit la dernière séance terminée. Haussière → ACHAT, baissière → VENTE, neutre → ATTENDRE, pour la séance d'après.</li>
         <li><b>Orderflow.</b> Sur chaque bougie horaire Dukascopy, part acheteuse = (clôture − plus bas) / (plus haut − plus bas) × volume tick bid. Delta = achat − vente. Le signal utilise les 40 dernières bougies clôturées. Écart = |% achat − % vente|. NEUTRE si écart &lt; 10 (conviction BASSE), sinon ACHETEUR ou VENDEUR, MODÉRÉE de 10 à 19, ÉLEVÉE à partir de 20.</li>
         <li><b>Confiance (0 à 100).</b> Conviction orderflow 30 si ÉLEVÉE, 18 si MODÉRÉE. Puis, seulement en cas d'accord : moyenne 20 +15, moyenne 100 +10, RSI (achat si ≥ 55, vente si ≤ 45) +10, dernière séance +15, macro +10, proxy flux +10. Si l'orderflow est NEUTRE, le score reste à 10. 0–39 FAIBLE, 40–69 MODÉRÉE, 70–100 ÉLEVÉE.</li>
@@ -257,7 +288,7 @@
                 <div class="price-head">XAU/USD · spot Dukascopy</div>
                 <div class="px">${price.last == null ? "indisponible" : esc(fr(price.last, 2))}</div>
                 <div class="chg ${change == null ? "flat" : cls(change)}">${change == null ? "Variation 24 h indisponible" : esc(fr(change, 2, true) + " · " + pct(price.change_24h_pct) + " · 24 h")}</div>
-                <div class="subline">${price.change_jour_pct == null ? "" : "Depuis l'ouverture Asie : " + esc(pct(price.change_jour_pct))}${price.en_cours ? " · bougie en cours" : ""}</div>
+                <div class="subline">${price.change_jour_pct == null ? "" : "Depuis l'ouverture 23h : " + esc(pct(price.change_jour_pct))}${price.en_cours ? " · bougie en cours" : ""}</div>
                 ${buy == null ? "" : `<div class="bar" aria-hidden="true"><div class="buy" style="width:${buy}%"></div><div class="sell" style="width:${sell}%"></div></div>
                 <div class="bar-legend"><span class="up">Achat ${buy} %</span><span class="down">Vente ${sell} %</span></div>`}
               </article>
@@ -272,6 +303,8 @@
               <div class="base">${data.prefere?.base_session ? "D'après " + esc(data.prefere.base_session) + (data.prefere.base_biais ? " (" + esc(data.prefere.base_biais) + ")" : "") : "Aucune séance terminée exploitable."}</div>
               ${(data.prefere?.warnings || []).map((item) => `<p class="warn">${esc(item)}</p>`).join("")}
             </section>
+            ${risqueHtml(data.risque)}
+            ${levelsHtml(data.niveaux)}
             <section class="card" style="margin-top:12px">
               <h2 class="kicker">Signal orderflow</h2>
               <div class="legend">
@@ -312,24 +345,26 @@
               ${(data.macro?.drivers || []).map(driverRow).join("") || "<p class='note'>Indisponible</p>"}
               <p class="note">Saisies manuelles${data.macro?.derniere_mise_a_jour_manuelle ? " du " + esc(data.macro.derniere_mise_a_jour_manuelle) : " : pas de date"}.</p>
             </section>
+            ${profileHtml(data.profil)}
             <section class="card" style="margin-top:12px">
               <h2 class="kicker">Alignement</h2>
-              <div class="grid2">
-                ${cell("Macro", data.alignment?.macro)}
-                ${cell("Biais", data.alignment?.biais)}
-                ${cell("Orderflow", data.alignment?.orderflow)}
-                ${cell("Flux", data.alignment?.heatmap)}
-              </div>
+              <div class="tiles">${(data.alignment?.tuiles || []).map(alignTile).join("") || "<p class='note'>Indisponible</p>"}</div>
               <h3 class="align-label">${esc(data.alignment?.label || "INDISPONIBLE")}</h3>
-              <p class="align-sub">Confiance : ${esc(String(data.alignment?.confiance ?? "—"))} %</p>
-              <p class="note">Le flux est un proxy prix / delta, pas une heatmap de carnet.</p>
+              <p class="align-sub">Confiance ${esc(String(data.alignment?.confiance ?? "—"))} % · ${esc((data.alignment?.conviction || "").toLowerCase())}</p>
+              <p class="note">Heatmap = volume minute du jour, pas un carnet d'ordres. Macro ${esc(String(data.alignment?.force_macro ?? "—"))} %, moyenne technique ${esc(String(data.alignment?.moyenne_technique ?? "—"))} %.</p>
             </section>
             <section class="card" style="margin-top:12px">
-              <h2 class="kicker">Niveaux clés</h2>
-              <ul class="levels">${(data.levels || []).map(levelRow).join("") || "<li>Indisponible</li>"}</ul>
+              <h2 class="kicker">Matrice des moteurs</h2>
+              <table class="matrix"><thead><tr><th>Moteur</th><th>État</th><th>Jour</th><th>1 mois</th><th>Impact</th></tr></thead><tbody>
+              ${(data.macro?.drivers || []).map(matrixRow).join("")}
+              </tbody></table>
             </section>
             <section class="card" style="margin-top:12px">
-              <h2 class="kicker">Brief marché</h2>
+              <h2 class="kicker">Gameplan</h2>
+              <p class="gameplan">${esc(data.gameplan || "Indisponible")}</p>
+            </section>
+            <section class="card" style="margin-top:12px">
+              <h2 class="kicker">Brief IA</h2>
               <p class="brief">${esc(data.brief || "Indisponible")}</p>
             </section>
             <section class="card" style="margin-top:12px">
@@ -358,7 +393,7 @@
         <text class="score" x="100" y="96" text-anchor="middle">${score}</text>
         <text class="sub" x="100" y="118" text-anchor="middle">${esc(conf.label || "")} · ${esc(conf.direction || "")}</text>
       </svg>
-      <p class="note">Confiance du signal orderflow. Le détail des points est sous la technique.</p>`;
+              <p class="note">Confiance = moitié macro + moitié moyenne des quatre autres tuiles.</p>`;
     }
     function sessionTile(session) {
       const klass = session.statut === "terminee" && session.biais === "haussière" ? "up" : session.statut === "terminee" && session.biais === "baissière" ? "down" : "flat";
@@ -385,9 +420,46 @@
     function cell(label, value) {
       return `<article class="cell"><span>${esc(label)}</span><b class="${wordClass(value)}">${esc(value || "Indisponible")}</b></article>`;
     }
-    function levelRow(level) {
-      const side = level.distance > 0 ? "au-dessus" : level.distance < 0 ? "en dessous" : "sur le prix";
-      return `<li><span class="name">${esc(level.nom)}</span><span>${esc(money(level.prix))} <span class="${cls(level.distance)}">${esc(fr(level.distance, 2, true))}</span></span></li>`;
+    function scoreCell(value) {
+      if (value === null || value === undefined) return "<td class='num'>—</td>";
+      const klass = value > 0 ? "up" : value < 0 ? "down" : "";
+      const text = value > 0 ? "+1" : String(value);
+      return `<td class="num ${klass}">${esc(text)}</td>`;
+    }
+    function matrixRow(driver) {
+      return `<tr><td>${esc(driver.nom)}</td><td>${esc(driver.etat || "")}<br><span style="color:#9a9aaf">${esc(driver.detail || "")}</span></td>${scoreCell(driver.score_jour)}${scoreCell(driver.score_mois)}<td class="pill ${esc(driver.impact || "none")}">${esc(impactWord(driver.impact))}</td></tr>`;
+    }
+    function alignTile(tile) {
+      const extra = tile.id === "heatmap" && tile.x_pct != null ? `${fr(tile.x_pct, 1)} %` : `${tile.force} %`;
+      const word = tile.id === "heatmap" ? (tile.etat || tile.direction) : tile.direction;
+      return `<article class="cell"><span>${esc(tile.nom)}</span><b class="${wordClass(word)}">${esc(word || "—")}</b><small>${esc(extra)}</small></article>`;
+    }
+    function levelSide(rows, kind) {
+      return rows.map((row) => `<li><i class="sq ${kind}"></i><span>${esc(row.label)}</span><span>${esc(money(row.prix))}<br><span class="${kind === "up" ? "down" : "up"}">${esc(fr(row.distance_pct, 2, true))} %</span></span></li>`).join("");
+    }
+    function levelsHtml(levels) {
+      if (!levels) return `<section class="card" style="margin-top:12px"><h2 class="kicker">Niveaux clés</h2><p class="note">Bougies minute indisponibles.</p></section>`;
+      return `<section class="card" style="margin-top:12px"><h2 class="kicker">Niveaux clés</h2>
+        <div class="vwaps"><div><span>VWAP jour</span><b>${levels.vwap_jour == null ? "—" : esc(fr(levels.vwap_jour, 2))}</b></div><div><span>VWAP New York</span><b>${levels.vwap_ny == null ? "—" : esc(fr(levels.vwap_ny, 2))}</b></div></div>
+        <ul class="lv">${levelSide([...(levels.offre || [])].reverse(), "up")}</ul>
+        <div class="prix-line">► PRIX : ${esc(fr(levels.prix, 2))}</div>
+        <ul class="lv">${levelSide(levels.demande || [], "dn")}</ul>
+        <p class="note">▲ offre au-dessus · ▼ demande en dessous · niveaux à moins d'un point fusionnés.</p></section>`;
+    }
+    function profileHtml(profile) {
+      if (!profile) return "";
+      const max = Math.max(...(profile.bins || []).map((bin) => bin.volume), 1);
+      const bars = (profile.bins || []).map((bin) => `<i class="${bin.poc ? "poc" : ""} ${bin.va ? "va" : ""}" title="${bin.bas}–${bin.haut}"><span style="height:${Math.max(4, bin.volume / max * 100)}%"></span></i>`).join("");
+      return `<section class="card"><h2 class="kicker">Heatmap volume</h2><p class="note" style="margin-top:0">X = ${esc(fr(profile.x_pct, 1))} % du volume du jour au-dessus du prix · ${esc(profile.etat)}. POC ${esc(fr(profile.poc_bas, 0))}–${esc(fr(profile.poc_haut, 0))}. Valeur ${esc(fr(profile.va_bas, 0))}–${esc(fr(profile.va_haut, 0))}.</p><div class="profile">${bars}</div></section>`;
+    }
+    function risqueHtml(risque) {
+      if (!risque) return "";
+      const move = risque.variation == null ? "indisponible" : `${fr(risque.ouverture, 2)} → ${fr(risque.dernier, 2)} (${fr(risque.variation, 2, true)} $, ${pct(risque.variation_pct)})`;
+      const events = (risque.evenements || []).map((event) => `<div class="event ${event.fort ? "fort" : ""}"><span><b class="name">${esc(event.pays)} · ${esc(event.titre)}</b><br><span style="color:#9a9aaf">${esc(event.heure)}</span></span><span>${esc(event.impact)}</span></div>`).join("");
+      const empty = risque.calendrier_ok === false
+        ? "Calendrier indisponible."
+        : "Aucun événement USD ou EUR à impact haut ou moyen dans les six prochains jours.";
+      return `<section class="card" style="margin-top:12px"><h2 class="kicker">Risque à venir</h2><div class="risque-num ${cls(risque.variation)}">${esc(move)}</div><p class="note">Ouverture 23h00 → dernier prix, heure de Paris.</p>${risque.gap_weekend ? `<p class="warn">${esc(risque.gap_texte)}</p>` : ""}${events || `<p class="note">${empty}</p>`}</section>`;
     }
 
     function drawChart() {

@@ -92,6 +92,9 @@ Ensuite lance **Actions → Mise à jour des données → Run workflow** (ou att
 ## Lire l'écran
 
 - **Sens privilégié** : tu trades dans le sens de la dernière séance terminée. Haussière → ACHAT, baissière → VENTE, neutre → ATTENDRE.
+- **Journée** : 23h00 la veille → 22h00. Asie 23h00–09h00, Londres 09h00–15h30, New York 14h30–22h00. La semaine part de l'ouverture du dimanche.
+- **Niveaux clés** : VWAP du jour et VWAP New York en tête, puis offre (au-dessus) et demande (en dessous). **Heatmap** : profil de volume minute, POC, zone de valeur, et X % au-dessus du prix.
+- **Brief IA** et **gameplan** sont des textes automatiques à partir de ces règles, pas un avis personnalisé.
 - **Zone neutre** : si l'orderflow est NEUTRE (écart achat/vente inférieur à 10 points), mieux vaut éviter de trader. Un RSI sous 30 ou au-dessus de 70 est aussi signalé.
 - Les règles exactes (séances, orderflow, confiance, macro) sont en bas de l'appli.
 - **Dernière MAJ** est l'heure de Paris de la dernière publication.

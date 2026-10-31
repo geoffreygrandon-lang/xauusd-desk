@@ -31,10 +31,11 @@ SLOT_WINDOW_MIN = 20
 SESSION_GRACE = timedelta(minutes=15)
 
 SESSION_DEFS = (
-    ("asia", "Asie", "23:00 – 08:00"),
-    ("london", "Londres", "08:00 – 16:55"),
+    ("asia", "Asie", "23:00 – 09:00"),
+    ("london", "Londres", "09:00 – 15:30"),
     ("ny", "New York", "14:30 – 22:00"),
 )
+DAY_CLOSE = (22, 0)
 NEXT_SESSION = {"asia": "london", "london": "ny", "ny": "asia"}
 
 JOURS = ("lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche")
@@ -64,6 +65,12 @@ def fr_pct(value, nd=2):
     if value is None:
         return "indisponible"
     return fr_num(value, nd, signed=True) + " %"
+
+
+def round2(value):
+    """Arrondi commercial au centime (4021,515 → 4021,52)."""
+    from decimal import Decimal, ROUND_HALF_UP
+    return float(Decimal(str(value)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
 
 
 def fr_price(value):
@@ -384,23 +391,60 @@ def tag_for(word):
 # Séances
 # ---------------------------------------------------------------------------
 
+def _paris_at(day, hour, minute=0):
+    return datetime.combine(day, datetime.min.time(), tzinfo=PARIS).replace(hour=hour, minute=minute)
+
+
+def previous_weekday(day):
+    cursor = day - timedelta(days=1)
+    while cursor.weekday() >= 5:
+        cursor -= timedelta(days=1)
+    return cursor
+
+
+def next_weekday(day):
+    cursor = day + timedelta(days=1)
+    while cursor.weekday() >= 5:
+        cursor += timedelta(days=1)
+    return cursor
+
+
 def trading_day_for(now_paris):
+    """Journée qui commence à 23h00 la veille et se termine à 22h00.
+
+    Le week-end, on reste sur le vendredi tant que le marché n'a pas rouvert
+    (dimanche 23h00, heure de Paris).
+    """
     now_paris = now_paris.astimezone(PARIS)
+    if now_paris.weekday() == 5:
+        return now_paris.date() - timedelta(days=1)
+    if now_paris.weekday() == 6 and now_paris.hour < 23:
+        return now_paris.date() - timedelta(days=2)
     if now_paris.hour >= 23:
         return (now_paris + timedelta(days=1)).date()
     return now_paris.date()
 
 
+def day_bounds(day):
+    """23h00 la veille → 22h00 le jour même (clôture, pause Dukascopy)."""
+    return _paris_at(day - timedelta(days=1), 23, 0), _paris_at(day, 22, 0)
+
+
+def week_start(day):
+    """Dimanche d'ouverture de la semaine du jour de trading."""
+    return day - timedelta(days=(day.weekday() + 1) % 7)
+
+
 def session_bounds(day, session_id):
     if session_id == "asia":
-        start = datetime.combine(day - timedelta(days=1), datetime.min.time(), tzinfo=PARIS).replace(hour=23)
-        end = datetime.combine(day, datetime.min.time(), tzinfo=PARIS).replace(hour=8)
+        start = _paris_at(day - timedelta(days=1), 23, 0)
+        end = _paris_at(day, 9, 0)
     elif session_id == "london":
-        start = datetime.combine(day, datetime.min.time(), tzinfo=PARIS).replace(hour=8)
-        end = datetime.combine(day, datetime.min.time(), tzinfo=PARIS).replace(hour=16, minute=55)
+        start = _paris_at(day, 9, 0)
+        end = _paris_at(day, 15, 30)
     elif session_id == "ny":
-        start = datetime.combine(day, datetime.min.time(), tzinfo=PARIS).replace(hour=14, minute=30)
-        end = datetime.combine(day, datetime.min.time(), tzinfo=PARIS).replace(hour=22)
+        start = _paris_at(day, 14, 30)
+        end = _paris_at(day, 22, 0)
     else:
         raise KeyError(session_id)
     return start, end
@@ -440,7 +484,12 @@ def session_status(now_paris, start, end):
 def build_sessions(candles, now_paris):
     now_paris = now_paris.astimezone(PARIS)
     day = trading_day_for(now_paris)
-    days = [day - timedelta(days=1), day, day + timedelta(days=1)]
+    days = []
+    cursor = previous_weekday(day)
+    while cursor <= next_weekday(day):
+        if cursor.weekday() < 5:
+            days.append(cursor)
+        cursor += timedelta(days=1)
     sessions = []
     for current in days:
         for session_id, name, window in SESSION_DEFS:
@@ -474,7 +523,7 @@ def build_sessions(candles, now_paris):
 def _previous_session(index, item):
     day = datetime.fromisoformat(item["jour"]).date()
     if item["id"] == "asia":
-        key = ((day - timedelta(days=1)).isoformat(), "ny")
+        key = (previous_weekday(day).isoformat(), "ny")
     elif item["id"] == "london":
         key = (item["jour"], "asia")
     else:
@@ -486,7 +535,7 @@ def _next_session(index, item):
     day = datetime.fromisoformat(item["jour"]).date()
     nxt = NEXT_SESSION[item["id"]]
     if nxt == "asia":
-        key = ((day + timedelta(days=1)).isoformat(), "asia")
+        key = (next_weekday(day).isoformat(), "asia")
     else:
         key = (item["jour"], nxt)
     return index.get(key)
@@ -957,18 +1006,23 @@ def fred_series(series_id):
     return rows or None
 
 
+def _delta(rows, steps):
+    if not rows or len(rows) <= steps:
+        return None
+    return rows[-1]["value"] - rows[-(steps + 1)]["value"]
+
+
 def _obs_change(rows, steps):
     if not rows:
         return None
     last = rows[-1]
-    if len(rows) <= steps:
-        return {"date": last["date"], "value": last["value"], "change": None, "steps": 0}
-    prev = rows[-(steps + 1)]
     return {
         "date": last["date"],
         "value": last["value"],
-        "change": last["value"] - prev["value"],
-        "steps": steps,
+        "change": _delta(rows, steps),
+        "change_jour": _delta(rows, 1),
+        "change_mois": _delta(rows, 21),
+        "steps": steps if len(rows) > steps else 0,
     }
 
 
@@ -989,9 +1043,13 @@ def refresh_macro_cache(cache):
     dxy = yahoo_daily("DX-Y.NYB")
     if dxy and dxy["closes"]:
         change, span = change_over(dxy["closes"], 5)
+        jour, _ = change_over(dxy["closes"], 1)
+        mois, _ = change_over(dxy["closes"], 21)
         cache["dxy"] = {
             "price": dxy["price"] if dxy["price"] is not None else dxy["closes"][-1]["c"],
             "variation": change,
+            "change_jour": jour,
+            "change_mois": mois,
             "span": span,
             "as_of": datetime.fromtimestamp(dxy["closes"][-1]["t"], UTC).date().isoformat(),
         }
@@ -999,9 +1057,13 @@ def refresh_macro_cache(cache):
     vix = yahoo_daily("^VIX")
     if vix and vix["closes"]:
         change, span = change_over(vix["closes"], 5)
+        jour, _ = change_over(vix["closes"], 1)
+        mois, _ = change_over(vix["closes"], 21)
         cache["vix"] = {
             "price": vix["price"] if vix["price"] is not None else vix["closes"][-1]["c"],
             "variation": change,
+            "change_jour": jour,
+            "change_mois": mois,
             "span": span,
             "as_of": datetime.fromtimestamp(vix["closes"][-1]["t"], UTC).date().isoformat(),
         }
@@ -1029,13 +1091,52 @@ def refresh_macro_cache(cache):
     return cache
 
 
-def _driver(driver_id, name, state, detail, impact, source, as_of, rule, value=None, variation=None):
+def _inflation_score(change, threshold):
+    if change is None:
+        return None
+    return 1 if change > threshold else 0
+
+
+def _signed_score(change, threshold, invert=False):
+    if change is None:
+        return None
+    if abs(change) <= threshold:
+        return 0
+    sign = 1 if change > 0 else -1
+    return -sign if invert else sign
+
+
+def _vix_score(level, change):
+    if level is None or change is None:
+        return None
+    if level >= 20 and change > 0:
+        return 1
+    if level <= 16 and change < 0:
+        return -1
+    return 0
+
+
+def _impact_from_scores(jour, mois, fallback):
+    known = [score for score in (jour, mois) if score is not None]
+    if not known:
+        return fallback
+    total = sum(known)
+    if total > 0:
+        return "positif"
+    if total < 0:
+        return "negatif"
+    return "neutre"
+
+
+def _driver(driver_id, name, state, detail, impact, source, as_of, rule, value=None, variation=None, score_jour=None, score_mois=None):
     return {
         "id": driver_id,
         "nom": name,
         "etat": state,
         "detail": detail,
-        "impact": impact,
+        "impact": _impact_from_scores(score_jour, score_mois, impact),
+        "score_jour": score_jour,
+        "score_mois": score_mois,
         "source": source,
         "as_of": as_of,
         "regle": rule,
@@ -1049,26 +1150,32 @@ def drivers_from_sources(cache, manual):
     drivers = []
 
     dxy = cache.get("dxy") or {}
-    if dxy.get("price") is None or dxy.get("variation") is None:
+    dxy_rule = "Jour : ±0,30 % (baisse du dollar = +1 pour l'or). Mois : ±1,00 %. L'impact est le signe de la somme des deux scores."
+    if dxy.get("price") is None or (dxy.get("variation") is None and dxy.get("change_jour") is None):
         drivers.append(_driver(
             "dxy", "USD (DXY)", "indisponible", "Cours ou variation indisponible",
-            None, "Yahoo Finance DX-Y.NYB", dxy.get("as_of"),
-            "Baisse > 0,30 % sur 5 séances → positif pour l'or. Hausse > 0,30 % → négatif. Sinon neutre.",
+            None, "Yahoo Finance DX-Y.NYB", dxy.get("as_of"), dxy_rule,
         ))
     else:
-        change = dxy["variation"]
-        if change < -0.30:
+        change = dxy.get("variation")
+        jour_change = dxy["change_jour"] if "change_jour" in dxy else change
+        if change is None:
+            state, impact = "Niveau seul", None
+        elif change < -0.30:
             state, impact = "En repli", "positif"
         elif change > 0.30:
             state, impact = "En hausse", "negatif"
         else:
             state, impact = "Stable", "neutre"
+        detail = fr_num(dxy["price"], 2)
+        if change is not None:
+            detail += f" · {fr_pct(change)} / {dxy.get('span') or 5} j"
         drivers.append(_driver(
-            "dxy", "USD (DXY)", state,
-            f"{fr_num(dxy['price'], 2)} · {fr_pct(change)} / {dxy.get('span') or 5} j",
-            impact, "Yahoo Finance DX-Y.NYB", dxy.get("as_of"),
-            "Baisse > 0,30 % sur 5 séances → positif pour l'or. Hausse > 0,30 % → négatif. Sinon neutre.",
+            "dxy", "USD (DXY)", state, detail,
+            impact, "Yahoo Finance DX-Y.NYB", dxy.get("as_of"), dxy_rule,
             value=dxy["price"], variation=change,
+            score_jour=_signed_score(jour_change, 0.30, invert=True),
+            score_mois=_signed_score(dxy.get("change_mois"), 1.0, invert=True),
         ))
 
     vix = cache.get("vix") or {}
@@ -1092,10 +1199,13 @@ def drivers_from_sources(cache, manual):
         detail = fr_num(level, 2)
         if change is not None:
             detail += f" · {fr_pct(change)} / {vix.get('span') or 5} j"
+        jour_change = vix["change_jour"] if "change_jour" in vix else change
         drivers.append(_driver(
             "vix", "Sentiment de risque", state, detail, impact, "Yahoo Finance ^VIX", vix.get("as_of"),
-            "VIX ≥ 20 et en hausse sur 5 séances → risk off → positif. VIX ≤ 16 et en baisse → risk on → négatif. Sinon neutre.",
+            "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
             value=level, variation=change,
+            score_jour=_vix_score(level, jour_change),
+            score_mois=_vix_score(level, vix.get("change_mois")),
         ))
 
     real = cache.get("dfii10") or {}
@@ -1121,13 +1231,16 @@ def drivers_from_sources(cache, manual):
         else:
             state, impact = "Stable", "neutre"
             move = f" · {fr_num(change * 100, 0, signed=True)} pb"
+        jour_change = real["change_jour"] if "change_jour" in real else change
         drivers.append(_driver(
             "reels", "Taux réels US 10 ans", state,
             f"{fr_num(real['value'], 2)} %{move}{nominal_bit}",
             impact, "FRED DFII10" + (" + Yahoo ^TNX" if nominal.get("price") is not None else ""),
             real.get("date"),
-            "Baisse > 5 points de base sur 5 observations → positif. Hausse > 5 pb → négatif. Sinon neutre.",
+            "Jour : ±5 pb (baisse des taux réels = +1). Mois : ±10 pb. L'impact est le signe de la somme.",
             value=real["value"], variation=change,
+            score_jour=_signed_score(jour_change, 0.05, invert=True),
+            score_mois=_signed_score(real.get("change_mois"), 0.10, invert=True),
         ))
 
     fed_rate = (cache.get("dff") or {}).get("value")
@@ -1155,12 +1268,15 @@ def drivers_from_sources(cache, manual):
         else:
             state, impact = "Stables", "neutre"
             move = f" · {fr_num(change * 100, 0, signed=True)} pb"
+        jour_change = breakeven["change_jour"] if "change_jour" in breakeven else change
         drivers.append(_driver(
             "inflation", "Inflation", state,
             f"Point mort 10 ans {fr_num(breakeven['value'], 2)} %{move}",
             impact, "FRED T10YIE", breakeven.get("date"),
-            "Hausse du point mort 10 ans > 5 pb sur ~20 séances → positif. Baisse > 5 pb → en repli, impact neutre. Sinon neutre.",
+            "Jour : hausse du point mort > 5 pb → +1, sinon 0 (un repli reste neutre). Mois : seuil 10 pb. L'impact est le signe de la somme.",
             value=breakeven["value"], variation=change,
+            score_jour=_inflation_score(jour_change, 0.05),
+            score_mois=_inflation_score(breakeven.get("change_mois"), 0.10),
         ))
     elif cache.get("cpi"):
         cpi = cache["cpi"]
@@ -1213,10 +1329,12 @@ def _manual_driver(driver_id, name, block, rule, rate_bit="", rate_source="", ra
         state = "non renseigné"
     detail_parts = [part for part in (rate_bit, note) if part]
     source_parts = [part for part in ("data/macro.json", rate_source) if part]
+    mapped = {"positif": 1, "negatif": -1, "neutre": 0}.get(impact)
     return _driver(
         driver_id, name, state, " · ".join(detail_parts) if detail_parts else "À renseigner dans data/macro.json",
         impact, " + ".join(source_parts), rate_date, rule,
         value=None, variation=None,
+        score_jour=mapped, score_mois=mapped,
     )
 
 
@@ -1250,7 +1368,605 @@ def closed_candles(candles, now_utc):
     return [candle for candle in candles if candle["t"] + timedelta(hours=1) <= now_utc]
 
 
-def analyze(candles, manual, cache, now_paris):
+def vwap_of(bars):
+    numerator = denominator = 0.0
+    for bar in bars:
+        typical = (bar["h"] + bar["l"] + bar["c"]) / 3.0
+        numerator += typical * bar["v"]
+        denominator += bar["v"]
+    if denominator <= 0:
+        return None
+    return numerator / denominator
+
+
+def bars_between(bars, start, end):
+    chosen = []
+    for bar in bars:
+        moment = bar["t"].astimezone(PARIS)
+        if start <= moment < end:
+            chosen.append(bar)
+    chosen.sort(key=lambda item: item["t"])
+    return chosen
+
+
+def volume_profile(bars, price):
+    """Profil $0,50 puis bacs de 5 $. X = part du volume traité au-dessus du prix."""
+    if not bars or price is None:
+        return None
+    halves = {}
+    total = 0.0
+    above = 0.0
+    for bar in bars:
+        low, high, volume = bar["l"], bar["h"], bar["v"]
+        if volume <= 0:
+            continue
+        total += volume
+        if high <= price:
+            pass
+        elif low >= price:
+            above += volume
+        else:
+            span = high - low
+            above += volume * ((high - price) / span) if span else 0.0
+        if high < low:
+            low, high = high, low
+        step = round(int(low / 0.5) * 0.5, 2)
+        steps = []
+        guard = 0
+        while step <= high + 1e-9 and guard < 5000:
+            steps.append(step)
+            step = round(step + 0.5, 2)
+            guard += 1
+        if not steps:
+            steps = [round(low, 2)]
+        share = volume / len(steps)
+        for level in steps:
+            halves[level] = halves.get(level, 0.0) + share
+    if total <= 0:
+        return None
+    bins = {}
+    for level, volume in halves.items():
+        start = int(level // 5) * 5
+        bins[start] = bins.get(start, 0.0) + volume
+    poc = max(bins, key=bins.get)
+    ordered = sorted(bins.items(), key=lambda item: item[1], reverse=True)
+    covered = 0.0
+    chosen = []
+    bin_total = sum(bins.values()) or 1.0
+    for start, volume in ordered:
+        chosen.append(start)
+        covered += volume
+        if covered >= 0.70 * bin_total:
+            break
+    x_pct = 100.0 * above / total
+    if x_pct >= 65:
+        state = "Distribution"
+        direction = "BAISSIER"
+    elif x_pct <= 35:
+        state = "Accumulation"
+        direction = "HAUSSIER"
+    else:
+        state = "Neutre"
+        direction = "NEUTRE"
+    published = []
+    for start in sorted(bins):
+        published.append({
+            "bas": start,
+            "haut": start + 5,
+            "volume": round(bins[start], 4),
+            "poc": start == poc,
+            "va": start in chosen,
+        })
+    return {
+        "poc_bas": poc,
+        "poc_haut": poc + 5,
+        "poc": round(poc + 2.5, 2),
+        "va_bas": min(chosen),
+        "va_haut": max(chosen) + 5,
+        "x_pct": round(x_pct, 1),
+        "etat": state,
+        "direction": direction,
+        "force": min(100, round(abs(x_pct - 50) * 2)),
+        "bins": published,
+    }
+
+
+def _extreme(bars):
+    if not bars:
+        return None, None
+    return max(bar["h"] for bar in bars), min(bar["l"] for bar in bars)
+
+
+def merge_key_levels(candidates, price, gap=1.0):
+    """Regroupe les niveaux à moins d'un point. Offre au-dessus, demande en dessous."""
+    if price is None:
+        return [], []
+    ordered = sorted((float(level), label) for level, label in candidates if level is not None)
+    groups = []
+    for level, label in ordered:
+        if groups and abs(level - groups[-1]["anchor"]) <= gap:
+            group = groups[-1]
+            group["prices"].append(level)
+            if label not in group["labels"]:
+                group["labels"].append(label)
+            group["anchor"] = sum(group["prices"]) / len(group["prices"])
+        else:
+            groups.append({"anchor": level, "prices": [level], "labels": [label]})
+    supply, demand = [], []
+    for group in groups:
+        level = group["anchor"]
+        if abs(level - price) <= 0.05:
+            continue
+        row = {
+            "prix": round(level, 2),
+            "labels": group["labels"],
+            "label": ", ".join(group["labels"]),
+            "distance_pct": round((level - price) / price * 100, 2),
+        }
+        if level > price:
+            supply.append(row)
+        else:
+            demand.append(row)
+    supply.sort(key=lambda row: row["prix"])
+    demand.sort(key=lambda row: row["prix"], reverse=True)
+    return supply, demand
+
+
+def build_desk_levels(price, day_bars, week_bars, prev_bars, profile, trading_day):
+    if price is None or not day_bars:
+        return None
+    day_high, day_low = _extreme(day_bars)
+    week_high, week_low = _extreme(week_bars)
+    prev_high, prev_low = _extreme(prev_bars)
+    vwap_day = vwap_of(day_bars)
+    ny_start = _paris_at(trading_day, 14, 30)
+    ny_bars = [bar for bar in day_bars if bar["t"].astimezone(PARIS) >= ny_start]
+    vwap_ny = vwap_of(ny_bars)
+    candidates = []
+
+    def add(level, label):
+        if level is not None:
+            candidates.append((level, label))
+
+    add(week_high, "Haut semaine")
+    add(week_low, "Bas semaine")
+    add(prev_high, "Haut veille")
+    add(prev_low, "Bas veille")
+    add(day_high, "Haut jour")
+    add(day_low, "Bas jour")
+    for session_id, name in (("asia", "Asie"), ("london", "Londres"), ("ny", "NY")):
+        sess_start, sess_end = session_bounds(trading_day, session_id)
+        chunk = bars_between(day_bars, sess_start, sess_end)
+        high, low = _extreme(chunk)
+        add(high, f"Haut {name}")
+        add(low, f"Bas {name}")
+    add(vwap_day, "VWAP jour")
+    add(vwap_ny, "VWAP NY")
+    if profile and profile.get("poc") is not None:
+        add(profile["poc"], "POC")
+    low_bound = price * 0.98
+    high_bound = price * 1.02
+    rung = int(low_bound // 25) * 25
+    while rung <= high_bound + 1e-9:
+        if rung >= low_bound:
+            add(float(rung), f"Rond {int(rung)}")
+        rung += 25
+    supply, demand = merge_key_levels(candidates, price)
+    return {
+        "vwap_jour": None if vwap_day is None else round(vwap_day, 2),
+        "vwap_ny": None if vwap_ny is None else round(vwap_ny, 2),
+        "ouverture": round2(day_bars[0]["o"]),
+        "offre": supply,
+        "demande": demand,
+        "prix": round(price, 2),
+    }
+
+
+def alignment_five(tiles):
+    """Cinq tuiles. Total si les 5 vont ensemble, partiel dès 3, sinon aucun."""
+    directions = [tile["direction"] for tile in tiles]
+    bulls = sum(1 for direction in directions if direction == "HAUSSIER")
+    bears = sum(1 for direction in directions if direction == "BAISSIER")
+    if bulls == 5 or bears == 5:
+        label = "ALIGNEMENT TOTAL"
+    elif max(bulls, bears) >= 3:
+        label = "ALIGNEMENT PARTIEL"
+    else:
+        label = "AUCUN"
+    macro = next(tile for tile in tiles if tile["id"] == "macro")
+    others = [tile for tile in tiles if tile["id"] != "macro"]
+    technical = sum(tile["force"] for tile in others) / len(others)
+    score = round(0.5 * macro["force"] + 0.5 * technical)
+    score = max(0, min(100, score))
+    if score >= 70:
+        conviction = "ÉLEVÉE"
+    elif score >= 50:
+        conviction = "MODÉRÉE"
+    else:
+        conviction = "FAIBLE"
+    if bulls > bears:
+        direction = "HAUSSIER"
+    elif bears > bulls:
+        direction = "BAISSIER"
+    else:
+        direction = "NEUTRE"
+    return {
+        "tuiles": tiles,
+        "label": label,
+        "confiance": score,
+        "conviction": conviction,
+        "direction": direction,
+        "force_macro": macro["force"],
+        "moyenne_technique": round(technical, 1),
+    }
+
+
+def macro_strength(drivers):
+    scores = []
+    for driver in drivers:
+        for key in ("score_jour", "score_mois"):
+            if driver.get(key) is not None:
+                scores.append(driver[key])
+    if not scores:
+        return 0
+    return min(100, round(abs(sum(scores)) / len(scores) * 100))
+
+
+def build_alignment(macro, tech, orderflow, profile, levels, price):
+    macro_dir = macro.get("biais") or "NEUTRE"
+    if macro_dir not in ("HAUSSIER", "BAISSIER", "NEUTRE"):
+        macro_dir = "NEUTRE"
+    vwap_day = None if not levels else levels.get("vwap_jour")
+    vwap_ny = None if not levels else levels.get("vwap_ny")
+    if price is None or (vwap_day is None and vwap_ny is None):
+        biais_dir, biais_force = "NEUTRE", 0
+    else:
+        votes = []
+        if vwap_day is not None:
+            votes.append(price > vwap_day)
+        if vwap_ny is not None:
+            votes.append(price > vwap_ny)
+        if votes and all(votes):
+            biais_dir = "HAUSSIER"
+        elif votes and not any(votes):
+            biais_dir = "BAISSIER"
+        else:
+            biais_dir = "NEUTRE"
+        anchor = vwap_day if vwap_day is not None else vwap_ny
+        distance = abs(price - anchor) / price * 100 if price else 0
+        biais_force = min(100, round(distance / 2.0 * 100))
+        if biais_dir == "NEUTRE":
+            biais_force = min(biais_force, 25)
+    signal = orderflow.get("signal")
+    gap = orderflow.get("gap") or 0
+    if signal == "ACHETEUR":
+        mom_dir = "HAUSSIER"
+    elif signal == "VENDEUR":
+        mom_dir = "BAISSIER"
+    else:
+        mom_dir = "NEUTRE"
+    mom_force = min(100, round(gap * 100 / 40)) if signal in ("ACHETEUR", "VENDEUR") else min(20, gap)
+    trend = tech.get("biais") or "NEUTRE"
+    if trend not in ("HAUSSIER", "BAISSIER", "NEUTRE"):
+        trend = "NEUTRE"
+    label = tech.get("tendance") or ""
+    if trend == "NEUTRE":
+        trend_force = 0
+    elif "courte" in label:
+        trend_force = 60
+    else:
+        trend_force = 100
+    if profile:
+        heat_dir = profile["direction"]
+        heat_force = profile["force"]
+        heat_state = profile["etat"]
+        heat_x = profile["x_pct"]
+    else:
+        heat_dir, heat_force, heat_state, heat_x = "NEUTRE", 0, "Neutre", None
+    tiles = [
+        {"id": "macro", "nom": "Macro", "direction": macro_dir, "force": macro_strength(macro.get("drivers") or [])},
+        {"id": "biais", "nom": "Biais", "direction": biais_dir, "force": biais_force},
+        {"id": "momentum", "nom": "Momentum", "direction": mom_dir, "force": mom_force},
+        {"id": "tendance", "nom": "Tendance", "direction": trend, "force": trend_force},
+        {"id": "heatmap", "nom": "Heatmap", "direction": heat_dir, "force": heat_force, "etat": heat_state, "x_pct": heat_x},
+    ]
+    board = alignment_five(tiles)
+    board["macro"] = macro_dir
+    board["biais"] = biais_dir
+    board["orderflow"] = mom_dir
+    board["heatmap"] = heat_state
+    board["tendance"] = trend
+    return board
+
+
+def build_gameplan(price, preferred, levels, profile, orderflow, rsi):
+    if price is None or not levels:
+        return "Le gameplan attend les bougies minute du jour. Tant qu'elles manquent, pas de zone d'entrée."
+    direction = (preferred or {}).get("direction") or "ATTENDRE"
+    supply = levels.get("offre") or []
+    demand = levels.get("demande") or []
+    nearest_supply = supply[0] if supply else None
+    nearest_demand = demand[0] if demand else None
+
+    def dist_sentence():
+        bits = []
+        if nearest_demand:
+            bits.append(f"la demande la plus proche est à {fr_price(nearest_demand['prix'])} ({fr_pct(nearest_demand['distance_pct'])}, {nearest_demand['label']})")
+        if nearest_supply:
+            bits.append(f"l'offre la plus proche est à {fr_price(nearest_supply['prix'])} ({fr_pct(nearest_supply['distance_pct'])}, {nearest_supply['label']})")
+        if not bits:
+            return "Aucun niveau minute exploitable autour du prix."
+        return "Autour du prix, " + " et ".join(bits) + "."
+
+    va = ""
+    if profile and profile.get("va_bas") is not None:
+        va = (
+            f" Zone de valeur {fr_price(profile['va_bas'])} – {fr_price(profile['va_haut'])}, "
+            f"POC {fr_price(profile['poc_bas'])} – {fr_price(profile['poc_haut'])}."
+        )
+    paragraphs = [dist_sentence() + va]
+    signal = (orderflow or {}).get("signal")
+    if direction == "VENTE" and nearest_supply:
+        targets = demand[:3]
+        invalid = supply[1] if len(supply) > 1 else None
+        target_txt = ", ".join(fr_price(row["prix"]) for row in targets) if targets else "les demandes sous le prix"
+        invalid_txt = fr_price(invalid["prix"]) if invalid else "le prochain niveau d'offre au-dessus de la zone"
+        paragraphs.append(
+            f"Sens privilégié VENTE. Zone d'entrée : le premier paquet d'offre, {nearest_supply['label']} vers {fr_price(nearest_supply['prix'])}. "
+            f"Confirmation : rejet du niveau, puis clôture horaire qui repasse sous la zone, avec un signal orderflow VENDEUR"
+            f"{' (actuellement ' + signal + ')' if signal else ''}. "
+            f"Objectifs : {target_txt}. Rester à plat si la clôture horaire revient dans la zone de valeur. "
+            f"Invalidation : clôture horaire au-delà de {invalid_txt}."
+        )
+    elif direction == "ACHAT" and nearest_demand:
+        targets = supply[:3]
+        invalid = demand[1] if len(demand) > 1 else None
+        target_txt = ", ".join(fr_price(row["prix"]) for row in targets) if targets else "les offres au-dessus du prix"
+        invalid_txt = fr_price(invalid["prix"]) if invalid else "le prochain niveau de demande sous la zone"
+        paragraphs.append(
+            f"Sens privilégié ACHAT. Zone d'entrée : le premier paquet de demande, {nearest_demand['label']} vers {fr_price(nearest_demand['prix'])}. "
+            f"Confirmation : rejet du niveau, puis clôture horaire qui repasse au-dessus de la zone, avec un signal orderflow ACHETEUR"
+            f"{' (actuellement ' + signal + ')' if signal else ''}. "
+            f"Objectifs : {target_txt}. Rester à plat si la clôture horaire revient dans la zone de valeur. "
+            f"Invalidation : clôture horaire au-delà de {invalid_txt}."
+        )
+    else:
+        paragraphs.append(
+            "Pas de plan directionnel : le sens privilégié est d'attendre, ou la zone d'entrée n'est pas côté prix. "
+            "On reste à plat tant qu'une clôture horaire ne sort pas de la zone de valeur avec un orderflow qui confirme."
+        )
+    caution = []
+    if rsi is not None and rsi < 30:
+        caution.append("RSI sous 30 : ne pas vendre le plus bas.")
+    if rsi is not None and rsi > 70:
+        caution.append("RSI au-dessus de 70 : ne pas acheter le plus haut.")
+    if caution:
+        paragraphs.append(" ".join(caution))
+    return "\n\n".join(paragraphs)
+
+
+def weekend_gap_warning(now_paris):
+    now_paris = now_paris.astimezone(PARIS)
+    if now_paris.weekday() == 4 and (now_paris.hour > 22 or (now_paris.hour == 22 and now_paris.minute >= 0)):
+        return True
+    if now_paris.weekday() == 5:
+        return True
+    if now_paris.weekday() == 6 and now_paris.hour < 23:
+        return True
+    return False
+
+
+def fetch_calendar(now_paris):
+    """Calendrier Forex Factory public. Rien n'est inventé si le téléchargement échoue."""
+    now_paris = now_paris.astimezone(PARIS)
+    events = []
+    loaded = False
+    for name in ("ff_calendar_thisweek.json", "ff_calendar_nextweek.json"):
+        url = "https://nfs.faireconomy.media/" + name
+        payload = fetch_json(url)
+        if not isinstance(payload, list):
+            continue
+        loaded = True
+        for item in payload:
+            if not isinstance(item, dict):
+                continue
+            country = (item.get("country") or "").upper()
+            if country not in ("USD", "EUR"):
+                continue
+            impact = (item.get("impact") or "").lower()
+            if impact not in ("high", "medium"):
+                continue
+            raw = item.get("date")
+            if not raw:
+                continue
+            try:
+                moment = datetime.fromisoformat(str(raw)).astimezone(PARIS)
+            except ValueError:
+                continue
+            if moment < now_paris - timedelta(hours=6) or moment > now_paris + timedelta(days=6):
+                continue
+            events.append({
+                "t": moment.isoformat(timespec="minutes"),
+                "heure": f"{JOURS[moment.weekday()][:3]} {moment.day} {MOIS[moment.month - 1][:4]} {moment:%H:%M}",
+                "titre": item.get("title") or "Événement",
+                "pays": country,
+                "impact": "haut" if impact == "high" else "moyen",
+                "fort": impact == "high",
+            })
+    events.sort(key=lambda item: item["t"])
+    unique = []
+    seen = set()
+    for event in events:
+        key = (event["t"], event["titre"], event["pays"])
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(event)
+    return unique[:8], loaded
+
+
+def build_risque(levels, price, now_paris, events):
+    opening = None if not levels else levels.get("ouverture")
+    last = price
+    change = None if opening is None or last is None else last - opening
+    change_pct = None if not opening or change is None else change / opening * 100
+    gap = weekend_gap_warning(now_paris)
+    return {
+        "ouverture": None if opening is None else round(opening, 2),
+        "dernier": None if last is None else round(last, 2),
+        "variation": None if change is None else round(change, 2),
+        "variation_pct": None if change_pct is None else round(change_pct, 2),
+        "evenements": events,
+        "gap_weekend": gap,
+        "gap_texte": "Week-end : le marché est fermé jusqu'à dimanche 23h00 (Paris). Un gap est possible à la réouverture." if gap else None,
+    }
+
+
+def minute_url(day):
+    return (
+        "https://datafeed.dukascopy.com/datafeed/XAUUSD/"
+        f"{day.year}/{day.month - 1:02d}/{day.day:02d}/BID_candles_min_1.bi5"
+    )
+
+
+def parse_minute_bi5(raw, day):
+    if not raw:
+        return []
+    decoded = lzma.decompress(raw)
+    base = datetime(day.year, day.month, day.day, tzinfo=UTC)
+    bars = []
+    count = len(decoded) // 24
+    for index in range(count):
+        second, open_, close, low, high, volume = struct.unpack_from(">IIIIIf", decoded, index * 24)
+        if volume != volume or volume <= 0:
+            continue
+        bars.append({
+            "t": base + timedelta(seconds=int(second)),
+            "o": open_ / 1000.0,
+            "h": high / 1000.0,
+            "l": low / 1000.0,
+            "c": close / 1000.0,
+            "v": float(volume),
+        })
+    return bars
+
+
+def minute_dates_for(trading_day):
+    sunday = week_start(trading_day)
+    previous = previous_weekday(trading_day)
+    first = min(sunday, previous - timedelta(days=1))
+    dates = []
+    cursor = first
+    while cursor <= trading_day:
+        dates.append(cursor)
+        cursor += timedelta(days=1)
+    return dates
+
+
+def _minute_refresh(day, now_utc):
+    if day >= now_utc.date():
+        return True
+    if day == now_utc.date() - timedelta(days=1) and now_utc.weekday() < 5:
+        return True
+    return False
+
+
+def load_minutes(path):
+    payload = _read_json(path, {"days": {}})
+    bars = []
+    for rows in (payload.get("days") or {}).values():
+        for row in rows:
+            try:
+                bars.append({
+                    "t": parse_time(row["t"]),
+                    "o": float(row["o"]),
+                    "h": float(row["h"]),
+                    "l": float(row["l"]),
+                    "c": float(row["c"]),
+                    "v": float(row["v"]),
+                })
+            except (KeyError, TypeError, ValueError):
+                continue
+    bars.sort(key=lambda item: item["t"])
+    return bars, payload.get("days") or {}
+
+
+def save_minutes(path, days):
+    _write_json(path, {"days": days})
+
+
+def update_minutes(path, trading_day, now_utc):
+    bars, days = load_minutes(path)
+    fetched = 0
+    for day in minute_dates_for(trading_day):
+        key = day.isoformat()
+        if key in days and not _minute_refresh(day, now_utc):
+            continue
+        print(f"  minutes {key} …", flush=True)
+        url = minute_url(day)
+        got = None
+        for attempt in range(3):
+            try:
+                raw = download_to_temp(url)
+                if not raw:
+                    print("    téléchargement vide, nouvel essai")
+                    time.sleep(10)
+                    continue
+                parsed = parse_minute_bi5(raw, day)
+                if not parsed:
+                    print("    fichier sans volume, nouvel essai")
+                    time.sleep(10)
+                    continue
+                got = parsed
+                break
+            except urllib.error.HTTPError as exc:
+                if exc.code == 404:
+                    got = []
+                    break
+                print(f"    http {exc.code}, pause 10s")
+                time.sleep(10)
+            except Exception as exc:
+                print(f"    {type(exc).__name__}, pause 10s")
+                time.sleep(10)
+        time.sleep(10)
+        if got is None:
+            print("    échec, cache inchangé")
+            continue
+        days[key] = [
+            {
+                "t": iso_z(bar["t"]),
+                "o": round(bar["o"], 3),
+                "h": round(bar["h"], 3),
+                "l": round(bar["l"], 3),
+                "c": round(bar["c"], 3),
+                "v": round(bar["v"], 6),
+            }
+            for bar in got
+        ]
+        fetched += 1
+        print(f"    {len(got)} minutes")
+        save_minutes(path, days)
+    bars, _days = load_minutes(path)
+    return bars, {"fichiers": fetched}
+
+
+def desk_context(minutes, trading_day, price):
+    if not minutes or price is None:
+        return None, None
+    day_start, day_end = day_bounds(trading_day)
+    day_bars = bars_between(minutes, day_start, day_end)
+    if not day_bars:
+        return None, None
+    week_open = _paris_at(week_start(trading_day), 23, 0)
+    week_bars = bars_between(minutes, week_open, day_end)
+    previous = previous_weekday(trading_day)
+    prev_bars = bars_between(minutes, *day_bounds(previous))
+    profile = volume_profile(day_bars, price)
+    levels = build_desk_levels(price, day_bars, week_bars, prev_bars, profile, trading_day)
+    return levels, profile
+
+
+def analyze(candles, manual, cache, now_paris, minutes=None, events=None):
     now_paris = now_paris.astimezone(PARIS)
     now_utc = now_paris.astimezone(UTC)
     candles = sorted(candles, key=lambda item: item["t"])
@@ -1284,35 +2000,37 @@ def analyze(candles, manual, cache, now_paris):
         "derniere_mise_a_jour_manuelle": (manual or {}).get("derniere_mise_a_jour") if isinstance(manual, dict) else None,
         "drivers": drivers,
     }
-    conf = confidence_score(
-        orderflow.get("signal"),
-        orderflow.get("conviction"),
-        last_price,
-        tech.get("sma20"),
-        tech.get("sma100"),
-        tech.get("rsi14"),
-        preferred.get("base_biais"),
-        biais,
-        orderflow.get("heatmap"),
-    )
     of_dir = {"ACHETEUR": "HAUSSIER", "VENDEUR": "BAISSIER", "NEUTRE": "NEUTRE"}.get(orderflow.get("signal"), "NEUTRE")
-    align = {
-        "macro": biais,
-        "biais": tech.get("biais") or "NEUTRE",
-        "orderflow": of_dir,
-        "heatmap": orderflow.get("heatmap") or "Neutre",
-        "label": alignment_label(biais, tech.get("biais") or "NEUTRE", of_dir, orderflow.get("heatmap")),
-        "confiance": conf["score"],
-    }
     price = _price_block(closed, partial, last_price, sessions, day, now_paris)
     levels = build_levels(candles, today_public, last_price)
+    desk_levels, profile = desk_context(minutes or [], day, last_price)
+    if desk_levels and desk_levels.get("ouverture") is not None and last_price is not None:
+        opening = desk_levels["ouverture"]
+        price["change_jour"] = round(last_price - opening, 3)
+        price["change_jour_pct"] = round((last_price - opening) / opening * 100, 3) if opening else None
+        price["ouverture_jour"] = opening
+    board = build_alignment(macro, tech, orderflow, profile, desk_levels, last_price)
+    conf = {
+        "score": board["confiance"],
+        "label": board["conviction"],
+        "direction": board["direction"],
+        "parts": [
+            {"label": "Force macro (moyenne des scores jour et mois)", "points": board["force_macro"], "actif": True},
+            {"label": "Moyenne des tuiles Biais, Momentum, Tendance, Heatmap", "points": board["moyenne_technique"], "actif": True},
+            {"label": "Confiance = moitié macro + moitié moyenne technique", "points": board["confiance"], "actif": True},
+        ],
+    }
     market = market_status(now_paris, last)
     manual_note = manual_freshness(manual, now_paris.date())
     brief = build_brief(price, orderflow, preferred, tech, macro, levels)
     alerts = build_alerts(orderflow, tech, macro, preferred, market, manual_note)
+    gameplan = build_gameplan(last_price, preferred, desk_levels, profile, orderflow, tech.get("rsi14"))
+    if events is None and minutes is not None:
+        events = []
+    risque = build_risque(desk_levels, last_price, now_paris, events or [])
     if orderflow.get("signal") in ("ACHETEUR", "VENDEUR", "NEUTRE"):
         banner = banner_for(
-            conf["direction"],
+            of_dir if of_dir in ("HAUSSIER", "BAISSIER") else "NEUTRE",
             orderflow.get("conviction") if orderflow.get("signal") in ("ACHETEUR", "VENDEUR") else "BASSE",
         )
     else:
@@ -1341,8 +2059,12 @@ def analyze(candles, manual, cache, now_paris):
         "orderflow": {key: value for key, value in orderflow.items() if key != "price_pct"},
         "technicals": tech,
         "macro": macro,
-        "alignment": align,
+        "alignment": board,
         "levels": levels,
+        "niveaux": desk_levels,
+        "profil": profile,
+        "gameplan": gameplan,
+        "risque": risque,
         "brief": brief,
         "alertes": alerts,
         "sources": {
@@ -1869,8 +2591,16 @@ def run(data_dir, mode, max_hours, force_summary, pages_url, topic, dry_run=Fals
     save_candles(candles_path, candles)
     print(f"Bougies en mémoire : {len(candles)}")
 
-    payload, sessions = analyze(candles, manual, cache, now)
-    payload["fetch"] = fetch_info
+    print("Minutes Dukascopy…")
+    minute_bars, minute_info = update_minutes(os.path.join(data_dir, "minutes.json"), trading_day_for(now), now_utc)
+    print(f"Minutes en mémoire : {len(minute_bars)} (fichiers relus {minute_info['fichiers']})")
+    print("Calendrier…")
+    events, calendar_ok = fetch_calendar(now)
+    payload, sessions = analyze(candles, manual, cache, now, minute_bars, events)
+    if payload.get("risque") is not None:
+        payload["risque"]["calendrier_ok"] = calendar_ok
+    payload["fetch"] = dict(fetch_info)
+    payload["fetch"]["minutes"] = minute_info
 
     state = _read_json(state_path, {})
     topic_set = topic_is_valid(topic)
