@@ -87,7 +87,7 @@ Ces trois lignes ne peuvent pas être devinées. Tant que tu ne les remplis pas,
 
 `impact` vaut `positif`, `neutre` ou `negatif`. Mets la date du jour dans `derniere_mise_a_jour`.
 
-Ensuite lance **Actions → Mise à jour des données → Run workflow** (ou attends la prochaine heure). Le taux Fed funds, lui, est téléchargé tout seul : il s'affiche, mais il ne donne pas un impact tant que tu ne l'as pas écrit.
+Le fichier sert seulement si tu veux forcer un commentaire. Fed, banques centrales et géopolitique sont remplis tout seuls à partir du calendrier Forex Factory (un appel par mise à jour, mis en cache). Sans chiffre « actual » publié, le score reste 0 et l'impact Neutre : rien n'est inventé. La géopolitique est un proxy VIX + or/dollar, indiqué comme tel.
 
 ## Lire l'écran
 

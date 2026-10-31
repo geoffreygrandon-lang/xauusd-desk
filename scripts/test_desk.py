@@ -389,6 +389,88 @@ def test_volume_above_matches_friday_shape():
     assert profile["x_pct"] >= 65
 
 
+def _ff(title, country, when, forecast="", previous="", actual=None, impact="High"):
+    return {
+        "title": title,
+        "country": country,
+        "date": when.isoformat(),
+        "impact": impact,
+        "forecast": forecast,
+        "previous": previous,
+        "actual": actual,
+    }
+
+
+def test_fed_and_foreign_central_banks_from_calendar():
+    now = datetime(2026, 10, 31, 12, 0, tzinfo=PARIS)
+    past = datetime(2026, 10, 28, 19, 0, tzinfo=PARIS)
+    hike = desk._dated_events([
+        _ff("Federal Funds Rate", "USD", past, "4.00%", "3.75%", "4.25%"),
+    ])
+    fed = desk.score_fed_driver(hike, now, {"dff": {"value": 4.0, "change_mois": 0.25}})
+    assert fed["score_jour"] == -1
+    assert fed["impact"] == "negatif"
+    assert "Indisponible" not in fed["etat"]
+    cut = desk._dated_events([
+        _ff("Federal Funds Rate", "USD", past, "4.00%", "4.00%", "3.75%"),
+    ])
+    assert desk.score_fed_driver(cut, now, {}).get("score_jour") == 1
+    inline = desk._dated_events([
+        _ff("Federal Funds Rate", "USD", past, "4.00%", "4.00%", "4.00%"),
+    ])
+    held = desk.score_fed_driver(inline, now, {"dff": {"value": 3.88, "change": 0, "change_mois": 0}})
+    assert held["score_jour"] == 0 and held["impact"] == "neutre"
+    waiting_time = datetime(2026, 11, 4, 19, 0, tzinfo=PARIS)
+    pending = desk._dated_events([
+        _ff("Federal Funds Rate", "USD", waiting_time, "4.00%", "4.00%"),
+    ])
+    ahead = desk.score_fed_driver(pending, now, {})
+    assert ahead["score_jour"] == 0 and ahead["impact"] == "neutre"
+    assert ahead["etat"].startswith("en attente :")
+    unpublished = desk._dated_events([
+        _ff("Federal Funds Rate", "USD", past, "4.00%", "4.00%"),
+        _ff("Overnight Rate", "CAD", past, "2.50%", "2.25%"),
+        _ff("Main Refinancing Rate", "EUR", past, "2.65%", "2.65%"),
+    ])
+    banks = desk.score_foreign_cb_driver(unpublished, now)
+    assert banks["score_jour"] == 0 and banks["impact"] == "neutre"
+    assert "non publié" in banks["etat"]
+    assert "Indisponible" not in banks["etat"]
+    hawk = desk._dated_events([
+        _ff("Official Cash Rate", "NZD", past, "2.75%", "2.75%", "3.00%"),
+    ])
+    foreign = desk.score_foreign_cb_driver(hawk, now)
+    assert foreign["score_jour"] == 1 and foreign["impact"] == "positif"
+    dove = desk._dated_events([
+        _ff("Overnight Rate", "CAD", past, "2.50%", "2.50%", "2.25%"),
+    ])
+    assert desk.score_foreign_cb_driver(dove, now)["score_jour"] == -1
+
+
+def test_geopolitics_proxy_and_calendar_cache():
+    now = datetime(2026, 10, 31, 12, 0, tzinfo=PARIS)
+    refuge = desk.score_geopolitics_driver([], 18, 0.2, 0.4, 0.3)
+    assert refuge["score_jour"] == 1
+    assert refuge["etat"].startswith("proxy (VIX/refuge)")
+    quiet = desk.score_geopolitics_driver([], 19.4, 0.0, -3.65, 0.1)
+    assert quiet["score_jour"] == 0 and quiet["impact"] == "neutre"
+    vote = desk._dated_events([
+        _ff("US Midterm Elections", "USD", datetime(2026, 11, 3, 12, 0, tzinfo=PARIS), impact="High"),
+    ])
+    noted = desk.score_geopolitics_driver(vote, 19.4, 0.0, -3.65, 0.1)
+    assert "Midterm" in noted["detail"]
+    drivers = desk.apply_calendar_drivers(
+        [{"id": "fed", "impact": None, "etat": "non renseigné"}, {"id": "dxy", "impact": "neutre", "score_jour": 0}],
+        [_ff("Federal Funds Rate", "USD", datetime(2026, 10, 28, 19, 0, tzinfo=PARIS), "4.00%", "4.00%")],
+        now,
+        {"dff": {"value": 3.88, "change_mois": 0}, "vix": {"price": 19.4, "change_jour": 0}, "dxy": {"change_jour": 0.1}},
+        -3.65,
+    )
+    fed = next(item for item in drivers if item["id"] == "fed")
+    assert fed["impact"] == "neutre"
+    assert fed["etat"] != "non renseigné"
+
+
 def test_dxy_rule_thresholds():
     cache = {
         "dxy": {"price": 101.5, "variation": -0.41, "span": 5, "as_of": "2026-10-30"},

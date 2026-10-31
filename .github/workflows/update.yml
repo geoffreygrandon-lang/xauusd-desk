@@ -95,6 +95,7 @@ jobs:
           git add data/latest.json data/candles.json data/alert_state.json data/macro_cache.json
           if [ -f data/absent_hours.json ]; then git add data/absent_hours.json; fi
           if [ -f data/minutes.json ]; then git add data/minutes.json; fi
+          if [ -f data/ff_calendar.json ]; then git add data/ff_calendar.json; fi
           if git diff --staged --quiet; then
             echo "Aucun changement de données"
           else
