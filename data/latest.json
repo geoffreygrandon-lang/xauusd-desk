@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-02T20:36:01+01:00",
-  "generated_label": "lundi 2 novembre 2026, 20:36",
+  "generated_at": "2026-11-02T20:53:08+01:00",
+  "generated_label": "lundi 2 novembre 2026, 20:53",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 31,
+    "score": 36,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "HAUSSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 41,
+        "points": 50,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 31,
+        "points": 36,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 31,
+    "score": 36,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "HAUSSIER"
@@ -560,8 +560,8 @@
   },
   "macro": {
     "biais": "HAUSSIER",
-    "conviction": "MODÉRÉE",
-    "force": 41,
+    "conviction": "HAUTE",
+    "force": 50,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
@@ -627,7 +627,7 @@
       {
         "id": "fed",
         "nom": "Fed",
-        "etat": "Federal Funds Rate mer. 28 oct. 20:30 : 4,00 % en ligne avec le prévu (4,00 %) · score or +0",
+        "etat": "Fed funds 3,88 % · US 2 ans 4,61 %",
         "detail": "Fed funds 3,88 % · US 2 ans 4,61 % · Forex Factory + FRED DFF/DGS2",
         "impact": "positif",
         "included": true,
@@ -657,11 +657,11 @@
       {
         "id": "banques",
         "nom": "Banques centrales",
-        "etat": "Official Cash Rate mer. 28 oct. 03:30 : 2,75 % plus bas que prévu (3,00 %) · score or -1 ; Overnight Rate jeu. 29 oct. 04:00 : 2,50 % en ligne avec le prévu (2,50 %) · score or +0 ; Main Refinancing Rate jeu. 29 oct. 15:45 : 2,65 % en ligne avec le prévu (2,65 %) · score or +0 ; BOJ Policy Rate sam. 31 oct. 04:00 : 1,25 % en ligne avec le prévu (1,25 %) · score or +0",
+        "etat": "En attente : Cash Rate mar. 3 nov. 04:30, prévu 4,85 % (précédent 4,60 %)",
         "detail": "Forex Factory · surprise dovish à l'étranger = −1 (dollar plus ferme), hawkish = +1",
-        "impact": "negatif",
-        "included": true,
-        "score_jour": -0.25,
+        "impact": "neutre",
+        "included": false,
+        "score_jour": null,
         "score_mois": null,
         "source": "Forex Factory",
         "as_of": null,
@@ -698,7 +698,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 41
+        "force": 50
       },
       {
         "id": "biais",
@@ -728,11 +728,11 @@
       }
     ],
     "label": "AUCUN",
-    "confiance": 31,
+    "confiance": 36,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "HAUSSIER",
-    "force_macro": 41,
+    "force_macro": 50,
     "moyenne_technique": 21.8,
     "macro": "HAUSSIER",
     "biais": "HAUSSIER",
@@ -1360,7 +1360,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 953,39 $, en hausse de 2,03 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 45 % contre vente 55 %, écart 10 pts, conviction MODÉRÉE, delta net -11,48. La séance de Londres est haussière. Le sens privilégié pour New York est l'ACHAT. Le RSI 14 est à 58,5, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction modérée (USD (DXY) neutre, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans positif). Sur 24 h, le plus haut est 3 970,07 $ et le plus bas 3 869,05 $. Dépêches Investing (48 h) : « Le dollar canadien recule depuis un sommet de six semaines » ; « Les Émirats Arabes Unis augmentent leurs exportations de pétrole malgré la guerre avec l’Iran ».",
+  "brief": "L'or spot XAU/USD cote 3 953,39 $, en hausse de 2,03 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 45 % contre vente 55 %, écart 10 pts, conviction MODÉRÉE, delta net -11,48. La séance de Londres est haussière. Le sens privilégié pour New York est l'ACHAT. Le RSI 14 est à 58,5, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction haute (USD (DXY) neutre, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans positif). Sur 24 h, le plus haut est 3 970,07 $ et le plus bas 3 869,05 $. Dépêches Investing (48 h) : « Le dollar canadien recule depuis un sommet de six semaines » ; « Les Émirats Arabes Unis augmentent leurs exportations de pétrole malgré la guerre avec l’Iran ».",
   "news": [
     {
       "titre": "Le dollar canadien recule depuis un sommet de six semaines",
@@ -1455,11 +1455,11 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 6,
+    "telechargees": 5,
     "echecs": 1,
     "demandees": 6,
     "minutes": {
-      "fichiers": 2
+      "fichiers": 1
     }
   },
   "notifications": {
