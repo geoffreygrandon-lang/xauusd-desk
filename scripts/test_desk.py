@@ -455,6 +455,70 @@ def test_gameplan_rsi_warning_and_weekend():
     assert desk.trading_day_for(datetime(2026, 10, 31, 12, 0, tzinfo=PARIS)).isoformat() == "2026-10-30"
 
 
+def test_banner_follows_jauge_not_orderflow():
+    now = datetime(2026, 11, 2, 12, 0, tzinfo=PARIS)
+    candles = []
+    price = 3800.0
+    moment = datetime(2026, 10, 31, 12, 0, tzinfo=UTC)
+    for _ in range(48):
+        candles.append({
+            "t": moment,
+            "o": price + 1.0,
+            "h": price + 1.2,
+            "l": price,
+            "c": price + 0.05,
+            "v": 2.0,
+        })
+        price += 3.0
+        moment += timedelta(hours=1)
+    payload, _sessions = desk.analyze(candles, {}, {}, now)
+    assert payload["orderflow"]["signal"] == "VENDEUR"
+    assert payload["banner"]["direction"] == payload["jauge"]["direction"] == payload["alignment"]["direction"]
+    assert payload["banner"]["direction"] == "HAUSSIER"
+    assert payload["banner"]["titre"].startswith("HAUSSIER")
+    assert payload["orderflow"]["heatmap"] == payload["profil"]["etat"]
+    assert payload["alignment"]["heatmap"] == payload["profil"]["etat"]
+    tile = next(item for item in payload["alignment"]["tuiles"] if item["id"] == "heatmap")
+    assert tile["etat"] == payload["profil"]["etat"]
+    assert tile["x_pct"] == payload["profil"]["x_pct"]
+    assert 0 < payload["profil"]["x_pct"] < 100
+
+
+def test_levels_and_profile_use_the_full_window():
+    day = datetime(2026, 11, 2).date()
+    hours = [
+        {"t": datetime(2026, 10, 30, 12, 0, tzinfo=UTC), "o": 4000, "h": 4081.96, "l": 3990, "c": 4020, "v": 4},
+        {"t": datetime(2026, 11, 1, 23, 0, tzinfo=UTC), "o": 3869, "h": 3919.04, "l": 3869.05, "c": 3910, "v": 3},
+        {"t": datetime(2026, 11, 2, 6, 0, tzinfo=UTC), "o": 3906, "h": 3910, "l": 3900, "c": 3906.5, "v": 2},
+    ]
+    minutes = [{"t": datetime(2026, 11, 1, 22, 30, tzinfo=UTC), "o": 3900, "h": 3902.05, "l": 3898, "c": 3901, "v": 1}]
+    levels, profile = desk.desk_context(minutes, day, 3906.5, hours)
+    labelled = levels["offre"] + levels["demande"]
+    asia = next(row for row in labelled if "Haut Asie" in row["label"])
+    assert abs(asia["prix"] - 3919.04) < 1
+    assert asia["prix"] > 3906.5
+    veille = next(row for row in labelled if "Haut veille" in row["label"])
+    assert abs(veille["prix"] - 4081.96) < 1
+    assert profile["va_haut"] > 4000
+    assert profile["x_pct"] > 0
+    text = desk.build_gameplan(3906.5, {"direction": "ACHAT"}, {
+        "offre": [{"prix": 3925, "label": "Rond 3925", "distance_pct": 0.5}],
+        "demande": [
+            {"prix": 3902.05, "label": "Demande", "distance_pct": -0.1},
+            {"prix": 3869.05, "label": "Bas Asie", "distance_pct": -1.0},
+        ],
+    }, profile, {"signal": "VENDEUR"}, 50)
+    assert "Invalidation : clôture horaire sous 3 869,05 $" in text
+    assert "vers 3 902,05 $" in text
+
+
+def test_event_time_is_readable():
+    events = desk.upcoming_from_calendar([
+        {"title": "ISM Manufacturing PMI", "country": "USD", "date": "2026-11-02T16:00:00+01:00", "impact": "Medium"},
+    ], datetime(2026, 11, 2, 8, 0, tzinfo=PARIS))
+    assert events[0]["heure"] == "lun. 2 nov. 16:00"
+
+
 def test_volume_above_matches_friday_shape():
     # Une séance qui ne fait que baisser : presque tout le volume est au-dessus du dernier prix.
     start = datetime(2026, 10, 29, 22, 0, tzinfo=UTC)

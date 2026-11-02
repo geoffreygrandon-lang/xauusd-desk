@@ -706,7 +706,7 @@ def compute_orderflow(closed):
         "complet": complet,
         "price_pct": price_pct if complet else None,
         "candles": bars,
-        "heatmap": heatmap_proxy(price_pct, net, stats["gap"]) if complet else None,
+        "heatmap": None,
     }
 
 
@@ -1496,6 +1496,25 @@ def vwap_of(bars):
     return numerator / denominator
 
 
+def bars_for_window(hourly, minutes, start, end):
+    """Minutes là où elles existent, heures pour les trous. Les extrêmes restent complets."""
+    minute_bars = bars_between(minutes or [], start, end)
+    hour_bars = bars_between(hourly or [], start, end)
+    if not minute_bars:
+        return hour_bars
+    covered = set()
+    for bar in minute_bars:
+        covered.add(bar["t"].astimezone(PARIS).replace(minute=0, second=0, microsecond=0))
+    extra = []
+    for bar in hour_bars:
+        hour = bar["t"].astimezone(PARIS).replace(minute=0, second=0, microsecond=0)
+        if hour not in covered:
+            extra.append(bar)
+    merged = minute_bars + extra
+    merged.sort(key=lambda bar: bar["t"])
+    return merged
+
+
 def bars_between(bars, start, end):
     chosen = []
     for bar in bars:
@@ -1791,6 +1810,19 @@ def build_alignment(macro, tech, orderflow, profile, levels, price):
     return board
 
 
+def _stop_beyond(rows, entry, below):
+    """Premier niveau strictement sous l'entrée (achat) ou au-dessus (vente)."""
+    for row in rows or []:
+        price = row.get("prix")
+        if price is None:
+            continue
+        if below and price < entry - 0.5:
+            return row
+        if not below and price > entry + 0.5:
+            return row
+    return None
+
+
 def build_gameplan(price, preferred, levels, profile, orderflow, rsi):
     if price is None or not levels:
         return "Le gameplan attend les bougies minute du jour. Tant qu'elles manquent, pas de zone d'entrée."
@@ -1820,7 +1852,7 @@ def build_gameplan(price, preferred, levels, profile, orderflow, rsi):
     signal = (orderflow or {}).get("signal")
     if direction == "VENTE" and nearest_supply:
         targets = demand[:3]
-        invalid = supply[1] if len(supply) > 1 else None
+        invalid = _stop_beyond(supply, nearest_supply["prix"], below=False)
         target_txt = ", ".join(fr_price(row["prix"]) for row in targets) if targets else "les demandes sous le prix"
         invalid_txt = fr_price(invalid["prix"]) if invalid else "le prochain niveau d'offre au-dessus de la zone"
         paragraphs.append(
@@ -1828,11 +1860,11 @@ def build_gameplan(price, preferred, levels, profile, orderflow, rsi):
             f"Confirmation : rejet du niveau, puis clôture horaire qui repasse sous la zone, avec un signal orderflow VENDEUR"
             f"{' (actuellement ' + signal + ')' if signal else ''}. "
             f"Objectifs : {target_txt}. Rester à plat si la clôture horaire revient dans la zone de valeur. "
-            f"Invalidation : clôture horaire au-delà de {invalid_txt}."
+            f"Invalidation : clôture horaire au-dessus de {invalid_txt}."
         )
     elif direction == "ACHAT" and nearest_demand:
         targets = supply[:3]
-        invalid = demand[1] if len(demand) > 1 else None
+        invalid = _stop_beyond(demand, nearest_demand["prix"], below=True)
         target_txt = ", ".join(fr_price(row["prix"]) for row in targets) if targets else "les offres au-dessus du prix"
         invalid_txt = fr_price(invalid["prix"]) if invalid else "le prochain niveau de demande sous la zone"
         paragraphs.append(
@@ -1840,7 +1872,7 @@ def build_gameplan(price, preferred, levels, profile, orderflow, rsi):
             f"Confirmation : rejet du niveau, puis clôture horaire qui repasse au-dessus de la zone, avec un signal orderflow ACHETEUR"
             f"{' (actuellement ' + signal + ')' if signal else ''}. "
             f"Objectifs : {target_txt}. Rester à plat si la clôture horaire revient dans la zone de valeur. "
-            f"Invalidation : clôture horaire au-delà de {invalid_txt}."
+            f"Invalidation : clôture horaire sous {invalid_txt}."
         )
     else:
         paragraphs.append(
@@ -2292,7 +2324,7 @@ def upcoming_from_calendar(raw_events, now_paris):
             continue
         events.append({
             "t": moment.isoformat(timespec="minutes"),
-            "heure": f"{JOURS[moment.weekday()][:3]} {moment.day} {MOIS[moment.month - 1][:4]} {moment:%H:%M}",
+            "heure": _paris_short(moment),
             "titre": item.get("title") or "Événement",
             "pays": country,
             "impact": "haut" if impact == "high" else "moyen",
@@ -2862,19 +2894,21 @@ def update_minutes(path, trading_day, now_utc):
     return bars, {"fichiers": fetched}
 
 
-def desk_context(minutes, trading_day, price):
-    if not minutes or price is None:
+def desk_context(minutes, trading_day, price, hourly=None):
+    if price is None:
         return None, None
     day_start, day_end = day_bounds(trading_day)
-    day_bars = bars_between(minutes, day_start, day_end)
-    if not day_bars:
-        return None, None
-    week_open = _paris_at(week_start(trading_day), 23, 0)
-    week_bars = bars_between(minutes, week_open, day_end)
     previous = previous_weekday(trading_day)
-    prev_bars = bars_between(minutes, *day_bounds(previous))
-    profile = volume_profile(day_bars, price)
-    levels = build_desk_levels(price, day_bars, week_bars, prev_bars, profile, trading_day)
+    prev_start, _prev_end = day_bounds(previous)
+    day_bars = bars_for_window(hourly, minutes, day_start, day_end)
+    week_open = _paris_at(week_start(trading_day), 23, 0)
+    week_bars = bars_for_window(hourly, minutes, week_open, day_end)
+    prev_bars = bars_for_window(hourly, minutes, prev_start, day_start)
+    profile_bars = bars_for_window(hourly, minutes, prev_start, day_end)
+    if not day_bars and not profile_bars:
+        return None, None
+    profile = volume_profile(profile_bars or day_bars, price)
+    levels = build_desk_levels(price, day_bars or profile_bars, week_bars, prev_bars, profile, trading_day)
     return levels, profile
 
 
@@ -2916,13 +2950,12 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
         "derniere_mise_a_jour_manuelle": (manual or {}).get("derniere_mise_a_jour") if isinstance(manual, dict) else None,
         "drivers": drivers,
     }
-    of_dir = {"ACHETEUR": "HAUSSIER", "VENDEUR": "BAISSIER", "NEUTRE": "NEUTRE"}.get(orderflow.get("signal"), "NEUTRE")
     price = _price_block(closed, partial, last_price, sessions, day, now_paris, spot_time)
     price["granularite"] = "minute" if from_minute else "horaire"
     if not from_minute:
         price["en_cours"] = partial is not None
     levels = build_levels(candles, today_public, last_price)
-    desk_levels, profile = desk_context(minutes or [], day, last_price)
+    desk_levels, profile = desk_context(minutes or [], day, last_price, candles)
     if desk_levels and desk_levels.get("ouverture") is not None and last_price is not None:
         opening = desk_levels["ouverture"]
         price["change_jour"] = round(last_price - opening, 3)
@@ -2964,17 +2997,10 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
     if events is None and minutes is not None:
         events = []
     risque = build_risque(desk_levels, last_price, now_paris, events or [])
-    if orderflow.get("signal") in ("ACHETEUR", "VENDEUR", "NEUTRE"):
-        banner = banner_for(
-            of_dir if of_dir in ("HAUSSIER", "BAISSIER") else "NEUTRE",
-            orderflow.get("conviction") if orderflow.get("signal") in ("ACHETEUR", "VENDEUR") else "BASSE",
-        )
-    else:
-        banner = {
-            "direction": "NEUTRE",
-            "titre": "SIGNAL INDISPONIBLE — 40 bougies requises",
-            "conviction": None,
-        }
+    if profile:
+        orderflow["heatmap"] = profile["etat"]
+        orderflow["heatmap_x_pct"] = profile["x_pct"]
+    banner = banner_for(board["direction"], board["conviction"])
 
     payload = {
         "version": 1,
