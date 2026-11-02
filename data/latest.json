@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-02T14:02:57+01:00",
-  "generated_label": "lundi 2 novembre 2026, 14:02",
+  "generated_at": "2026-11-02T14:46:45+01:00",
+  "generated_label": "lundi 2 novembre 2026, 14:46",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 29,
+    "score": 26,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 41,
+        "points": 34,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 29,
+        "points": 26,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 29,
+    "score": 26,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER"
@@ -540,14 +540,14 @@
   "macro": {
     "biais": "HAUSSIER",
     "conviction": "MODÉRÉE",
-    "force": 41,
+    "force": 34,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En repli",
-        "detail": "101,64 · -0,31 % / 5 j",
+        "detail": "101,63 · -0,32 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -555,14 +555,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-02",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.641,
-        "variation": -0.31286803354748666
+        "valeur": 101.629,
+        "variation": -0.32463837260733064
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Stable",
-        "detail": "19,19 · +4,35 % / 5 j",
+        "detail": "19,54 · +6,25 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -570,14 +570,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-02",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 19.19,
-        "variation": 4.350196688203769
+        "valeur": 19.54,
+        "variation": 6.253407091064024
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "Stable",
-        "detail": "2,63 % · -1 pb · nominal 4,93 %",
+        "detail": "2,63 % · -1 pb · nominal 4,92 %",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -591,17 +591,17 @@
       {
         "id": "nominaux",
         "nom": "Taux US 10 ans",
-        "etat": "En repli",
-        "detail": "4,93 % · -6 pb",
+        "etat": "Stable",
+        "detail": "4,92 % · -1 pb",
         "impact": "positif",
         "included": true,
-        "score_jour": 1,
+        "score_jour": 0,
         "score_mois": 1,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-10-30",
+        "as_of": "2026-11-02",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 4.929,
-        "variation": -0.059999942779541016
+        "valeur": 4.919,
+        "variation": -0.010000228881835938
       },
       {
         "id": "fed",
@@ -651,7 +651,7 @@
       {
         "id": "geo",
         "nom": "Géopolitique",
-        "etat": "En attente : Congressional Elections · dépêche : Le dollar se stabilise avant les élections de mi-mandat ; l’euro digère la dégradation des perspectives par Fitch",
+        "etat": "En attente : Congressional Elections · dépêche : Les bons du Trésor américains stables avant les élections de mi-mandat · Le dollar se stabilise avant les élections de mi-mandat ; l’euro digère la dégradation des perspectives par Fitch",
         "detail": "Le prix de l'or n'est pas un moteur macro. Le VIX est noté à part. Une dépêche de tension sur 48 h peut inclure ce moteur. Calendrier : Congressional Elections mar. 3 nov. 16:16 ; Parliamentary Elections ven. 6 nov. 22:45",
         "impact": "positif",
         "included": true,
@@ -663,6 +663,7 @@
         "valeur": null,
         "variation": null,
         "news": [
+          "Les bons du Trésor américains stables avant les élections de mi-mandat",
           "Le dollar se stabilise avant les élections de mi-mandat ; l’euro digère la dégradation des perspectives par Fitch"
         ]
       }
@@ -675,7 +676,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 41
+        "force": 34
       },
       {
         "id": "biais",
@@ -705,11 +706,11 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 29,
+    "confiance": 26,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "BAISSIER",
-    "force_macro": 41,
+    "force_macro": 34,
     "moyenne_technique": 17.5,
     "macro": "HAUSSIER",
     "biais": "BAISSIER",
@@ -748,9 +749,9 @@
     },
     {
       "nom": "Plus haut 11 jours disponibles",
-      "prix": 4145.64,
-      "distance": 244.76,
-      "distance_pct": 6.27,
+      "prix": 4155.27,
+      "distance": 254.38,
+      "distance_pct": 6.52,
       "type": "marche"
     },
     {
@@ -1299,7 +1300,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 900,89 $, en hausse de 0,68 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 43 % contre vente 57 %, écart 14 pts, conviction MODÉRÉE, delta net -15,91. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 39,2, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). Sur 24 h, le plus haut est 3 982,24 $ et le plus bas 3 869,05 $. Dépêches Investing (48 h) : « Si l’or baisse encore, ces devises refuges pourraient séduire les investisseurs » ; « La livre sterling progresse face au dollar, porté par les espoirs diplomatiques avec l’Iran ».",
+  "brief": "L'or spot XAU/USD cote 3 900,89 $, en hausse de 0,68 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 43 % contre vente 57 %, écart 14 pts, conviction MODÉRÉE, delta net -15,91. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 39,2, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). Sur 24 h, le plus haut est 3 982,24 $ et le plus bas 3 869,05 $. Dépêches Investing (48 h) : « Si l’or baisse encore, ces devises refuges pourraient séduire les investisseurs » ; « Les bons du Trésor américains stables avant les élections de mi-mandat ».",
   "news": [
     {
       "titre": "Si l’or baisse encore, ces devises refuges pourraient séduire les investisseurs",
@@ -1309,6 +1310,15 @@
       "heure": "lun. 2 nov. 12:47",
       "ton": 0,
       "ton_bucket": null
+    },
+    {
+      "titre": "Les bons du Trésor américains stables avant les élections de mi-mandat",
+      "lien": "https://fr.investing.com/news/forex-news/les-rendements-francais-stables-apres-fitch--les-bunds-en-legere-hausse-3667882",
+      "source": "Forex",
+      "t": "2026-11-02T10:46+01:00",
+      "heure": "lun. 2 nov. 10:46",
+      "ton": 1,
+      "ton_bucket": "geo"
     },
     {
       "titre": "La livre sterling progresse face au dollar, porté par les espoirs diplomatiques avec l’Iran",
@@ -1371,7 +1381,7 @@
     "echecs": 0,
     "demandees": 6,
     "minutes": {
-      "fichiers": 1
+      "fichiers": 2
     }
   },
   "notifications": {
