@@ -2101,12 +2101,96 @@ def _fetch_text(url):
         return None
 
 
-def fetch_ff_week_page(token):
+def _strip_tags(value):
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", value or "")).strip()
+
+
+def parse_ff_html(text):
+    """Calendrier HTML Forex Factory (les classes calendar__*)."""
+    if not text or "calendar__" not in text:
+        return []
+    years = [int(year) for year in re.findall(r"\b(20\d{2})\b", text[:4000])]
+    year = years[0] if years else datetime.now(PARIS).year
+    current = None
+    events = []
+    for row in re.findall(r"<tr[^>]*calendar__row[\s\S]*?</tr>", text, flags=re.I):
+        date_match = re.search(r"calendar__date[\s\S]{0,240}?([A-Z][a-z]{2})\s*(\d{1,2})", row)
+        if date_match and date_match.group(1).lower()[:3] in _FF_MONTHS:
+            month = _FF_MONTHS[date_match.group(1).lower()[:3]]
+            if current is not None and month < current[1]:
+                year += 1
+            current = (year, month, int(date_match.group(2)))
+        currency_match = re.search(r"calendar__currency[^>]*>[\s\S]{0,80}?([A-Z]{3})\b", row)
+        title_match = re.search(r"calendar__event[\s\S]{0,400}?<span[^>]*>\s*([^<]+)", row)
+        if current is None or not currency_match or not title_match:
+            continue
+        title = _strip_tags(title_match.group(1))
+        if not title:
+            continue
+
+        def cell(name, blob=row):
+            found = re.search(rf"calendar__{name}[^>]*>([\s\S]*?)</td>", blob, flags=re.I)
+            return _strip_tags(found.group(1)) if found else ""
+
+        impact_blob = row
+        if "ff-impact-red" in impact_blob or "High Impact" in impact_blob:
+            impact = "High"
+        elif "ff-impact-ora" in impact_blob or "Medium Impact" in impact_blob:
+            impact = "Medium"
+        else:
+            impact = "Low"
+        clock = cell("time").lower().replace(" ", "")
+        hour, minute = 23, 0
+        clock_match = re.match(r"(\d{1,2}):(\d{2})(am|pm)", clock)
+        if clock_match:
+            hour = int(clock_match.group(1)) % 12
+            if clock_match.group(3) == "pm":
+                hour += 12
+            minute = int(clock_match.group(2))
+        try:
+            moment = datetime(current[0], current[1], current[2], hour, minute, tzinfo=ZoneInfo("America/New_York"))
+        except ValueError:
+            continue
+        events.append({
+            "title": title,
+            "country": currency_match.group(1),
+            "date": moment.isoformat(),
+            "impact": impact,
+            "forecast": cell("forecast"),
+            "previous": cell("previous"),
+            "actual": cell("actual"),
+        })
+    return events
+
+
+def _actual_count(events):
+    return sum(1 for event in events or [] if _parse_rate(event.get("actual")) is not None)
+
+
+def events_from_calendar_page(text):
+    markdown = parse_ff_calendar_text(text)
+    html = parse_ff_html(text)
+    return html if _actual_count(html) > _actual_count(markdown) else markdown
+
+
+def fetch_ff_week_events(token):
+    """Le site renvoie souvent du HTML. On ne le garde que s'il contient des actuals."""
     page = f"https://www.forexfactory.com/calendar?week={token}"
+    texts = []
     direct = _fetch_text(page)
-    if direct and "ff-impact" in direct and "| " in direct:
-        return direct
-    return _fetch_text("https://r.jina.ai/" + page)
+    if direct:
+        texts.append(direct)
+    if _actual_count(events_from_calendar_page(direct)) == 0:
+        mirrored = _fetch_text("https://r.jina.ai/" + page)
+        if mirrored:
+            texts.append(mirrored)
+    best, best_n = [], -1
+    for text in texts:
+        rows = events_from_calendar_page(text)
+        count = _actual_count(rows)
+        if count > best_n:
+            best, best_n = rows, count
+    return best
 
 
 def enrich_ff_actuals(events, now_paris):
@@ -2115,12 +2199,11 @@ def enrich_ff_actuals(events, now_paris):
     found = []
     for shift in (0, 7):
         token = _ff_week_token(today - timedelta(days=shift))
-        text = fetch_ff_week_page(token)
-        if not text:
+        parsed = fetch_ff_week_events(token)
+        if not parsed:
             print(f"  semaine {token} : page indisponible")
             continue
-        parsed = parse_ff_calendar_text(text)
-        printed = sum(1 for event in parsed if _parse_rate(event.get("actual")) is not None)
+        printed = _actual_count(parsed)
         print(f"  semaine {token} : {printed} actual publié(s)")
         found.extend(parsed)
         time.sleep(1)

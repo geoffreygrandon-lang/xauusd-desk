@@ -550,6 +550,22 @@ Oct 26, 2026 - Nov 1, 2026
     assert fed["actual"] == "4.00%"
     banks = desk.score_foreign_cb_driver(desk._dated_events(parsed), datetime(2026, 10, 31, 12, 0, tzinfo=PARIS))
     assert banks["included"] is True and banks["score_jour"] == -0.5
+    html = """
+    Week of Oct 26, 2026
+    <tr class="calendar__row">
+      <td class="calendar__cell calendar__date"><span>Thu<br>Oct 29</span></td>
+      <td class="calendar__cell calendar__time">8:15am</td>
+      <td class="calendar__cell calendar__currency">EUR</td>
+      <td class="calendar__cell calendar__impact"><span class="icon icon--ff-impact-red" title="High Impact Expected"></span></td>
+      <td class="calendar__cell calendar__event"><span>Main Refinancing Rate</span></td>
+      <td class="calendar__cell calendar__actual">2.65%</td>
+      <td class="calendar__cell calendar__forecast">2.65%</td>
+      <td class="calendar__cell calendar__previous">2.65%</td>
+    </tr>
+    """
+    html_rows = desk.parse_ff_html(html)
+    assert html_rows[0]["actual"] == "2.65%" and html_rows[0]["country"] == "EUR"
+    assert desk._actual_count(desk.events_from_calendar_page(html)) == 1
 
 
 if __name__ == "__main__":
