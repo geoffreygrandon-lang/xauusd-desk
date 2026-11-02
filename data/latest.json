@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-02T08:14:30+01:00",
-  "generated_label": "lundi 2 novembre 2026, 08:14",
+  "generated_at": "2026-11-02T08:23:35+01:00",
+  "generated_label": "lundi 2 novembre 2026, 08:23",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -10,8 +10,8 @@
   },
   "price": {
     "last": 3906.487,
-    "time": "2026-11-02T07:00+01:00",
-    "time_label": "02/11 07:00",
+    "time": "2026-11-02T08:00+01:00",
+    "time_label": "02/11 08:00",
     "en_cours": false,
     "change_24h": 31.902,
     "change_24h_pct": 0.823,
@@ -546,7 +546,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "Stable",
-        "detail": "101,80 · -0,16 % / 5 j",
+        "detail": "101,81 · -0,14 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -554,8 +554,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-02",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.796,
-        "variation": -0.16084882926281385
+        "valeur": 101.815,
+        "variation": -0.1422093412792974
       },
       {
         "id": "vix",
@@ -743,14 +743,14 @@
       "type": "marche"
     },
     {
-      "nom": "Plus haut 9 jours disponibles",
-      "prix": 4123.81,
-      "distance": 217.33,
-      "distance_pct": 5.56,
+      "nom": "Plus haut 10 jours disponibles",
+      "prix": 4145.64,
+      "distance": 239.15,
+      "distance_pct": 6.12,
       "type": "marche"
     },
     {
-      "nom": "Plus bas 9 jours disponibles",
+      "nom": "Plus bas 10 jours disponibles",
       "prix": 3869.05,
       "distance": -37.43,
       "distance_pct": -0.96,
@@ -1118,7 +1118,7 @@
     "echecs": 0,
     "demandees": 6,
     "minutes": {
-      "fichiers": 1
+      "fichiers": 2
     }
   },
   "notifications": {
