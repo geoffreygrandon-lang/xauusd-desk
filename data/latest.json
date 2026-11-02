@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-02T08:06:45+01:00",
-  "generated_label": "lundi 2 novembre 2026, 08:06",
+  "generated_at": "2026-11-02T08:14:30+01:00",
+  "generated_label": "lundi 2 novembre 2026, 08:14",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -69,19 +69,19 @@
         "biais": "haussière",
         "biais_provisoire": null,
         "score": 2,
-        "variation_pct": 0.7498,
-        "range": 32.99900000000025,
+        "variation_pct": 1.1378,
+        "range": 49.98900000000003,
         "structure": "plus bas",
         "composantes": [
           {
             "nom": "Variation",
             "points": 1,
-            "detail": "+0,75 % (seuil ±0,15 %)"
+            "detail": "+1,14 % (seuil ±0,15 %)"
           },
           {
             "nom": "Clôture vs ouverture",
             "points": 1,
-            "detail": "3 898,06 $ contre 3 869,05 $"
+            "detail": "3 913,08 $ contre 3 869,05 $"
           },
           {
             "nom": "Position dans le range",
@@ -94,11 +94,11 @@
             "detail": "plus bas"
           }
         ],
-        "bougies": 60,
+        "bougies": 7,
         "open": 3869.055,
-        "high": 3902.054,
+        "high": 3919.044,
         "low": 3869.055,
-        "close": 3898.064
+        "close": 3913.078
       },
       {
         "id": "london",
@@ -546,7 +546,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "Stable",
-        "detail": "101,81 · -0,14 % / 5 j",
+        "detail": "101,80 · -0,16 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -554,8 +554,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-02",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.814,
-        "variation": -0.14318957930653173
+        "valeur": 101.796,
+        "variation": -0.16084882926281385
       },
       {
         "id": "vix",
@@ -744,9 +744,9 @@
     },
     {
       "nom": "Plus haut 9 jours disponibles",
-      "prix": 4102.59,
-      "distance": 196.1,
-      "distance_pct": 5.02,
+      "prix": 4123.81,
+      "distance": 217.33,
+      "distance_pct": 5.56,
       "type": "marche"
     },
     {
@@ -758,9 +758,9 @@
     },
     {
       "nom": "Asie plus haut",
-      "prix": 3902.05,
-      "distance": -4.43,
-      "distance_pct": -0.11,
+      "prix": 3919.04,
+      "distance": 12.56,
+      "distance_pct": 0.32,
       "type": "seance"
     },
     {
@@ -1118,7 +1118,7 @@
     "echecs": 0,
     "demandees": 6,
     "minutes": {
-      "fichiers": 2
+      "fichiers": 1
     }
   },
   "notifications": {
