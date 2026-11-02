@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-02T08:23:35+01:00",
-  "generated_label": "lundi 2 novembre 2026, 08:23",
+  "generated_at": "2026-11-02T08:49:36+01:00",
+  "generated_label": "lundi 2 novembre 2026, 08:49",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -21,15 +21,15 @@
     "ouverture_jour": 3869.06
   },
   "banner": {
-    "direction": "BAISSIER",
-    "titre": "BAISSIER — pression vendeuse dominante",
-    "conviction": "MODÉRÉE"
+    "direction": "NEUTRE",
+    "titre": "NEUTRE — pressions équilibrées",
+    "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 44,
+    "score": 33,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
-    "direction": "HAUSSIER",
+    "direction": "NEUTRE",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
@@ -38,21 +38,21 @@
       },
       {
         "label": "Moyenne technique (biais, momentum, tendance, heatmap)",
-        "points": 63.2,
+        "points": 40.5,
         "actif": true
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 44,
+        "points": 33,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 44,
+    "score": 33,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
-    "direction": "HAUSSIER"
+    "direction": "NEUTRE"
   },
   "sessions": {
     "jour": "2026-11-02",
@@ -525,7 +525,8 @@
         "c": 3906.487
       }
     ],
-    "heatmap": "Distribution"
+    "heatmap": "Neutre",
+    "heatmap_x_pct": 59.0
   },
   "technicals": {
     "sma20": 3913.51,
@@ -546,7 +547,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "Stable",
-        "detail": "101,81 · -0,14 % / 5 j",
+        "detail": "101,74 · -0,21 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -554,8 +555,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-02",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.815,
-        "variation": -0.1422093412792974
+        "valeur": 101.742,
+        "variation": -0.21381161366559565
       },
       {
         "id": "vix",
@@ -677,7 +678,7 @@
         "id": "biais",
         "nom": "Biais",
         "direction": "HAUSSIER",
-        "force": 13
+        "force": 4
       },
       {
         "id": "momentum",
@@ -694,23 +695,23 @@
       {
         "id": "heatmap",
         "nom": "Heatmap",
-        "direction": "HAUSSIER",
-        "force": 100,
-        "etat": "Accumulation",
-        "x_pct": 0.0
+        "direction": "NEUTRE",
+        "force": 18,
+        "etat": "Neutre",
+        "x_pct": 59.0
       }
     ],
-    "label": "ALIGNEMENT PARTIEL",
-    "confiance": 44,
+    "label": "AUCUN",
+    "confiance": 33,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
-    "direction": "HAUSSIER",
+    "direction": "NEUTRE",
     "force_macro": 25,
-    "moyenne_technique": 63.2,
+    "moyenne_technique": 40.5,
     "macro": "HAUSSIER",
     "biais": "HAUSSIER",
     "orderflow": "BAISSIER",
-    "heatmap": "Accumulation",
+    "heatmap": "Neutre",
     "tendance": "BAISSIER"
   },
   "levels": [
@@ -835,10 +836,20 @@
     }
   ],
   "niveaux": {
-    "vwap_jour": 3895.95,
+    "vwap_jour": 3903.49,
     "vwap_ny": null,
     "ouverture": 3869.06,
     "offre": [
+      {
+        "prix": 3919.04,
+        "labels": [
+          "Haut Asie",
+          "Haut jour",
+          "Haut semaine"
+        ],
+        "label": "Haut Asie, Haut jour, Haut semaine",
+        "distance_pct": 0.32
+      },
       {
         "prix": 3925.0,
         "labels": [
@@ -874,14 +885,12 @@
     ],
     "demande": [
       {
-        "prix": 3902.05,
+        "prix": 3903.49,
         "labels": [
-          "Haut Asie",
-          "Haut jour",
-          "Haut semaine"
+          "VWAP jour"
         ],
-        "label": "Haut Asie, Haut jour, Haut semaine",
-        "distance_pct": -0.11
+        "label": "VWAP jour",
+        "distance_pct": -0.08
       },
       {
         "prix": 3900.0,
@@ -898,14 +907,6 @@
         ],
         "label": "POC",
         "distance_pct": -0.23
-      },
-      {
-        "prix": 3895.95,
-        "labels": [
-          "VWAP jour"
-        ],
-        "label": "VWAP jour",
-        "distance_pct": -0.27
       },
       {
         "prix": 3875.0,
@@ -941,72 +942,247 @@
     "poc_bas": 3895,
     "poc_haut": 3900,
     "poc": 3897.5,
-    "va_bas": 3890,
-    "va_haut": 3900,
-    "x_pct": 0.0,
-    "etat": "Accumulation",
-    "direction": "HAUSSIER",
-    "force": 100,
+    "va_bas": 3875,
+    "va_haut": 4010,
+    "x_pct": 59.0,
+    "etat": "Neutre",
+    "direction": "NEUTRE",
+    "force": 18,
     "bins": [
       {
         "bas": 3865,
         "haut": 3870,
-        "volume": 0.0047,
+        "volume": 0.0123,
         "poc": false,
         "va": false
       },
       {
         "bas": 3870,
         "haut": 3875,
-        "volume": 0.0237,
+        "volume": 1.1333,
         "poc": false,
         "va": false
       },
       {
         "bas": 3875,
         "haut": 3880,
-        "volume": 0.0237,
+        "volume": 4.9971,
         "poc": false,
-        "va": false
+        "va": true
       },
       {
         "bas": 3880,
         "haut": 3885,
-        "volume": 0.0748,
+        "volume": 4.9882,
         "poc": false,
-        "va": false
+        "va": true
       },
       {
         "bas": 3885,
         "haut": 3890,
-        "volume": 0.1202,
+        "volume": 1.3453,
         "poc": false,
         "va": false
       },
       {
         "bas": 3890,
         "haut": 3895,
-        "volume": 0.4755,
+        "volume": 3.6063,
         "poc": false,
         "va": true
       },
       {
         "bas": 3895,
         "haut": 3900,
-        "volume": 1.1083,
+        "volume": 11.4013,
         "poc": true,
         "va": true
       },
       {
         "bas": 3900,
         "haut": 3905,
-        "volume": 0.4067,
+        "volume": 8.7158,
+        "poc": false,
+        "va": true
+      },
+      {
+        "bas": 3905,
+        "haut": 3910,
+        "volume": 7.7581,
+        "poc": false,
+        "va": true
+      },
+      {
+        "bas": 3910,
+        "haut": 3915,
+        "volume": 5.7958,
+        "poc": false,
+        "va": true
+      },
+      {
+        "bas": 3915,
+        "haut": 3920,
+        "volume": 2.9767,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3920,
+        "haut": 3925,
+        "volume": 0.7696,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3925,
+        "haut": 3930,
+        "volume": 0.7841,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3930,
+        "haut": 3935,
+        "volume": 0.6404,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3935,
+        "haut": 3940,
+        "volume": 0.4429,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3940,
+        "haut": 3945,
+        "volume": 1.2421,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3945,
+        "haut": 3950,
+        "volume": 0.7242,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3950,
+        "haut": 3955,
+        "volume": 0.6245,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3955,
+        "haut": 3960,
+        "volume": 0.9637,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3960,
+        "haut": 3965,
+        "volume": 1.9785,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3965,
+        "haut": 3970,
+        "volume": 2.0378,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3970,
+        "haut": 3975,
+        "volume": 1.2991,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3975,
+        "haut": 3980,
+        "volume": 2.2008,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 3980,
+        "haut": 3985,
+        "volume": 3.6841,
+        "poc": false,
+        "va": true
+      },
+      {
+        "bas": 3985,
+        "haut": 3990,
+        "volume": 4.7187,
+        "poc": false,
+        "va": true
+      },
+      {
+        "bas": 3990,
+        "haut": 3995,
+        "volume": 4.9666,
+        "poc": false,
+        "va": true
+      },
+      {
+        "bas": 3995,
+        "haut": 4000,
+        "volume": 4.0551,
+        "poc": false,
+        "va": true
+      },
+      {
+        "bas": 4000,
+        "haut": 4005,
+        "volume": 3.5645,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 4005,
+        "haut": 4010,
+        "volume": 3.5914,
+        "poc": false,
+        "va": true
+      },
+      {
+        "bas": 4010,
+        "haut": 4015,
+        "volume": 2.1743,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 4015,
+        "haut": 4020,
+        "volume": 0.8532,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 4020,
+        "haut": 4025,
+        "volume": 0.9848,
+        "poc": false,
+        "va": false
+      },
+      {
+        "bas": 4025,
+        "haut": 4030,
+        "volume": 0.0808,
         "poc": false,
         "va": false
       }
     ]
   },
-  "gameplan": "Autour du prix, la demande la plus proche est à 3 902,05 $ (-0,11 %, Haut Asie, Haut jour, Haut semaine) et l'offre la plus proche est à 3 925,00 $ (+0,47 %, Rond 3925). Zone de valeur 3 890,00 $ – 3 900,00 $, POC 3 895,00 $ – 3 900,00 $.\n\nSens privilégié ACHAT. Zone d'entrée : le premier paquet de demande, Haut Asie, Haut jour, Haut semaine vers 3 902,05 $. Confirmation : rejet du niveau, puis clôture horaire qui repasse au-dessus de la zone, avec un signal orderflow ACHETEUR (actuellement VENDEUR). Objectifs : 3 925,00 $, 3 950,00 $, 3 975,00 $. Rester à plat si la clôture horaire revient dans la zone de valeur. Invalidation : clôture horaire au-delà de 3 900,00 $.",
+  "gameplan": "Autour du prix, la demande la plus proche est à 3 903,49 $ (-0,08 %, VWAP jour) et l'offre la plus proche est à 3 919,04 $ (+0,32 %, Haut Asie, Haut jour, Haut semaine). Zone de valeur 3 875,00 $ – 4 010,00 $, POC 3 895,00 $ – 3 900,00 $.\n\nSens privilégié ACHAT. Zone d'entrée : le premier paquet de demande, VWAP jour vers 3 903,49 $. Confirmation : rejet du niveau, puis clôture horaire qui repasse au-dessus de la zone, avec un signal orderflow ACHETEUR (actuellement VENDEUR). Objectifs : 3 919,04 $, 3 925,00 $, 3 950,00 $. Rester à plat si la clôture horaire revient dans la zone de valeur. Invalidation : clôture horaire sous 3 900,00 $.",
   "risque": {
     "ouverture": 3869.06,
     "dernier": 3906.49,
@@ -1015,7 +1191,7 @@
     "evenements": [
       {
         "t": "2026-11-02T16:00+01:00",
-        "heure": "lun 2 nove 16:00",
+        "heure": "lun. 2 nov. 16:00",
         "titre": "ISM Manufacturing PMI",
         "pays": "USD",
         "impact": "moyen",
@@ -1023,7 +1199,7 @@
       },
       {
         "t": "2026-11-03T16:00+01:00",
-        "heure": "mar 3 nove 16:00",
+        "heure": "mar. 3 nov. 16:00",
         "titre": "JOLTS Job Openings",
         "pays": "USD",
         "impact": "moyen",
@@ -1031,7 +1207,7 @@
       },
       {
         "t": "2026-11-03T16:16+01:00",
-        "heure": "mar 3 nove 16:16",
+        "heure": "mar. 3 nov. 16:16",
         "titre": "Congressional Elections",
         "pays": "USD",
         "impact": "haut",
@@ -1039,7 +1215,7 @@
       },
       {
         "t": "2026-11-04T11:00+01:00",
-        "heure": "mer 4 nove 11:00",
+        "heure": "mer. 4 nov. 11:00",
         "titre": "Core CPI Flash Estimate y/y",
         "pays": "EUR",
         "impact": "moyen",
@@ -1047,7 +1223,7 @@
       },
       {
         "t": "2026-11-04T11:00+01:00",
-        "heure": "mer 4 nove 11:00",
+        "heure": "mer. 4 nov. 11:00",
         "titre": "CPI Flash Estimate y/y",
         "pays": "EUR",
         "impact": "moyen",
@@ -1055,7 +1231,7 @@
       },
       {
         "t": "2026-11-04T16:00+01:00",
-        "heure": "mer 4 nove 16:00",
+        "heure": "mer. 4 nov. 16:00",
         "titre": "ISM Services PMI",
         "pays": "USD",
         "impact": "moyen",
@@ -1063,7 +1239,7 @@
       },
       {
         "t": "2026-11-05T14:30+01:00",
-        "heure": "jeu 5 nove 14:30",
+        "heure": "jeu. 5 nov. 14:30",
         "titre": "Unemployment Claims",
         "pays": "USD",
         "impact": "moyen",
@@ -1071,7 +1247,7 @@
       },
       {
         "t": "2026-11-05T19:00+01:00",
-        "heure": "jeu 5 nove 19:00",
+        "heure": "jeu. 5 nov. 19:00",
         "titre": "ECB President Lagarde Speaks",
         "pays": "EUR",
         "impact": "moyen",
