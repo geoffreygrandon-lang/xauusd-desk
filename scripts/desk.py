@@ -808,22 +808,44 @@ def market_status(now_paris, last_candle):
     return {"ouvert": True, "libelle": "Marché ouvert"}
 
 
+def _is_included(driver):
+    if "included" in driver:
+        return bool(driver.get("included"))
+    return driver.get("score_jour") is not None or driver.get("score_mois") is not None
+
+
+def _combined_score(driver):
+    """Moyenne du jour et du mois. Un 0 mesuré compte. Un moteur sans donnée non."""
+    if not _is_included(driver):
+        return None
+    parts = [driver.get(key) for key in ("score_jour", "score_mois") if driver.get(key) is not None]
+    if not parts:
+        return None
+    return sum(parts) / len(parts)
+
+
+def macro_mean(drivers):
+    combined = [score for score in (_combined_score(driver) for driver in drivers) if score is not None]
+    if not combined:
+        return 0.0
+    return sum(combined) / len(combined)
+
+
 def macro_bias(drivers):
-    known = [item for item in drivers if item.get("impact") in ("positif", "negatif", "neutre")]
-    positive = sum(1 for item in known if item["impact"] == "positif")
-    negative = sum(1 for item in known if item["impact"] == "negatif")
-    diff = positive - negative
-    if len(known) < 2:
+    """Direction = signe de la moyenne des moteurs qui ont une donnée."""
+    if not any(_is_included(driver) for driver in drivers):
         return "NEUTRE", "INSUFFISANTE"
-    if diff >= 2:
+    mean = macro_mean(drivers)
+    if mean > 1e-9:
         biais = "HAUSSIER"
-    elif diff <= -2:
+    elif mean < -1e-9:
         biais = "BAISSIER"
     else:
         biais = "NEUTRE"
-    if abs(diff) >= 3:
+    strength = abs(mean)
+    if strength >= 0.5:
         conviction = "HAUTE"
-    elif abs(diff) >= 2:
+    elif strength >= 0.2:
         conviction = "MODÉRÉE"
     else:
         conviction = "FAIBLE"
@@ -981,6 +1003,17 @@ def yahoo_daily(symbol):
         return None
 
 
+def _yield_delta(points, sessions):
+    """Écart en points de pourcentage (pas en % de variation)."""
+    if not points or len(points) < 2:
+        return None
+    if len(points) < sessions + 1:
+        old, new = points[0]["c"], points[-1]["c"]
+    else:
+        old, new = points[-(sessions + 1)]["c"], points[-1]["c"]
+    return new - old
+
+
 def change_over(closes, sessions=5):
     if not closes or len(closes) < 2:
         return None, 0
@@ -1080,14 +1113,24 @@ def refresh_macro_cache(cache):
         print(f"  VIX {cache['vix']['price']}")
     tnx = yahoo_daily("^TNX")
     if tnx and (tnx["price"] is not None or tnx["closes"]):
-        raw = tnx["price"] if tnx["price"] is not None else tnx["closes"][-1]["c"]
-        yield_pct = raw / 10.0 if raw > 20 else raw
+        points = []
+        for row in tnx.get("closes") or []:
+            if row.get("c") is None:
+                continue
+            points.append({"t": row["t"], "c": row["c"] / 10.0 if row["c"] > 20 else row["c"]})
+        raw = tnx["price"] if tnx["price"] is not None else (points[-1]["c"] if points else None)
+        yield_pct = None if raw is None else (raw / 10.0 if raw > 20 else raw)
         as_of = None
-        if tnx["closes"]:
-            as_of = datetime.fromtimestamp(tnx["closes"][-1]["t"], UTC).date().isoformat()
-        cache["tnx"] = {"price": yield_pct, "as_of": as_of}
+        if points:
+            as_of = datetime.fromtimestamp(points[-1]["t"], UTC).date().isoformat()
+        cache["tnx"] = {
+            "price": yield_pct,
+            "as_of": as_of,
+            "change_jour": _yield_delta(points, 1),
+            "change_mois": _yield_delta(points, 21),
+        }
         print(f"  TNX {yield_pct}")
-    for series_id, steps, key in (("DFII10", 5, "dfii10"), ("T10YIE", 20, "t10yie"), ("DFF", 1, "dff")):
+    for series_id, steps, key in (("DFII10", 5, "dfii10"), ("T10YIE", 20, "t10yie"), ("DFF", 1, "dff"), ("DGS2", 1, "dgs2")):
         rows = fred_series(series_id)
         if rows:
             cache[key] = _obs_change(rows, steps)
@@ -1138,13 +1181,22 @@ def _impact_from_scores(jour, mois, fallback):
     return "neutre"
 
 
-def _driver(driver_id, name, state, detail, impact, source, as_of, rule, value=None, variation=None, score_jour=None, score_mois=None):
+def _driver(driver_id, name, state, detail, impact, source, as_of, rule, value=None, variation=None, score_jour=None, score_mois=None, included=None):
+    if included is None:
+        included = score_jour is not None or score_mois is not None
+    if included:
+        impact_value = _impact_from_scores(score_jour, score_mois, impact)
+    else:
+        score_jour = None
+        score_mois = None
+        impact_value = "neutre" if impact == "neutre" else impact
     return {
         "id": driver_id,
         "nom": name,
         "etat": state,
         "detail": detail,
-        "impact": _impact_from_scores(score_jour, score_mois, impact),
+        "impact": impact_value,
+        "included": bool(included),
         "score_jour": score_jour,
         "score_mois": score_mois,
         "source": source,
@@ -1251,6 +1303,38 @@ def drivers_from_sources(cache, manual):
             value=real["value"], variation=change,
             score_jour=_signed_score(jour_change, 0.05, invert=True),
             score_mois=_signed_score(real.get("change_mois"), 0.10, invert=True),
+        ))
+
+    nominal_rule = "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne."
+    if nominal.get("price") is None or (nominal.get("change_jour") is None and nominal.get("change_mois") is None):
+        drivers.append(_driver(
+            "nominaux", "Taux US 10 ans", "indisponible",
+            "Variation du taux nominal indisponible" if nominal.get("price") is not None else "US 10 ans indisponible",
+            None, "Yahoo Finance ^TNX", nominal.get("as_of"), nominal_rule,
+            value=nominal.get("price"),
+        ))
+    else:
+        jour_change = nominal.get("change_jour")
+        month_change = nominal.get("change_mois")
+        shown = jour_change if jour_change is not None else month_change
+        if shown is None:
+            state = "Niveau seul"
+        elif shown > 0.05:
+            state = "En hausse"
+        elif shown < -0.05:
+            state = "En repli"
+        else:
+            state = "Stable"
+        move = ""
+        if shown is not None:
+            move = f" · {fr_num(shown * 100, 0, signed=True)} pb"
+        drivers.append(_driver(
+            "nominaux", "Taux US 10 ans", state,
+            f"{fr_num(nominal['price'], 2)} %{move}",
+            None, "Yahoo Finance ^TNX", nominal.get("as_of"), nominal_rule,
+            value=nominal["price"], variation=shown,
+            score_jour=_signed_score(jour_change, 0.05, invert=True),
+            score_mois=_signed_score(month_change, 0.10, invert=True),
         ))
 
     fed_rate = (cache.get("dff") or {}).get("value")
@@ -1613,14 +1697,8 @@ def alignment_five(tiles):
 
 
 def macro_strength(drivers):
-    scores = []
-    for driver in drivers:
-        for key in ("score_jour", "score_mois"):
-            if driver.get(key) is not None:
-                scores.append(driver[key])
-    if not scores:
-        return 0
-    return min(100, round(abs(sum(scores)) / len(scores) * 100))
+    """|moyenne des scores combinés| × 100. Les moteurs sans donnée sont exclus."""
+    return min(100, round(abs(macro_mean(drivers)) * 100))
 
 
 def build_alignment(macro, tech, orderflow, profile, levels, price):
@@ -1864,6 +1942,13 @@ def _clamp_score(value):
     return 0
 
 
+def _mean_score(parts):
+    parts = [part for part in parts if part is not None]
+    if not parts:
+        return None
+    return round(sum(parts) / len(parts), 2)
+
+
 def _impact_word_from_score(score):
     if score is None:
         return None
@@ -1872,6 +1957,176 @@ def _impact_word_from_score(score):
     if score < 0:
         return "negatif"
     return "neutre"
+
+
+_FF_MONTHS = {
+    "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+    "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
+}
+
+
+def _ff_week_token(day):
+    monday = day - timedelta(days=day.weekday())
+    month = ("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")[monday.month - 1]
+    return f"{month}{monday.day}.{monday.year}"
+
+
+def _clean_cell(value):
+    text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", value or "")
+    text = re.sub(r"\[[^\]]*\]\([^)]*\)", "", text)
+    return text.strip()
+
+
+def parse_ff_calendar_text(text):
+    """Lit le calendrier Forex Factory (markdown ou tableau) et garde l'actual publié."""
+    if not text:
+        return []
+    years = [int(year) for year in re.findall(r"\b(20\d{2})\b", text[:2500])]
+    year = years[0] if years else datetime.now(PARIS).year
+    current = None
+    events = []
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if cells[0] and set(cells[0]) <= set("-: "):
+            continue
+        head = cells[0]
+        day_match = re.match(r"(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+([A-Za-z]{3})\s+(\d{1,2})", head)
+        if day_match and day_match.group(1).lower()[:3] in _FF_MONTHS:
+            month = _FF_MONTHS[day_match.group(1).lower()[:3]]
+            if current is not None and month < current[1]:
+                year += 1
+            current = (year, month, int(day_match.group(2)))
+            cells = cells[1:]
+        elif len(cells) < 3 and re.search(r"\b([A-Za-z]{3})\s+(\d{1,2})\b", head):
+            loose = re.search(r"\b([A-Za-z]{3})\s+(\d{1,2})\b", head)
+            month = _FF_MONTHS.get(loose.group(1).lower()[:3])
+            if month:
+                if current is not None and month < current[1]:
+                    year += 1
+                current = (year, month, int(loose.group(2)))
+            continue
+        if current is None or len(cells) < 8:
+            continue
+        currency = cells[1].strip()
+        if not re.fullmatch(r"[A-Z]{3}", currency):
+            continue
+        title = _clean_cell(cells[3])
+        if not title:
+            continue
+        impact_blob = cells[2]
+        if "ff-impact-red" in impact_blob or "High" == impact_blob:
+            impact = "High"
+        elif "ff-impact-ora" in impact_blob or impact_blob == "Medium":
+            impact = "Medium"
+        else:
+            impact = "Low"
+        clock = cells[0].strip().lower()
+        hour, minute = 23, 0
+        clock_match = re.match(r"(\d{1,2}):(\d{2})\s*(am|pm)", clock)
+        if clock_match:
+            hour = int(clock_match.group(1)) % 12
+            if clock_match.group(3) == "pm":
+                hour += 12
+            minute = int(clock_match.group(2))
+        try:
+            moment = datetime(current[0], current[1], current[2], hour, minute, tzinfo=ZoneInfo("America/New_York"))
+        except ValueError:
+            continue
+        actual = _clean_cell(cells[6]) if len(cells) > 6 else ""
+        forecast = _clean_cell(cells[7]) if len(cells) > 7 else ""
+        previous = _clean_cell(cells[8]) if len(cells) > 8 else ""
+        events.append({
+            "title": title,
+            "country": currency,
+            "date": moment.isoformat(),
+            "impact": impact,
+            "forecast": forecast,
+            "previous": previous,
+            "actual": actual,
+        })
+    return events
+
+
+def merge_ff_actuals(base_events, extra_events):
+    """Complète le JSON (souvent sans actual) avec les chiffres déjà publiés."""
+    extras = {}
+    for event in extra_events or []:
+        moment = _event_moment(event)
+        if moment is None or _parse_rate(event.get("actual")) is None:
+            continue
+        key = ((event.get("country") or "").upper(), (event.get("title") or "").lower(), moment.date().isoformat())
+        extras[key] = event
+    merged = []
+    seen = set()
+    for event in base_events or []:
+        copy = dict(event)
+        moment = _event_moment(copy)
+        if moment is not None:
+            key = ((copy.get("country") or "").upper(), (copy.get("title") or "").lower(), moment.date().isoformat())
+            seen.add(key)
+            extra = extras.get(key)
+            if extra is not None and _parse_rate(copy.get("actual")) is None:
+                copy["actual"] = extra.get("actual")
+                if not str(copy.get("forecast") or "").strip():
+                    copy["forecast"] = extra.get("forecast") or ""
+                if not str(copy.get("previous") or "").strip():
+                    copy["previous"] = extra.get("previous") or ""
+        merged.append(copy)
+    for event in extra_events or []:
+        moment = _event_moment(event)
+        if moment is None or _parse_rate(event.get("actual")) is None:
+            continue
+        if (event.get("impact") or "").lower() not in ("high", "medium"):
+            continue
+        key = ((event.get("country") or "").upper(), (event.get("title") or "").lower(), moment.date().isoformat())
+        if key in seen:
+            continue
+        merged.append(dict(event))
+        seen.add(key)
+    return merged
+
+
+def _fetch_text(url):
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "text/plain,text/html,*/*"})
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            if response.status != 200:
+                return None
+            return response.read().decode("utf-8", "replace")
+    except Exception as exc:
+        print(f"  calendrier page {type(exc).__name__}")
+        return None
+
+
+def fetch_ff_week_page(token):
+    page = f"https://www.forexfactory.com/calendar?week={token}"
+    direct = _fetch_text(page)
+    if direct and "ff-impact" in direct and "| " in direct:
+        return direct
+    return _fetch_text("https://r.jina.ai/" + page)
+
+
+def enrich_ff_actuals(events, now_paris):
+    """Semaine en cours et semaine précédente : les décisions déjà publiées."""
+    today = now_paris.astimezone(PARIS).date()
+    found = []
+    for shift in (0, 7):
+        token = _ff_week_token(today - timedelta(days=shift))
+        text = fetch_ff_week_page(token)
+        if not text:
+            print(f"  semaine {token} : page indisponible")
+            continue
+        parsed = parse_ff_calendar_text(text)
+        printed = sum(1 for event in parsed if _parse_rate(event.get("actual")) is not None)
+        print(f"  semaine {token} : {printed} actual publié(s)")
+        found.extend(parsed)
+        time.sleep(1)
+    if not found:
+        return events
+    return merge_ff_actuals(events, found)
 
 
 def load_ff_week(path):
@@ -1903,6 +2158,7 @@ def load_ff_week(path):
         if cached_events is not None:
             return cached_events, True
         return [], False
+    payload = enrich_ff_actuals(payload, datetime.now(PARIS))
     _write_json(path, {
         "fetched_at": datetime.now(PARIS).isoformat(timespec="seconds"),
         "url": FF_CALENDAR_URL,
@@ -1952,7 +2208,8 @@ NEWS_FEEDS = (
     ("Forex", "https://fr.investing.com/rss/news_1.rss"),
     ("Matières premières", "https://fr.investing.com/rss/news_11.rss"),
 )
-NEWS_WINDOW = timedelta(hours=12)
+NEWS_WINDOW = timedelta(hours=48)
+NEWS_WINDOW_POLICY = timedelta(hours=12)
 
 
 def _parse_rss_time(text):
@@ -2081,23 +2338,38 @@ def load_news(path, now_paris, fetch=True):
     return window[:12]
 
 
+def _headline_moment(item):
+    try:
+        moment = datetime.fromisoformat(item.get("t") or "")
+    except (TypeError, ValueError):
+        return None
+    if moment.tzinfo is None:
+        moment = moment.replace(tzinfo=PARIS)
+    return moment.astimezone(PARIS)
+
+
 def _blend_news_score(base, news_score):
-    base = 0 if base is None else base
     if not news_score:
         return base
-    if base == 0:
+    if base is None or base == 0:
         return news_score
-    if base == news_score:
+    if (base > 0 and news_score > 0) or (base < 0 and news_score < 0):
         return base
     return 0
 
 
-def apply_news_drivers(drivers, headlines):
+def apply_news_drivers(drivers, headlines, now_paris=None):
+    now_paris = (now_paris or datetime.now(PARIS)).astimezone(PARIS)
     grouped = {"fed": [], "banques": [], "geo": []}
+    windows = {"fed": NEWS_WINDOW_POLICY, "banques": NEWS_WINDOW_POLICY, "geo": NEWS_WINDOW}
     for item in headlines or []:
         bucket = item.get("ton_bucket")
-        if bucket in grouped and item.get("ton"):
-            grouped[bucket].append(item)
+        if bucket not in grouped or not item.get("ton"):
+            continue
+        moment = _headline_moment(item)
+        if moment is not None and not (now_paris - windows[bucket] <= moment <= now_paris + timedelta(minutes=5)):
+            continue
+        grouped[bucket].append(item)
     by_id = {driver["id"]: driver for driver in drivers}
     for driver_id, bucket in (("fed", "fed"), ("banques", "banques"), ("geo", "geo")):
         driver = by_id.get(driver_id)
@@ -2105,9 +2377,11 @@ def apply_news_drivers(drivers, headlines):
         if driver is None or not hits:
             continue
         news_score = _clamp_score(sum(item["ton"] for item in hits))
-        jour = _blend_news_score(driver.get("score_jour"), news_score)
+        base = None if driver.get("included") is False else driver.get("score_jour")
+        jour = _blend_news_score(base, news_score)
         driver["score_jour"] = jour
-        driver["impact"] = _impact_from_scores(jour, driver.get("score_mois"), "neutre")
+        driver["included"] = jour is not None or driver.get("score_mois") is not None
+        driver["impact"] = _impact_from_scores(jour, driver.get("score_mois"), "neutre") if driver["included"] else "neutre"
         titles = " · ".join(item["titre"] for item in hits[:2])
         driver["etat"] = f"{driver.get('etat') or ''} · dépêche : {titles}".strip(" ·")
         driver["news"] = [item["titre"] for item in hits[:3]]
@@ -2151,8 +2425,8 @@ def _describe_unscored(event, waiting):
     elif forecast is not None:
         extra = f", prévu {fr_num(forecast, 2)} %"
     if waiting:
-        return f"en attente : {event['title']} {when}{extra}"
-    return f"{event['title']} tenu le {when}, résultat non publié{extra}"
+        return f"En attente : {event['title']} {when}{extra}"
+    return f"En attente : {event['title']} {when}{extra}"
 
 
 def _surprise_line(event, kind, gold_score):
@@ -2174,8 +2448,9 @@ def _surprise_line(event, kind, gold_score):
 
 
 def score_fed_driver(events, now_paris, cache):
-    """USD banque centrale. Sans « actual », score 0 et Neutre, jamais Indisponible."""
+    """Actual Forex Factory s'il existe, sinon Fed funds et US 2 ans. Sans rien : exclu."""
     now_paris = now_paris.astimezone(PARIS)
+    cache = cache or {}
     fed_events = [event for event in events if _is_fed_event(event)]
     rate_events = [event for event in fed_events if _is_rate_decision(event, FED_RATE_TITLES)]
     scored = []
@@ -2185,43 +2460,55 @@ def score_fed_driver(events, now_paris, cache):
             continue
         gold = {"hawkish": -1, "dovish": 1, "inline": 0}[kind]
         scored.append((event, kind, gold))
-    dff = (cache or {}).get("dff") or {}
-    month_change = dff["change_mois"] if "change_mois" in dff else dff.get("change")
-    month_score = _signed_score(month_change, 0.01, invert=True)
+    dff = cache.get("dff") or {}
+    dgs2 = cache.get("dgs2") or {}
+    dff_day = dff["change_jour"] if "change_jour" in dff else None
+    dff_month = dff["change_mois"] if "change_mois" in dff else dff.get("change")
+    dff_jour = _signed_score(dff_day, 0.01, invert=True)
+    dff_mois = _signed_score(dff_month, 0.01, invert=True)
+    y_jour = _signed_score(dgs2["change_jour"] if "change_jour" in dgs2 else None, 0.05, invert=True)
+    y_mois = _signed_score(dgs2["change_mois"] if "change_mois" in dgs2 else None, 0.10, invert=True)
+    jour_parts = []
+    if scored:
+        jour_parts.append(scored[-1][2])
+    elif dff_jour is not None:
+        jour_parts.append(dff_jour)
+    if y_jour is not None:
+        jour_parts.append(y_jour)
+    mois_parts = [part for part in (dff_mois, y_mois) if part is not None]
+    jour = _mean_score(jour_parts)
+    mois = _mean_score(mois_parts)
+    included = jour is not None or mois is not None
     rate_bit = f"Fed funds {fr_num(dff['value'], 2)} %" if dff.get("value") is not None else ""
+    if dgs2.get("value") is not None:
+        rate_bit = (rate_bit + " · " if rate_bit else "") + f"US 2 ans {fr_num(dgs2['value'], 2)} %"
+    upcoming = [event for event in (rate_events or fed_events) if event["t"] >= now_paris]
+    past = [event for event in (rate_events or fed_events) if event["t"] < now_paris]
     if scored:
         event, kind, gold = scored[-1]
-        jour = gold
         etat = _surprise_line(event, kind, gold)
-    else:
-        jour = 0
-        upcoming = [event for event in (rate_events or fed_events) if event["t"] >= now_paris]
-        past = [event for event in (rate_events or fed_events) if event["t"] < now_paris]
+    elif not included:
         if upcoming:
             etat = _describe_unscored(upcoming[0], waiting=True)
         elif past:
-            etat = _describe_unscored(past[-1], waiting=False)
+            etat = _describe_unscored(past[-1], waiting=True)
         else:
-            etat = "aucun événement Fed dans le calendrier de la semaine"
-        if month_score is None:
-            month_score = 0
-    detail_parts = [rate_bit, "Forex Factory, calendrier de la semaine"]
-    if not scored and fed_events:
-        names = []
-        for event in fed_events:
-            if event["title"] not in names:
-                names.append(event["title"])
-        if len(names) > 1:
-            detail_parts.append("aussi : " + ", ".join(names[:4]))
+            etat = "En attente : décision Fed"
+    else:
+        etat = rate_bit or "Fed funds et anticipations 2 ans"
+        if not scored and past:
+            etat = f"{etat} · {_describe_unscored(past[-1], waiting=True)}"
+    detail_parts = [part for part in (rate_bit, "Forex Factory + FRED DFF/DGS2") if part]
     return _driver(
-        "fed", "Fed", etat, " · ".join(part for part in detail_parts if part),
-        _impact_word_from_score(_clamp_score((jour or 0) + (month_score or 0))),
-        "Forex Factory + FRED DFF",
-        None,
-        "Décision de taux : actual > prévu = hausse, −1 pour l'or ; actual < prévu = baisse, +1. Discours sans chiffre = 0. Le mois reprend le Fed funds FRED (hausse = −1). Sans actual publié : 0, impact neutre.",
+        "fed", "Fed", etat, " · ".join(detail_parts),
+        "neutre" if not included else None,
+        "Forex Factory + FRED DFF + DGS2",
+        dgs2.get("date") or dff.get("date"),
+        "Jour : actual FOMC s'il est publié (hausse = −1, baisse = +1), sinon variation du Fed funds au-delà de 1 pb, et le US 2 ans au-delà de 5 pb. Mois : Fed funds ±1 pb et US 2 ans ±10 pb. Hausse des taux = −1. Sans actual et sans série : exclu, impact neutre.",
         value=dff.get("value"),
         score_jour=jour,
-        score_mois=month_score if month_score is not None else 0,
+        score_mois=mois,
+        included=included,
     )
 
 
@@ -2241,12 +2528,13 @@ def score_foreign_cb_driver(events, now_paris):
         gold = {"hawkish": 1, "dovish": -1, "inline": 0}[kind]
         surprises.append((event, kind, gold))
     if surprises:
-        total = _clamp_score(sum(item[2] for item in surprises))
-        bits = [_surprise_line(event, kind, gold) for event, kind, gold in surprises[:3]]
+        jour = _mean_score([item[2] for item in surprises])
+        bits = [_surprise_line(event, kind, gold) for event, kind, gold in surprises[:4]]
         etat = " ; ".join(bits)
-        jour = total
+        included = True
     else:
-        jour = 0
+        jour = None
+        included = False
         pool = rate_events or foreign
         upcoming = [event for event in pool if event["t"] >= now_paris]
         past = [event for event in pool if event["t"] < now_paris]
@@ -2258,68 +2546,47 @@ def score_foreign_cb_driver(events, now_paris):
                 name = event["title"]
                 if name not in banks:
                     banks.append(name)
-            etat = "tenues, résultat non publié : " + ", ".join(banks[:4])
-            etat += " · " + _paris_short(past[-1]["t"])
+            etat = "En attente : " + ", ".join(banks[:4])
         else:
-            etat = "aucune décision BCE, BoE, BoJ, SNB, BoC, RBA, RBNZ ou PBoC cette semaine"
+            etat = "En attente : décision BCE, BoE, BoJ ou autre banque"
     return _driver(
         "banques", "Banques centrales", etat, "Forex Factory · surprise dovish à l'étranger = −1 (dollar plus ferme), hawkish = +1",
-        _impact_word_from_score(jour),
+        "neutre" if not included else None,
         "Forex Factory",
         None,
-        "Banques hors Fed : actual plus haut que prévu = hawkish, dollar plus faible, +1 pour l'or. Actual plus bas = dovish, −1. Sans chiffre publié : 0, impact neutre.",
+        "Banques hors Fed : actual plus haut que prévu = hawkish, dollar plus faible, +1 pour l'or. Actual plus bas = dovish, −1. Sans actual publié : exclu de la moyenne, impact neutre.",
         score_jour=jour,
         score_mois=None,
+        included=included,
     )
 
 
 def score_geopolitics_driver(events, vix_level, vix_change, gold_pct, dxy_pct, vix_month_change=None):
-    """Proxy honnête : le calendrier n'a pas de fil géopolitique."""
-    vix_score = _vix_score(vix_level, vix_change)
-    refuge = 0
-    if gold_pct is not None and dxy_pct is not None and gold_pct > 0.15 and dxy_pct > 0.15:
-        refuge = 1
-    month_score = _vix_score(vix_level, vix_month_change) if vix_month_change is not None else None
-    if vix_score is None and gold_pct is None and dxy_pct is None:
-        return None
-    if refuge == 1 and (vix_score is None or vix_score >= 0):
-        jour = 1
-    elif vix_score == 1 and refuge == 0:
-        jour = 1
-    elif vix_score == -1 and refuge == 0:
-        jour = -1
-    else:
-        jour = 0
-    vix_txt = "VIX indisponible" if vix_level is None else f"VIX {fr_num(vix_level, 1)}"
-    if vix_change is not None:
-        vix_txt += f" ({fr_pct(vix_change)} jour)"
-    if refuge == 1:
-        move = "or et dollar montent ensemble : prime de refuge"
-    elif gold_pct is None or dxy_pct is None:
-        move = "écart or / dollar indisponible"
-    else:
-        move = f"or {fr_pct(gold_pct)}, DXY {fr_pct(dxy_pct)} : pas d'achat refuge"
+    """Dépêches 48 h seulement. Le VIX a son propre moteur. Le prix de l'or n'en est pas un."""
+    del vix_level, vix_change, gold_pct, dxy_pct, vix_month_change
     political = []
     for event in events:
         title = (event.get("title") or "").lower()
         if event.get("impact") not in ("high", "medium"):
             continue
         if any(hint in title for hint in NON_ECONOMIC_HINTS):
-            political.append(f"{event['title']} {_paris_short(event['t'])}")
-    etat = f"proxy (VIX/refuge) : {vix_txt}. {move}."
-    detail = "Forex Factory n'a pas de fil géopolitique."
+            political.append(event)
     if political:
-        detail += " Événements politiques du calendrier : " + " ; ".join(political[:3])
+        etat = "En attente : " + political[0]["title"]
+    else:
+        etat = "En attente : dépêches géopolitiques"
+    detail = "Le prix de l'or n'est pas un moteur macro. Le VIX est noté à part. Une dépêche de tension sur 48 h peut inclure ce moteur."
+    if political:
+        detail += " Calendrier : " + " ; ".join(
+            f"{event['title']} {_paris_short(event['t'])}" for event in political[:3]
+        )
     return _driver(
         "geo", "Géopolitique", etat, detail,
-        _impact_word_from_score(jour),
-        "proxy VIX + or/DXY",
+        "neutre",
+        "Investing.com, dépêches 48 h",
         None,
-        "Proxy, pas un fil d'actualité. +1 si le VIX est en aversion (niveau ≥ 20 et en hausse, ou ≤ 16 et en baisse = −1) ou si l'or monte en même temps que le DXY. Sinon 0.",
-        value=vix_level,
-        variation=vix_change,
-        score_jour=jour,
-        score_mois=month_score,
+        "Inclus seulement s'il y a une dépêche de tension, sanction, guerre, élection ou tarif sur 48 h (+1). Sinon exclu, impact neutre. Le cours de l'or ne compte pas.",
+        included=False,
     )
 
 
@@ -2536,6 +2803,7 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
     macro = {
         "biais": biais,
         "conviction": conviction,
+        "force": macro_strength(drivers),
         "derniere_mise_a_jour_manuelle": (manual or {}).get("derniere_mise_a_jour") if isinstance(manual, dict) else None,
         "drivers": drivers,
     }
@@ -2554,11 +2822,12 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
         )
         macro["calendrier"] = "Forex Factory"
     if headlines:
-        drivers = apply_news_drivers(drivers, headlines)
+        drivers = apply_news_drivers(drivers, headlines, now_paris)
     if calendar_ok or headlines:
         biais, conviction = macro_bias(drivers)
         macro["biais"] = biais
         macro["conviction"] = conviction
+        macro["force"] = macro_strength(drivers)
         macro["drivers"] = drivers
     board = build_alignment(macro, tech, orderflow, profile, desk_levels, last_price)
     conf = {
@@ -2567,7 +2836,7 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
         "conviction": board["conviction"],
         "direction": board["direction"],
         "parts": [
-            {"label": "Force macro (tous les moteurs, jour et mois)", "points": board["force_macro"], "actif": True},
+            {"label": "Force macro (moteurs avec donnée, jour et mois)", "points": board["force_macro"], "actif": True},
             {"label": "Moyenne technique (biais, momentum, tendance, heatmap)", "points": board["moyenne_technique"], "actif": True},
             {"label": "Confiance = 0,5 × macro + 0,5 × moyenne technique", "points": board["confiance"], "actif": True},
         ],
@@ -2577,7 +2846,7 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
     brief = build_brief(price, orderflow, preferred, tech, macro, levels)
     if headlines:
         titles = " ; ".join(f"« {item['titre']} »" for item in headlines[:2])
-        brief = f"{brief} Dépêches Investing (12 h) : {titles}."
+        brief = f"{brief} Dépêches Investing (48 h) : {titles}."
     alerts = build_alerts(orderflow, tech, macro, preferred, market, manual_note)
     gameplan = build_gameplan(last_price, preferred, desk_levels, profile, orderflow, tech.get("rsi14"))
     if events is None and minutes is not None:
@@ -2632,7 +2901,7 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
         "sources": {
             "prix": "Dukascopy XAUUSD spot, volume tick côté bid",
             "orderflow": "Estimation (close-low)/(high-low) × volume, 40 bougies horaires clôturées",
-            "macro": "Yahoo Finance (DXY, VIX, US10Y nominal) et FRED (DFII10, T10YIE, DFF). Fed, banques centrales et géopolitique : data/macro.json",
+            "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro.",
         },
     }
     return payload, sessions
@@ -3161,7 +3430,7 @@ def run(data_dir, mode, max_hours, force_summary, pages_url, topic, dry_run=Fals
     events = upcoming_from_calendar(ff_raw, now) if calendar_ok else []
     print("News Investing…" if mode == "full" else "News Investing : cache")
     headlines = load_news(os.path.join(data_dir, "news_cache.json"), now, fetch=(mode == "full"))
-    print(f"  {len(headlines)} dépêche(s) sur 12 h")
+    print(f"  {len(headlines)} dépêche(s) sur 48 h")
     payload, sessions = analyze(
         candles, manual, cache, now, minute_bars, events, ff_raw, calendar_ok, headlines,
     )
@@ -3206,6 +3475,12 @@ def run(data_dir, mode, max_hours, force_summary, pages_url, topic, dry_run=Fals
         "prevues": [item["title"] for item in notes],
         "note": note,
     }
+    tests_outcome = os.environ.get("TESTS_OK", "").strip().lower()
+    if tests_outcome and tests_outcome != "success":
+        payload["tests_ok"] = False
+        payload["avertissement"] = "Les tests des règles ont échoué : les chiffres sont quand même publiés."
+    else:
+        payload["tests_ok"] = True
     if payload["price"]["last"] is None and not candles:
         print("Aucune donnée de prix. latest.json n'est pas écrasé.")
         return 1

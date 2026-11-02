@@ -109,14 +109,16 @@ def test_summary_title_and_slot():
     assert desk.signal_title("NEUTRE") == "XAU/USD — signal NEUTRE"
     winter = datetime(2026, 10, 30, 16, 50, tzinfo=PARIS)
     slot = desk.matching_full_slot(winter)
-    assert slot is not None and slot.hour == 16 and slot.minute == 55
+    assert slot is not None and slot.hour == 16 and slot.minute == 40
     assert desk.matching_full_slot(datetime(2026, 10, 30, 17, 20, tzinfo=PARIS)) is None
-    assert desk.matching_full_slot(datetime(2026, 10, 30, 21, 0, tzinfo=PARIS)).hour == 21
+    evening = desk.matching_full_slot(datetime(2026, 10, 30, 21, 0, tzinfo=PARIS))
+    assert evening.hour == 20 and evening.minute == 45
     assert desk.matching_full_slot(datetime(2026, 10, 30, 8, 55, tzinfo=PARIS)) is None
-    # été : 06:55 Paris reste un créneau, quelle que soit l'heure UTC
+    # été : 06:40 Paris reste un créneau, quelle que soit l'heure UTC
     summer = datetime(2026, 7, 15, 6, 55, tzinfo=PARIS)
     assert summer.utcoffset() == timedelta(hours=2)
     assert desk.matching_full_slot(summer).hour == 6
+    assert desk.matching_full_slot(summer).minute == 40
 
 
 def test_ntfy_click_header():
@@ -238,7 +240,7 @@ def test_notification_plan_dedup_and_first_run():
     notes, proposed = desk.plan_notifications(payload, sessions, {"signal": "VENDEUR"}, now, "full", True)
     assert [note["id"] for note in notes] == ["summary"]
     state = desk.apply_notification_state({"signal": "VENDEUR"}, proposed, notes, [(notes[0], True)])
-    assert state["last_summary_slot"] == "2026-10-30 16:55"
+    assert state["last_summary_slot"] == "2026-10-30 16:40"
     again, _proposed = desk.plan_notifications(payload, sessions, state, now, "full", True)
     assert again == []
     # Le contrôle horaire, même à 16:55, n'envoie pas le résumé.
@@ -431,16 +433,18 @@ def test_fed_and_foreign_central_banks_from_calendar():
         _ff("Federal Funds Rate", "USD", waiting_time, "4.00%", "4.00%"),
     ])
     ahead = desk.score_fed_driver(pending, now, {})
-    assert ahead["score_jour"] == 0 and ahead["impact"] == "neutre"
-    assert ahead["etat"].startswith("en attente :")
+    assert ahead["included"] is False
+    assert ahead["score_jour"] is None and ahead["impact"] == "neutre"
+    assert ahead["etat"].startswith("En attente :")
     unpublished = desk._dated_events([
         _ff("Federal Funds Rate", "USD", past, "4.00%", "4.00%"),
         _ff("Overnight Rate", "CAD", past, "2.50%", "2.25%"),
         _ff("Main Refinancing Rate", "EUR", past, "2.65%", "2.65%"),
     ])
     banks = desk.score_foreign_cb_driver(unpublished, now)
-    assert banks["score_jour"] == 0 and banks["impact"] == "neutre"
-    assert "non publié" in banks["etat"]
+    assert banks["included"] is False
+    assert banks["score_jour"] is None and banks["impact"] == "neutre"
+    assert banks["etat"].startswith("En attente :")
     assert "Indisponible" not in banks["etat"]
     hawk = desk._dated_events([
         _ff("Official Cash Rate", "NZD", past, "2.75%", "2.75%", "3.00%"),
@@ -456,15 +460,15 @@ def test_fed_and_foreign_central_banks_from_calendar():
 def test_geopolitics_proxy_and_calendar_cache():
     now = datetime(2026, 10, 31, 12, 0, tzinfo=PARIS)
     refuge = desk.score_geopolitics_driver([], 18, 0.2, 0.4, 0.3)
-    assert refuge["score_jour"] == 1
-    assert refuge["etat"].startswith("proxy (VIX/refuge)")
+    assert refuge["included"] is False and refuge["score_jour"] is None
     quiet = desk.score_geopolitics_driver([], 19.4, 0.0, -3.65, 0.1)
-    assert quiet["score_jour"] == 0 and quiet["impact"] == "neutre"
+    assert quiet["included"] is False and quiet["impact"] == "neutre"
     vote = desk._dated_events([
         _ff("US Midterm Elections", "USD", datetime(2026, 11, 3, 12, 0, tzinfo=PARIS), impact="High"),
     ])
     noted = desk.score_geopolitics_driver(vote, 19.4, 0.0, -3.65, 0.1)
-    assert "Midterm" in noted["detail"]
+    assert "Midterm" in noted["etat"]
+    assert noted["included"] is False
     drivers = desk.apply_calendar_drivers(
         [{"id": "fed", "impact": None, "etat": "non renseigné"}, {"id": "dxy", "impact": "neutre", "score_jour": 0}],
         [_ff("Federal Funds Rate", "USD", datetime(2026, 10, 28, 19, 0, tzinfo=PARIS), "4.00%", "4.00%")],
@@ -514,6 +518,38 @@ def test_dxy_rule_thresholds():
     unknown = desk.drivers_from_sources({"dxy": {"price": 100, "as_of": "2026-10-30"}}, {})
     dxy = next(item for item in unknown if item["id"] == "dxy")
     assert dxy["impact"] is None
+    assert dxy["included"] is False
+
+
+def test_macro_strength_skips_drivers_without_data():
+    drivers = [
+        {"id": "dxy", "included": True, "score_jour": 0, "score_mois": -1},
+        {"id": "reels", "included": True, "score_jour": 1, "score_mois": 1},
+        {"id": "fed", "included": False, "score_jour": 0, "score_mois": 0, "impact": "neutre"},
+    ]
+    assert desk.macro_strength(drivers) == 25
+    assert desk.macro_bias(drivers)[0] == "HAUSSIER"
+    assert desk.macro_strength([{"included": False, "score_jour": 0, "score_mois": 0}]) == 0
+
+
+def test_ff_actuals_merge_from_week_page():
+    text = """
+Oct 26, 2026 - Nov 1, 2026
+| Date | time | Currency | Impact |  | Alerts | Detail | Actual | Forecast | Previous | Graph |
+| Wed Oct 28 | 1:00pm | USD | ![x](https://resources.faireconomy.media/images/sprites/ff-impact-red.png) | Federal Funds Rate | [](https://www.forexfactory.com/) | detail | 4.00% | 4.00% | 4.00% | graph |
+| Tue Oct 27 | 8:00pm | NZD | ![x](https://resources.faireconomy.media/images/sprites/ff-impact-red.png) | Official Cash Rate | [](https://www.forexfactory.com/) | detail | 2.75% | 3.00% | 2.75% | graph |
+|  | CAD | ![x](https://resources.faireconomy.media/images/sprites/ff-impact-red.png) | Overnight Rate | [](https://www.forexfactory.com/) | detail | 2.50% | 2.50% | 2.25% | graph |
+"""
+    parsed = desk.parse_ff_calendar_text(text)
+    by_title = {item["title"]: item for item in parsed}
+    assert by_title["Federal Funds Rate"]["actual"] == "4.00%"
+    assert by_title["Official Cash Rate"]["actual"] == "2.75%"
+    base = [_ff("Federal Funds Rate", "USD", datetime(2026, 10, 28, 18, 0, tzinfo=PARIS), "4.00%", "4.00%")]
+    merged = desk.merge_ff_actuals(base, parsed)
+    fed = next(item for item in merged if item["title"] == "Federal Funds Rate")
+    assert fed["actual"] == "4.00%"
+    banks = desk.score_foreign_cb_driver(desk._dated_events(parsed), datetime(2026, 10, 31, 12, 0, tzinfo=PARIS))
+    assert banks["included"] is True and banks["score_jour"] == -0.5
 
 
 if __name__ == "__main__":

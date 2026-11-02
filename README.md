@@ -87,7 +87,7 @@ Ces trois lignes ne peuvent pas être devinées. Tant que tu ne les remplis pas,
 
 `impact` vaut `positif`, `neutre` ou `negatif`. Mets la date du jour dans `derniere_mise_a_jour`.
 
-Le fichier sert seulement si tu veux forcer un commentaire. Fed, banques centrales et géopolitique sont remplis tout seuls à partir du calendrier Forex Factory (un appel par mise à jour, mis en cache). Sans chiffre « actual » publié, le score reste 0 et l'impact Neutre : rien n'est inventé. La géopolitique est un proxy VIX + or/dollar, indiqué comme tel.
+Le fichier sert seulement si tu veux forcer un commentaire. Fed, banques centrales et géopolitique sont remplis tout seuls. Un moteur sans donnée (événement sans actual, fenêtre de news vide) est exclu de la force macro : il s'affiche « En attente » avec un impact Neutre, et il ne compte pas comme un zéro. La force macro est la valeur absolue de la moyenne des scores combinés (jour et 1 mois) des moteurs qui ont une donnée. Le DXY, les taux US 10 ans nominal et réel, le point mort, le VIX, le Fed funds et le US 2 ans comptent dès que la série existe. La géopolitique ne lit que les dépêches Investing des 48 dernières heures. Le prix de l'or n'est pas un moteur macro.
 
 ## Lire l'écran
 

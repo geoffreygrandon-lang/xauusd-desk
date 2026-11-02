@@ -215,7 +215,7 @@
         <li><b>Sens privilégié.</b> Il suit la dernière séance terminée. Haussière → ACHAT, baissière → VENTE, neutre → ATTENDRE, pour la séance d'après.</li>
         <li><b>Orderflow.</b> Sur chaque bougie horaire Dukascopy, part acheteuse = (clôture − plus bas) / (plus haut − plus bas) × volume tick bid. Delta = achat − vente. Le signal utilise les 40 dernières bougies clôturées. Écart = |% achat − % vente|. NEUTRE si écart &lt; 10 (conviction BASSE), sinon ACHETEUR ou VENDEUR, MODÉRÉE de 10 à 19, ÉLEVÉE à partir de 20.</li>
         <li><b>Confiance.</b> 0,5 × force macro (tous les moteurs, jour et mois) + 0,5 × moyenne des tuiles biais, momentum, tendance et heatmap. Conviction : ≥ 70 élevée, 50–69 modérée, &lt; 50 faible. Jauge : FAIBLE sous 50, FORTE de 50 à 79, EXTRÊME à partir de 80.</li>
-        <li><b>Macro.</b> DXY : ±0,30 % sur 5 séances (baisse = positif pour l'or). VIX : ≥ 20 et en hausse = risk off = positif ; ≤ 16 et en baisse = risk on = négatif. Taux réels : ±5 pb. Inflation : hausse du point mort &gt; 5 pb = positif. Fed et les autres banques centrales viennent du calendrier Forex Factory : un taux plus haut que prévu est négatif pour l'or s'il est américain, positif s'il est étranger. Sans chiffre publié, le score est 0 et l'impact Neutre. La géopolitique est un proxy VIX + or/dollar, pas un fil d'actualité.</li>
+        <li><b>Macro.</b> La force est la valeur absolue de la moyenne des moteurs qui ont une donnée, × 100. Chaque moteur combine son score du jour et son score 1 mois. Un moteur sans chiffre (événement sans actual, dépêche absente) est exclu : « En attente », impact Neutre, pas dans la moyenne. DXY ±0,25 % (jour et mois, baisse = positif). Taux US 10 ans nominal et réel : hausse = négatif (±5 pb jour, ±10 pb mois). Point mort : hausse &gt; 5 pb jour ou 10 pb mois = positif. VIX ≥ 20 et en hausse = positif, ≤ 16 et en baisse = négatif. Fed : actual FOMC, sinon Fed funds et US 2 ans (hausse = négatif). Autres banques : actual publié, hawkish à l'étranger = positif. Géopolitique : dépêches 48 h seulement. Le prix de l'or n'est pas un moteur.</li>
         <li><b>Proxy flux (« heatmap »).</b> Prix et delta net dans le même sens : accumulation ou distribution. En sens opposé : divergence. Ce n'est pas un carnet d'ordres.</li>
       </ul>
     </section>
@@ -277,7 +277,9 @@
       const ready = !!flow.complet;
       const buy = ready ? flow.buy_pct : null;
       const sell = ready ? flow.sell_pct : null;
+      const warn = data.avertissement ? `<p class="note" style="color:#e8c47a">${esc(data.avertissement)}</p>` : "";
       $("app").innerHTML = `
+        ${warn}
         <section class="banner ${dirClass(direction)}">
           <div class="k">Signal</div>
           <h1>${esc(data.banner?.titre || "Indisponible")}</h1>
@@ -424,13 +426,16 @@
       return `<article class="cell"><span>${esc(label)}</span><b class="${wordClass(value)}">${esc(value || "Indisponible")}</b></article>`;
     }
     function scoreCell(value) {
-      if (value === null || value === undefined) return "<td class='num'>—</td>";
-      const klass = value > 0 ? "up" : value < 0 ? "down" : "";
-      const text = value > 0 ? "+1" : String(value);
+      if (value === null || value === undefined || value === "") return "<td class='num'>—</td>";
+      const n = Number(value);
+      const klass = n > 0 ? "up" : n < 0 ? "down" : "";
+      const body = Number.isInteger(n) ? String(Math.abs(n)) : Math.abs(n).toLocaleString("fr-FR", { maximumFractionDigits: 2 });
+      const text = n > 0 ? "+" + body : n < 0 ? "−" + body : "0";
       return `<td class="num ${klass}">${esc(text)}</td>`;
     }
     function matrixRow(driver) {
-      return `<tr><td>${esc(driver.nom)}</td><td>${esc(driver.etat || "")}<br><span style="color:#9a9aaf">${esc(driver.detail || "")}</span></td>${scoreCell(driver.score_jour)}${scoreCell(driver.score_mois)}<td class="pill ${esc(driver.impact || "none")}">${esc(impactWord(driver.impact))}</td></tr>`;
+      const wait = driver.included === false ? " · hors moyenne" : "";
+      return `<tr><td>${esc(driver.nom)}</td><td>${esc(driver.etat || "")}${esc(wait)}<br><span style="color:#9a9aaf">${esc(driver.detail || "")}</span></td>${scoreCell(driver.score_jour)}${scoreCell(driver.score_mois)}<td class="pill ${esc(driver.impact || "none")}">${esc(impactWord(driver.impact))}</td></tr>`;
     }
     function alignTile(tile) {
       const extra = tile.id === "heatmap" && tile.x_pct != null ? `${fr(tile.x_pct, 1)} %` : `${tile.force} %`;

@@ -1,6 +1,10 @@
 name: Mise à jour des données
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update.yml"
   workflow_dispatch:
     inputs:
       mode:
@@ -62,6 +66,8 @@ jobs:
           python-version: "3.12"
 
       - name: Tests des règles
+        id: rules
+        continue-on-error: true
         run: python scripts/test_desk.py
 
       - name: Choisir le mode
@@ -87,6 +93,7 @@ jobs:
           PYTHONUNBUFFERED: "1"
           NTFY_TOPIC: ${{ vars.NTFY_TOPIC || secrets.NTFY_TOPIC }}
           PAGES_URL: https://geoffreygrandon-lang.github.io/xauusd-desk/
+          TESTS_OK: ${{ steps.rules.outcome }}
         run: python scripts/desk.py --mode "${{ steps.mode.outputs.mode }}" ${{ steps.mode.outputs.extra }} --max-hours 6
 
       - name: Enregistrer les données
