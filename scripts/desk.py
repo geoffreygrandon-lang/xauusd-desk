@@ -33,9 +33,9 @@ SLOT_WINDOW_MIN = 20
 SESSION_GRACE = timedelta(minutes=15)
 
 SESSION_DEFS = (
-    ("asia", "Asie", "23:00 – 09:00"),
-    ("london", "Londres", "09:00 – 15:30"),
-    ("ny", "New York", "14:30 – 22:00"),
+    ("asia", "Asie", "23:00 – 06:55"),
+    ("london", "Londres", "07:55 – 16:55"),
+    ("ny", "New York", "13:55 – 21:00"),
 )
 DAY_CLOSE = (22, 0)
 NEXT_SESSION = {"asia": "london", "london": "ny", "ny": "asia"}
@@ -446,15 +446,16 @@ def week_start(day):
 
 
 def session_bounds(day, session_id):
+    """Bornes exactes, heure de Paris, quel que soit le décalage d'été."""
     if session_id == "asia":
         start = _paris_at(day - timedelta(days=1), 23, 0)
-        end = _paris_at(day, 9, 0)
+        end = _paris_at(day, 6, 55)
     elif session_id == "london":
-        start = _paris_at(day, 9, 0)
-        end = _paris_at(day, 15, 30)
+        start = _paris_at(day, 7, 55)
+        end = _paris_at(day, 16, 55)
     elif session_id == "ny":
-        start = _paris_at(day, 14, 30)
-        end = _paris_at(day, 22, 0)
+        start = _paris_at(day, 13, 55)
+        end = _paris_at(day, 21, 0)
     else:
         raise KeyError(session_id)
     return start, end
@@ -483,6 +484,16 @@ def ohlc_of(candles):
     }
 
 
+def bars_inside(bars, start, end):
+    chosen = []
+    for bar in bars or []:
+        moment = bar["t"].astimezone(PARIS)
+        if start <= moment < end:
+            chosen.append(bar)
+    chosen.sort(key=lambda item: item["t"])
+    return chosen
+
+
 def session_status(now_paris, start, end):
     if now_paris < start:
         return "a_venir"
@@ -491,7 +502,7 @@ def session_status(now_paris, start, end):
     return "terminee"
 
 
-def build_sessions(candles, now_paris):
+def build_sessions(candles, now_paris, minutes=None):
     now_paris = now_paris.astimezone(PARIS)
     day = trading_day_for(now_paris)
     days = []
@@ -504,7 +515,11 @@ def build_sessions(candles, now_paris):
     for current in days:
         for session_id, name, window in SESSION_DEFS:
             start, end = session_bounds(current, session_id)
-            bars = candles_overlapping(candles, start, end)
+            minute_bars = bars_inside(minutes, start, end)
+            if minute_bars:
+                bars = minute_bars
+            else:
+                bars = candles_overlapping(candles, start, end)
             ohlc = ohlc_of(bars)
             sessions.append({
                 "id": session_id,
@@ -1613,7 +1628,7 @@ def build_desk_levels(price, day_bars, week_bars, prev_bars, profile, trading_da
     week_high, week_low = _extreme(week_bars)
     prev_high, prev_low = _extreme(prev_bars)
     vwap_day = vwap_of(day_bars)
-    ny_start = _paris_at(trading_day, 14, 30)
+    ny_start, _ny_end = session_bounds(trading_day, "ny")
     ny_bars = [bar for bar in day_bars if bar["t"].astimezone(PARIS) >= ny_start]
     vwap_ny = vwap_of(ny_bars)
     candidates = []
@@ -2865,10 +2880,13 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
         partial = candles[-1]
     last = partial or (closed[-1] if closed else None)
     last_price = None if last is None else last["c"]
+    spot_price, spot_time, from_minute = freshest_price(last, minutes, now_utc)
+    if spot_price is not None:
+        last_price = spot_price
 
     orderflow = compute_orderflow(closed)
     tech = technicals(closed, last_price)
-    sessions = build_sessions(candles, now_paris)
+    sessions = build_sessions(candles, now_paris, minutes)
     day = trading_day_for(now_paris)
     today_public = [public_session(item) for item in sessions if item["jour"] == day.isoformat()]
     preferred = preferred_from_sessions(sessions, now_paris)
@@ -2891,7 +2909,8 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
         "drivers": drivers,
     }
     of_dir = {"ACHETEUR": "HAUSSIER", "VENDEUR": "BAISSIER", "NEUTRE": "NEUTRE"}.get(orderflow.get("signal"), "NEUTRE")
-    price = _price_block(closed, partial, last_price, sessions, day, now_paris)
+    price = _price_block(closed, partial, last_price, sessions, day, now_paris, spot_time if from_minute else None)
+    price["granularite"] = "minute" if from_minute else "horaire"
     levels = build_levels(candles, today_public, last_price)
     desk_levels, profile = desk_context(minutes or [], day, last_price)
     if desk_levels and desk_levels.get("ouverture") is not None and last_price is not None:
@@ -2990,10 +3009,23 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
     return payload, sessions
 
 
-def _price_block(closed, partial, last_price, sessions, day, now_paris):
+def freshest_price(hourly, minutes, now_utc):
+    """Le dernier cours disponible : minute si elle est au moins aussi récente que l'heure."""
+    minute = None
+    for bar in minutes or []:
+        if bar["t"] <= now_utc and (minute is None or bar["t"] > minute["t"]):
+            minute = bar
+    if minute is not None and (hourly is None or minute["t"] >= hourly["t"]):
+        return minute["c"], minute["t"], True
+    if hourly is None:
+        return None, None, False
+    return hourly["c"], hourly["t"], False
+
+
+def _price_block(closed, partial, last_price, sessions, day, now_paris, print_time=None):
     if last_price is None:
         return {"last": None, "time": None, "en_cours": False, "change_24h": None, "change_24h_pct": None, "change_jour": None, "change_jour_pct": None}
-    source = partial or closed[-1]
+    source = partial or (closed[-1] if closed else None)
     target = now_paris.astimezone(UTC) - timedelta(hours=24)
     prior = [candle for candle in closed if candle["t"] <= target]
     ref = prior[-1]["c"] if prior else None
@@ -3003,12 +3035,13 @@ def _price_block(closed, partial, last_price, sessions, day, now_paris):
     day_open = None if not asia or not asia.get("ohlc") else asia["ohlc"]["o"]
     day_change = None if day_open is None else last_price - day_open
     day_pct = None if not day_open else day_change / day_open * 100
-    local = source["t"].astimezone(PARIS)
+    stamp = print_time or (None if source is None else source["t"])
+    local = now_paris if stamp is None else stamp.astimezone(PARIS)
     return {
         "last": round(last_price, 3),
         "time": local.isoformat(timespec="minutes"),
         "time_label": f"{local.day:02d}/{local.month:02d} {local:%H:%M}",
-        "en_cours": partial is not None,
+        "en_cours": partial is not None and print_time is None,
         "change_24h": None if change is None else round(change, 3),
         "change_24h_pct": None if change_pct is None else round(change_pct, 3),
         "change_jour": None if day_change is None else round(day_change, 3),

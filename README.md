@@ -92,7 +92,7 @@ Le fichier sert seulement si tu veux forcer un commentaire. Fed, banques central
 ## Lire l'écran
 
 - **Sens privilégié** : tu trades dans le sens de la dernière séance terminée. Haussière → ACHAT, baissière → VENTE, neutre → ATTENDRE.
-- **Journée** : 23h00 la veille → 22h00. Asie 23h00–09h00, Londres 09h00–15h30, New York 14h30–22h00. La semaine part de l'ouverture du dimanche.
+- **Séances (heure de Paris)** : Asie 23h00–06h55, Londres 07h55–16h55, New York 13h55–21h00. Après 06h55 le sens privilégié vise Londres d'après l'Asie ; après 16h55 il vise New York d'après Londres ; après 21h00 il vise l'Asie d'après New York.
 - **Niveaux clés** : VWAP du jour et VWAP New York en tête, puis offre (au-dessus) et demande (en dessous). **Heatmap** : profil de volume minute, POC, zone de valeur, et X % au-dessus du prix.
 - **Brief IA** et **gameplan** sont des textes automatiques à partir de ces règles, pas un avis personnalisé.
 - **Zone neutre** : si l'orderflow est NEUTRE (écart achat/vente inférieur à 10 points), mieux vaut éviter de trader. Un RSI sous 30 ou au-dessus de 70 est aussi signalé.

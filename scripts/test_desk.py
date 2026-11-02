@@ -192,8 +192,8 @@ def test_preferred_direction_follows_last_completed_session():
     assert names["Asie"] == "terminee"
     assert names["Londres"] == "terminee"
     assert names["New York"] == "en_cours"
-    # 08:50 : l'Asie se termine à 09:00, la grâce de 15 min la compte comme finie.
-    morning = datetime(2026, 10, 30, 8, 50, tzinfo=PARIS)
+    # 06:45 : l'Asie finit à 06:55, la grâce de 15 min la compte comme imminente.
+    morning = datetime(2026, 10, 30, 6, 45, tzinfo=PARIS)
     last, nxt, imminent = desk.alert_session_pair(sessions, morning)
     assert last["nom"] == "Asie" and imminent is True
     assert nxt["nom"] == "Londres"
@@ -206,15 +206,70 @@ def test_preferred_direction_follows_last_completed_session():
     assert title == "XAU/USD — Londres baissière → VENTE NY"
     assert "Orderflow : VENDEUR" in body
     assert "New York" in body
-    # 21:00 : New York n'est pas fini (22:00), donc la séance terminée reste Londres.
+    # 21:00 : New York est terminée → Asie suivante.
     evening = datetime(2026, 10, 30, 21, 0, tzinfo=PARIS)
     title, _body, _tag = desk.summary_message(sessions, evening, payload["orderflow"], payload["price"])
-    assert "Londres" in title and title.endswith("NY")
-    # 06:55 : l'Asie n'est pas encore dans la grâce, la référence est New York de la veille.
+    assert title.startswith("XAU/USD — NY ")
+    assert title.endswith("Asie")
+    # 06:55 pile : l'Asie est terminée, le sens vise Londres.
     early = datetime(2026, 10, 30, 6, 55, tzinfo=PARIS)
-    last, nxt, _imminent = desk.alert_session_pair(sessions, early)
-    assert last["id"] == "ny"
-    assert nxt["id"] == "asia"
+    last, nxt, imminent = desk.alert_session_pair(sessions, early)
+    assert last["id"] == "asia" and imminent is False
+    assert nxt["id"] == "london"
+
+
+def test_london_preference_after_asia_close():
+    # Lundi 2 nov. 2026, 07:34 Paris : l'Asie (23:00 → 06:55) est finie, Londres ouvre à 07:55.
+    now = datetime(2026, 11, 2, 7, 34, tzinfo=PARIS)
+    candles = []
+    moment = datetime(2026, 10, 30, 21, 0, tzinfo=PARIS).astimezone(UTC)
+    while moment < datetime(2026, 11, 1, 22, 0, tzinfo=UTC):
+        if desk.market_hour_open(moment):
+            candles.append(_candle(moment, 3900, span=2))
+        moment += timedelta(hours=1)
+    # Asie : 23:00 dimanche → 06:55 lundi, hausse d'environ 44 $.
+    asia = datetime(2026, 11, 1, 22, 0, tzinfo=UTC)  # 23:00 Paris
+    price = 3900.0
+    while asia < datetime(2026, 11, 2, 6, 0, tzinfo=UTC):
+        nxt = price + 6.3
+        candles.append({
+            "t": asia, "o": price, "h": nxt + 0.4, "l": price - 0.2, "c": nxt, "v": 2, "closed": True,
+        })
+        price = nxt
+        asia += timedelta(hours=1)
+    payload, _sessions = desk.analyze(candles, {}, {}, now)
+    seances = {item["id"]: item for item in payload["sessions"]["seances"]}
+    assert seances["asia"]["statut"] == "terminee"
+    assert seances["asia"]["fin"].endswith("06:55:00+01:00")
+    assert seances["london"]["statut"] == "a_venir"
+    assert seances["london"]["debut"].endswith("07:55:00+01:00")
+    assert seances["ny"]["debut"].endswith("13:55:00+01:00")
+    assert seances["ny"]["fin"].endswith("21:00:00+01:00")
+    assert seances["asia"]["biais"] == "haussière"
+    assert seances["asia"]["score"] >= 2
+    assert payload["prefere"]["base_session"] == "Asie"
+    assert payload["prefere"]["base_biais"] == "haussière"
+    assert payload["prefere"]["session"] == "Londres"
+    assert payload["prefere"]["direction"] == "ACHAT"
+    assert payload["prefere"]["phrase"] == "SENS PRIVILÉGIÉ POUR LONDRES : ACHAT"
+    # Été : les mêmes heures de Paris, décalage UTC+2.
+    summer_end = desk.session_bounds(datetime(2026, 7, 15).date(), "asia")[1]
+    assert summer_end.hour == 6 and summer_end.minute == 55
+    assert summer_end.utcoffset() == timedelta(hours=2)
+    london_open = desk.session_bounds(datetime(2026, 7, 15).date(), "london")[0]
+    assert london_open.hour == 7 and london_open.minute == 55
+
+
+def test_price_uses_latest_minute():
+    now = datetime(2026, 11, 2, 8, 2, tzinfo=PARIS)
+    hour = datetime(2026, 11, 2, 6, 0, tzinfo=UTC)
+    candles = [_candle(hour - timedelta(hours=i), 3900, span=1) for i in range(40)]
+    candles.append(_candle(hour, 3910, span=1))
+    minute = {"t": datetime(2026, 11, 2, 6, 58, tzinfo=UTC), "o": 3940, "h": 3946, "l": 3938, "c": 3944.2, "v": 1}
+    payload, _sessions = desk.analyze(candles, {}, {}, now, minutes=[minute])
+    assert payload["price"]["last"] == 3944.2
+    assert payload["price"]["granularite"] == "minute"
+    assert payload["price"]["time_label"].endswith("07:58")
 
 
 def test_notification_plan_dedup_and_first_run():
