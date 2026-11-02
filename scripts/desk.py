@@ -2917,8 +2917,10 @@ def analyze(candles, manual, cache, now_paris, minutes=None, events=None, ff_eve
         "drivers": drivers,
     }
     of_dir = {"ACHETEUR": "HAUSSIER", "VENDEUR": "BAISSIER", "NEUTRE": "NEUTRE"}.get(orderflow.get("signal"), "NEUTRE")
-    price = _price_block(closed, partial, last_price, sessions, day, now_paris, spot_time if from_minute else None)
+    price = _price_block(closed, partial, last_price, sessions, day, now_paris, spot_time)
     price["granularite"] = "minute" if from_minute else "horaire"
+    if not from_minute:
+        price["en_cours"] = partial is not None
     levels = build_levels(candles, today_public, last_price)
     desk_levels, profile = desk_context(minutes or [], day, last_price)
     if desk_levels and desk_levels.get("ouverture") is not None and last_price is not None:

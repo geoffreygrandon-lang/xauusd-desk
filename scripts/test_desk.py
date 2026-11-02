@@ -286,6 +286,9 @@ def test_price_uses_latest_minute():
     assert payload["price"]["last"] == 3944.2
     assert payload["price"]["granularite"] == "minute"
     assert payload["price"]["time_label"].endswith("07:58")
+    hour_only = desk.analyze(candles, {}, {}, now)[0]
+    assert hour_only["price"]["granularite"] == "horaire"
+    assert hour_only["price"]["time_label"].endswith("08:00")
 
 
 def test_notification_plan_dedup_and_first_run():
