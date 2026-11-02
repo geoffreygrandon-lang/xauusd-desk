@@ -260,6 +260,22 @@ def test_london_preference_after_asia_close():
     assert london_open.hour == 7 and london_open.minute == 55
 
 
+def test_short_minute_slice_does_not_replace_the_session():
+    day = datetime(2026, 11, 2, 8, 0, tzinfo=PARIS)
+    hours = []
+    moment = datetime(2026, 11, 1, 22, 0, tzinfo=UTC)
+    price = 3869.0
+    while moment <= datetime(2026, 11, 2, 5, 0, tzinfo=UTC):
+        hours.append(_candle(moment, price, span=1))
+        price += 6
+        moment += timedelta(hours=1)
+    early = {"t": datetime(2026, 11, 1, 22, 10, tzinfo=UTC), "o": 3869, "h": 3870, "l": 3868, "c": 3869.5, "v": 1}
+    sessions = desk.build_sessions(hours, day, minutes=[early])
+    asia = next(item for item in sessions if item["jour"] == "2026-11-02" and item["id"] == "asia")
+    assert asia["ohlc"]["c"] == hours[-1]["c"]
+    assert asia["ohlc"]["c"] - asia["ohlc"]["o"] > 40
+
+
 def test_price_uses_latest_minute():
     now = datetime(2026, 11, 2, 8, 2, tzinfo=PARIS)
     hour = datetime(2026, 11, 2, 6, 0, tzinfo=UTC)

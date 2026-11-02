@@ -494,6 +494,18 @@ def bars_inside(bars, start, end):
     return chosen
 
 
+def session_bars(candles, minutes, start, end, now_paris):
+    """Minutes si elles vont jusqu'au bout de la séance, sinon les heures."""
+    minute_bars = bars_inside(minutes, start, end)
+    hour_bars = candles_overlapping(candles, start, end)
+    target = min(end, now_paris)
+    if minute_bars:
+        reached = minute_bars[-1]["t"].astimezone(PARIS) + timedelta(minutes=1)
+        if reached >= target - timedelta(minutes=15):
+            return minute_bars
+    return hour_bars or minute_bars
+
+
 def session_status(now_paris, start, end):
     if now_paris < start:
         return "a_venir"
@@ -515,11 +527,7 @@ def build_sessions(candles, now_paris, minutes=None):
     for current in days:
         for session_id, name, window in SESSION_DEFS:
             start, end = session_bounds(current, session_id)
-            minute_bars = bars_inside(minutes, start, end)
-            if minute_bars:
-                bars = minute_bars
-            else:
-                bars = candles_overlapping(candles, start, end)
+            bars = session_bars(candles, minutes, start, end, now_paris)
             ohlc = ohlc_of(bars)
             sessions.append({
                 "id": session_id,
@@ -3019,7 +3027,9 @@ def freshest_price(hourly, minutes, now_utc):
         return minute["c"], minute["t"], True
     if hourly is None:
         return None, None, False
-    return hourly["c"], hourly["t"], False
+    # La clôture de l'heure appartient à la fin de la bougie, pas à son ouverture.
+    stamp = min(hourly["t"] + timedelta(hours=1), now_utc)
+    return hourly["c"], stamp, False
 
 
 def _price_block(closed, partial, last_price, sessions, day, now_paris, print_time=None):
