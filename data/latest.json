@@ -1,35 +1,35 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-03T13:24:51+01:00",
-  "generated_label": "mardi 3 novembre 2026, 13:24",
+  "generated_at": "2026-11-03T13:59:22+01:00",
+  "generated_label": "mardi 3 novembre 2026, 13:59",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
     "libelle": "Marché ouvert"
   },
   "price": {
-    "last": 3905.774,
-    "time": "2026-11-03T13:00+01:00",
-    "time_label": "03/11 13:00",
-    "en_cours": false,
-    "change_24h": 4.889,
-    "change_24h_pct": 0.125,
-    "change_jour": -42.776,
-    "change_jour_pct": -1.083,
+    "last": 3932.454,
+    "time": "2026-11-03T13:59+01:00",
+    "time_label": "03/11 13:59",
+    "en_cours": true,
+    "change_24h": 31.569,
+    "change_24h_pct": 0.809,
+    "change_jour": -16.096,
+    "change_jour_pct": -0.408,
     "granularite": "horaire",
     "ouverture_jour": 3948.55
   },
   "banner": {
-    "direction": "BAISSIER",
-    "titre": "BAISSIER — pression vendeuse dominante",
+    "direction": "HAUSSIER",
+    "titre": "HAUSSIER — pression acheteuse dominante",
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 45,
+    "score": 42,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
-    "direction": "BAISSIER",
+    "direction": "HAUSSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
@@ -38,21 +38,21 @@
       },
       {
         "label": "Moyenne technique (biais, momentum, tendance, heatmap)",
-        "points": 41.8,
+        "points": 35.5,
         "actif": true
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 45,
+        "points": 42,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 45,
+    "score": 42,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
-    "direction": "BAISSIER"
+    "direction": "HAUSSIER"
   },
   "sessions": {
     "jour": "2026-11-03",
@@ -109,24 +109,24 @@
         "debut": "2026-11-03T07:55:00+01:00",
         "fin": "2026-11-03T16:55:00+01:00",
         "biais": null,
-        "biais_provisoire": "baissière",
+        "biais_provisoire": "haussière",
         "score": null,
-        "variation_pct": -0.1478,
-        "range": 18.59900000000016,
+        "variation_pct": 0.5343,
+        "range": 38.06899999999996,
         "structure": "plus bas",
         "composantes": [],
-        "bougies": 5,
+        "bougies": 6,
         "open": 3911.555,
-        "high": 3913.884,
+        "high": 3933.354,
         "low": 3895.285,
-        "close": 3905.774
+        "close": 3932.454
       },
       {
         "id": "ny",
         "nom": "New York",
         "fenetre": "13:55 – 21:00",
         "jour": "2026-11-03",
-        "statut": "a_venir",
+        "statut": "en_cours",
         "debut": "2026-11-03T13:55:00+01:00",
         "fin": "2026-11-03T21:00:00+01:00",
         "biais": null,
@@ -527,8 +527,8 @@
         "c": 3905.774
       }
     ],
-    "heatmap": "Distribution",
-    "heatmap_x_pct": 67.6
+    "heatmap": "Neutre",
+    "heatmap_x_pct": 37.8
   },
   "technicals": {
     "sma20": 3934.856,
@@ -684,8 +684,8 @@
       {
         "id": "biais",
         "nom": "Biais",
-        "direction": "BAISSIER",
-        "force": 24
+        "direction": "HAUSSIER",
+        "force": 10
       },
       {
         "id": "momentum",
@@ -702,189 +702,165 @@
       {
         "id": "heatmap",
         "nom": "Heatmap",
-        "direction": "BAISSIER",
-        "force": 35,
-        "etat": "Distribution",
-        "x_pct": 67.6
+        "direction": "NEUTRE",
+        "force": 24,
+        "etat": "Neutre",
+        "x_pct": 37.8
       }
     ],
-    "label": "ALIGNEMENT PARTIEL",
-    "confiance": 45,
+    "label": "AUCUN",
+    "confiance": 42,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
-    "direction": "BAISSIER",
+    "direction": "HAUSSIER",
     "force_macro": 48,
-    "moyenne_technique": 41.8,
+    "moyenne_technique": 35.5,
     "macro": "HAUSSIER",
-    "biais": "BAISSIER",
+    "biais": "HAUSSIER",
     "orderflow": "NEUTRE",
-    "heatmap": "Distribution",
+    "heatmap": "Neutre",
     "tendance": "BAISSIER"
   },
   "levels": [
     {
       "nom": "Plus haut 24 h",
       "prix": 3970.07,
-      "distance": 64.29,
-      "distance_pct": 1.65,
+      "distance": 37.61,
+      "distance_pct": 0.96,
       "type": "marche"
     },
     {
       "nom": "Plus bas 24 h",
-      "prix": 3893.74,
-      "distance": -12.03,
-      "distance_pct": -0.31,
+      "prix": 3895.28,
+      "distance": -37.17,
+      "distance_pct": -0.95,
       "type": "marche"
     },
     {
       "nom": "Plus haut 5 jours",
       "prix": 4081.96,
-      "distance": 176.19,
-      "distance_pct": 4.51,
+      "distance": 149.51,
+      "distance_pct": 3.8,
       "type": "marche"
     },
     {
       "nom": "Plus bas 5 jours",
       "prix": 3869.05,
-      "distance": -36.72,
-      "distance_pct": -0.94,
+      "distance": -63.4,
+      "distance_pct": -1.61,
       "type": "marche"
     },
     {
       "nom": "Plus haut 15 jours disponibles",
       "prix": 4198.82,
-      "distance": 293.05,
-      "distance_pct": 7.5,
+      "distance": 266.37,
+      "distance_pct": 6.77,
       "type": "marche"
     },
     {
       "nom": "Plus bas 15 jours disponibles",
       "prix": 3869.05,
-      "distance": -36.72,
-      "distance_pct": -0.94,
+      "distance": -63.4,
+      "distance_pct": -1.61,
       "type": "marche"
     },
     {
       "nom": "Asie plus haut",
       "prix": 3964.24,
-      "distance": 58.47,
-      "distance_pct": 1.5,
+      "distance": 31.79,
+      "distance_pct": 0.81,
       "type": "seance"
     },
     {
       "nom": "Asie plus bas",
       "prix": 3917.36,
-      "distance": 11.58,
-      "distance_pct": 0.3,
+      "distance": -15.1,
+      "distance_pct": -0.38,
       "type": "seance"
     },
     {
       "nom": "Londres plus haut",
-      "prix": 3913.88,
-      "distance": 8.11,
-      "distance_pct": 0.21,
+      "prix": 3933.35,
+      "distance": 0.9,
+      "distance_pct": 0.02,
       "type": "seance"
     },
     {
       "nom": "Londres plus bas",
       "prix": 3895.28,
-      "distance": -10.49,
-      "distance_pct": -0.27,
+      "distance": -37.17,
+      "distance_pct": -0.95,
       "type": "seance"
-    },
-    {
-      "nom": "Nombre rond dizaine",
-      "prix": 3880.0,
-      "distance": -25.77,
-      "distance_pct": -0.66,
-      "type": "dizaine"
-    },
-    {
-      "nom": "Nombre rond dizaine",
-      "prix": 3890.0,
-      "distance": -15.77,
-      "distance_pct": -0.4,
-      "type": "dizaine"
     },
     {
       "nom": "Nombre rond centaine",
       "prix": 3900.0,
-      "distance": -5.77,
-      "distance_pct": -0.15,
+      "distance": -32.45,
+      "distance_pct": -0.83,
       "type": "centaine"
     },
     {
       "nom": "Nombre rond dizaine",
       "prix": 3910.0,
-      "distance": 4.23,
-      "distance_pct": 0.11,
+      "distance": -22.45,
+      "distance_pct": -0.57,
       "type": "dizaine"
     },
     {
       "nom": "Nombre rond dizaine",
       "prix": 3920.0,
-      "distance": 14.23,
-      "distance_pct": 0.36,
+      "distance": -12.45,
+      "distance_pct": -0.32,
       "type": "dizaine"
     },
     {
       "nom": "Nombre rond dizaine",
       "prix": 3930.0,
-      "distance": 24.23,
-      "distance_pct": 0.62,
+      "distance": -2.45,
+      "distance_pct": -0.06,
       "type": "dizaine"
     },
     {
       "nom": "Nombre rond dizaine",
       "prix": 3940.0,
-      "distance": 34.23,
-      "distance_pct": 0.88,
+      "distance": 7.55,
+      "distance_pct": 0.19,
       "type": "dizaine"
     },
     {
       "nom": "Nombre rond cinquantaine",
       "prix": 3950.0,
-      "distance": 44.23,
-      "distance_pct": 1.13,
+      "distance": 17.55,
+      "distance_pct": 0.45,
       "type": "cinquantaine"
+    },
+    {
+      "nom": "Nombre rond dizaine",
+      "prix": 3960.0,
+      "distance": 27.55,
+      "distance_pct": 0.7,
+      "type": "dizaine"
     },
     {
       "nom": "Nombre rond centaine",
       "prix": 4000.0,
-      "distance": 94.23,
-      "distance_pct": 2.41,
+      "distance": 67.55,
+      "distance_pct": 1.72,
       "type": "centaine"
     }
   ],
   "niveaux": {
-    "vwap_jour": 3924.78,
+    "vwap_jour": 3924.48,
     "vwap_ny": null,
     "ouverture": 3948.55,
     "offre": [
       {
-        "prix": 3913.88,
+        "prix": 3933.35,
         "labels": [
           "Haut Londres"
         ],
         "label": "Haut Londres",
-        "distance_pct": 0.21
-      },
-      {
-        "prix": 3917.36,
-        "labels": [
-          "Bas Asie"
-        ],
-        "label": "Bas Asie",
-        "distance_pct": 0.3
-      },
-      {
-        "prix": 3924.89,
-        "labels": [
-          "VWAP jour",
-          "Rond 3925"
-        ],
-        "label": "VWAP jour, Rond 3925",
-        "distance_pct": 0.49
+        "distance_pct": 0.02
       },
       {
         "prix": 3950.0,
@@ -892,7 +868,7 @@
           "Rond 3950"
         ],
         "label": "Rond 3950",
-        "distance_pct": 1.13
+        "distance_pct": 0.45
       },
       {
         "prix": 3964.24,
@@ -901,7 +877,7 @@
           "Haut jour"
         ],
         "label": "Haut Asie, Haut jour",
-        "distance_pct": 1.5
+        "distance_pct": 0.81
       },
       {
         "prix": 3970.07,
@@ -910,7 +886,7 @@
           "Haut veille"
         ],
         "label": "Haut semaine, Haut veille",
-        "distance_pct": 1.65
+        "distance_pct": 0.96
       },
       {
         "prix": 3975.0,
@@ -918,17 +894,42 @@
           "Rond 3975"
         ],
         "label": "Rond 3975",
-        "distance_pct": 1.77
+        "distance_pct": 1.08
+      },
+      {
+        "prix": 4000.0,
+        "labels": [
+          "Rond 4000"
+        ],
+        "label": "Rond 4000",
+        "distance_pct": 1.72
       }
     ],
     "demande": [
+      {
+        "prix": 3924.74,
+        "labels": [
+          "VWAP jour",
+          "Rond 3925"
+        ],
+        "label": "VWAP jour, Rond 3925",
+        "distance_pct": -0.2
+      },
+      {
+        "prix": 3917.36,
+        "labels": [
+          "Bas Asie"
+        ],
+        "label": "Bas Asie",
+        "distance_pct": -0.38
+      },
       {
         "prix": 3902.5,
         "labels": [
           "POC"
         ],
         "label": "POC",
-        "distance_pct": -0.08
+        "distance_pct": -0.76
       },
       {
         "prix": 3900.0,
@@ -936,7 +937,7 @@
           "Rond 3900"
         ],
         "label": "Rond 3900",
-        "distance_pct": -0.15
+        "distance_pct": -0.83
       },
       {
         "prix": 3895.28,
@@ -945,7 +946,7 @@
           "Bas jour"
         ],
         "label": "Bas Londres, Bas jour",
-        "distance_pct": -0.27
+        "distance_pct": -0.95
       },
       {
         "prix": 3875.0,
@@ -953,7 +954,7 @@
           "Rond 3875"
         ],
         "label": "Rond 3875",
-        "distance_pct": -0.79
+        "distance_pct": -1.46
       },
       {
         "prix": 3869.05,
@@ -962,18 +963,10 @@
           "Bas veille"
         ],
         "label": "Bas semaine, Bas veille",
-        "distance_pct": -0.94
-      },
-      {
-        "prix": 3850.0,
-        "labels": [
-          "Rond 3850"
-        ],
-        "label": "Rond 3850",
-        "distance_pct": -1.43
+        "distance_pct": -1.61
       }
     ],
-    "prix": 3905.77
+    "prix": 3932.45
   },
   "profil": {
     "poc_bas": 3900,
@@ -981,10 +974,10 @@
     "poc": 3902.5,
     "va_bas": 3895,
     "va_haut": 3960,
-    "x_pct": 67.6,
-    "etat": "Distribution",
-    "direction": "BAISSIER",
-    "force": 35,
+    "x_pct": 37.8,
+    "etat": "Neutre",
+    "direction": "NEUTRE",
+    "force": 24,
     "bins": [
       {
         "bas": 3865,
@@ -1031,56 +1024,56 @@
       {
         "bas": 3895,
         "haut": 3900,
-        "volume": 11.835,
+        "volume": 11.9571,
         "poc": false,
         "va": true
       },
       {
         "bas": 3900,
         "haut": 3905,
-        "volume": 16.089,
+        "volume": 16.496,
         "poc": true,
         "va": true
       },
       {
         "bas": 3905,
         "haut": 3910,
-        "volume": 14.7915,
+        "volume": 15.1985,
         "poc": false,
         "va": true
       },
       {
         "bas": 3910,
         "haut": 3915,
-        "volume": 7.9736,
+        "volume": 8.3806,
         "poc": false,
         "va": true
       },
       {
         "bas": 3915,
         "haut": 3920,
-        "volume": 2.4162,
+        "volume": 2.8233,
         "poc": false,
         "va": false
       },
       {
         "bas": 3920,
         "haut": 3925,
-        "volume": 2.4997,
+        "volume": 2.9067,
         "poc": false,
         "va": false
       },
       {
         "bas": 3925,
         "haut": 3930,
-        "volume": 2.7028,
+        "volume": 3.1098,
         "poc": false,
         "va": false
       },
       {
         "bas": 3930,
         "haut": 3935,
-        "volume": 0.9224,
+        "volume": 1.2073,
         "poc": false,
         "va": false
       },
@@ -1142,12 +1135,12 @@
       }
     ]
   },
-  "gameplan": "Autour du prix, la demande la plus proche est à 3 902,50 $ (-0,08 %, POC) et l'offre la plus proche est à 3 913,88 $ (+0,21 %, Haut Londres). Zone de valeur 3 895,00 $ – 3 960,00 $, POC 3 900,00 $ – 3 905,00 $.\n\nSens privilégié VENTE. Zone d'entrée : le premier paquet d'offre, Haut Londres vers 3 913,88 $. Confirmation : rejet du niveau, puis clôture horaire qui repasse sous la zone, avec un signal orderflow VENDEUR (actuellement NEUTRE). Objectifs : 3 902,50 $, 3 900,00 $, 3 895,28 $. Rester à plat si la clôture horaire revient dans la zone de valeur. Invalidation : clôture horaire au-dessus de 3 917,36 $.",
+  "gameplan": "Autour du prix, la demande la plus proche est à 3 924,74 $ (-0,20 %, VWAP jour, Rond 3925) et l'offre la plus proche est à 3 933,35 $ (+0,02 %, Haut Londres). Zone de valeur 3 895,00 $ – 3 960,00 $, POC 3 900,00 $ – 3 905,00 $.\n\nSens privilégié VENTE. Zone d'entrée : le premier paquet d'offre, Haut Londres vers 3 933,35 $. Confirmation : rejet du niveau, puis clôture horaire qui repasse sous la zone, avec un signal orderflow VENDEUR (actuellement NEUTRE). Objectifs : 3 924,74 $, 3 917,36 $, 3 902,50 $. Rester à plat si la clôture horaire revient dans la zone de valeur. Invalidation : clôture horaire au-dessus de 3 950,00 $.",
   "risque": {
     "ouverture": 3948.55,
-    "dernier": 3905.77,
-    "variation": -42.78,
-    "variation_pct": -1.08,
+    "dernier": 3932.45,
+    "variation": -16.1,
+    "variation_pct": -0.41,
     "evenements": [
       {
         "t": "2026-11-03T16:00+01:00",
@@ -1218,7 +1211,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 905,77 $, en hausse de 0,12 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 46 % contre vente 54 %, écart 8 pts, conviction BASSE, delta net -8,58. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 40,2, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 970,07 $ et le plus bas 3 893,74 $. Dépêches Investing (48 h) : « La livre sterling progresse légèrement tandis que le dollar recule avant la BoE » ; « Goldman relève ses prévisions sur le gaz naturel face aux incertitudes ».",
+  "brief": "L'or spot XAU/USD cote 3 932,45 $, en hausse de 0,81 % sur 24 h (dernière heure encore en cours). L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 46 % contre vente 54 %, écart 8 pts, conviction BASSE, delta net -8,58. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 40,2, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 970,07 $ et le plus bas 3 895,28 $. Dépêches Investing (48 h) : « La livre sterling progresse légèrement tandis que le dollar recule avant la BoE » ; « Goldman relève ses prévisions sur le gaz naturel face aux incertitudes ».",
   "news": [
     {
       "titre": "La livre sterling progresse légèrement tandis que le dollar recule avant la BoE",
@@ -1341,8 +1334,8 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 4,
-    "echecs": 1,
+    "telechargees": 6,
+    "echecs": 0,
     "demandees": 6,
     "minutes": {
       "fichiers": 2
