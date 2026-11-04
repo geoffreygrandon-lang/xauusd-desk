@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-04T08:10:56+01:00",
-  "generated_label": "mercredi 4 novembre 2026, 08:10",
+  "generated_at": "2026-11-04T08:53:39+01:00",
+  "generated_label": "mercredi 4 novembre 2026, 08:53",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -550,7 +550,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En repli",
-        "detail": "101,50 · -0,67 % / 5 j",
+        "detail": "101,40 · -0,78 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 1,
@@ -558,8 +558,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-04",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.503,
-        "variation": -0.6722811164911983
+        "valeur": 101.398,
+        "variation": -0.7750267129591747
       },
       {
         "id": "vix",
@@ -753,9 +753,9 @@
     },
     {
       "nom": "Plus haut 19 jours disponibles",
-      "prix": 4200.23,
-      "distance": 173.26,
-      "distance_pct": 4.3,
+      "prix": 4204.01,
+      "distance": 177.04,
+      "distance_pct": 4.4,
       "type": "marche"
     },
     {
@@ -1346,15 +1346,6 @@
       "heure": "lun. 2 nov. 10:18",
       "ton": 0,
       "ton_bucket": null
-    },
-    {
-      "titre": "Goldman Sachs relève ses prévisions pétrolières face aux risques d’approvisionnement",
-      "lien": "https://fr.investing.com/news/commodities-news/goldman-sachs-releve-ses-previsions-petrolieres-face-aux-risques-dapprovisionnement-3667508",
-      "source": "Matières premières",
-      "t": "2026-11-02T08:38+01:00",
-      "heure": "lun. 2 nov. 08:38",
-      "ton": 0,
-      "ton_bucket": null
     }
   ],
   "alertes": [
@@ -1368,7 +1359,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de -0,67 % sur 5 séances."
+      "texte": "DXY en mouvement de -0,78 % sur 5 séances."
     }
   ],
   "sources": {
@@ -1381,7 +1372,7 @@
     "echecs": 0,
     "demandees": 6,
     "minutes": {
-      "fichiers": 1
+      "fichiers": 2
     }
   },
   "notifications": {
