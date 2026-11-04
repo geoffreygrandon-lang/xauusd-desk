@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-04T14:00:44+01:00",
-  "generated_label": "mercredi 4 novembre 2026, 14:00",
+  "generated_at": "2026-11-04T14:46:44+01:00",
+  "generated_label": "mercredi 4 novembre 2026, 14:46",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -23,17 +23,17 @@
   "banner": {
     "direction": "HAUSSIER",
     "titre": "HAUSSIER — pression acheteuse dominante",
-    "conviction": "FAIBLE"
+    "conviction": "MODÉRÉE"
   },
   "confidence": {
-    "score": 49,
-    "label": "FAIBLE",
-    "conviction": "FAIBLE",
+    "score": 52,
+    "label": "FORTE",
+    "conviction": "MODÉRÉE",
     "direction": "HAUSSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 32,
+        "points": 38,
         "actif": true
       },
       {
@@ -43,15 +43,15 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 49,
+        "points": 52,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 49,
-    "label": "FAIBLE",
-    "conviction": "FAIBLE",
+    "score": 52,
+    "label": "FORTE",
+    "conviction": "MODÉRÉE",
     "direction": "HAUSSIER"
   },
   "sessions": {
@@ -543,14 +543,14 @@
   "macro": {
     "biais": "HAUSSIER",
     "conviction": "MODÉRÉE",
-    "force": 32,
+    "force": 38,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En repli",
-        "detail": "101,35 · -0,82 % / 5 j",
+        "detail": "101,27 · -0,90 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 1,
@@ -558,14 +558,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-04",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.35,
-        "variation": -0.8220021012004556
+        "valeur": 101.27,
+        "variation": -0.9002894376750379
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Stable",
-        "detail": "18,17 · +7,45 % / 5 j",
+        "detail": "18,57 · +9,82 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -573,14 +573,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-04",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 18.17,
-        "variation": 7.45121372117969
+        "valeur": 18.57,
+        "variation": 9.816675708995671
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "Stable",
-        "detail": "2,62 % · -4 pb · nominal 4,95 %",
+        "detail": "2,62 % · -4 pb · nominal 4,93 %",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -594,22 +594,22 @@
       {
         "id": "nominaux",
         "nom": "Taux US 10 ans",
-        "etat": "En hausse",
-        "detail": "4,95 % · +6 pb",
-        "impact": "neutre",
+        "etat": "Stable",
+        "detail": "4,93 % · -2 pb",
+        "impact": "positif",
         "included": true,
-        "score_jour": -1,
+        "score_jour": 0,
         "score_mois": 1,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-11-03",
+        "as_of": "2026-11-04",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 4.952,
-        "variation": 0.05800008773803711
+        "valeur": 4.935,
+        "variation": -0.017000198364257812
       },
       {
         "id": "fed",
         "nom": "Fed",
-        "etat": "Federal Funds Rate mer. 28 oct. 18:00 : 4,00 % en ligne avec le prévu (4,00 %) · score or +0",
+        "etat": "Federal Funds Rate mer. 28 oct. 20:30 : 4,00 % en ligne avec le prévu (4,00 %) · score or +0",
         "detail": "Fed funds 3,88 % · US 2 ans 4,59 % · Forex Factory + FRED DFF/DGS2",
         "impact": "positif",
         "included": true,
@@ -639,7 +639,7 @@
       {
         "id": "banques",
         "nom": "Banques centrales",
-        "etat": "Official Cash Rate mer. 28 oct. 01:00 : 2,75 % plus bas que prévu (3,00 %) · score or -1 ; Overnight Rate jeu. 29 oct. 04:00 : 2,50 % en ligne avec le prévu (2,50 %) · score or +0 ; Main Refinancing Rate jeu. 29 oct. 13:15 : 2,65 % en ligne avec le prévu (2,65 %) · score or +0 ; BOJ Policy Rate ven. 30 oct. 04:00 : 1,25 % en ligne avec le prévu (1,25 %) · score or +0",
+        "etat": "Official Cash Rate mer. 28 oct. 03:30 : 2,75 % plus bas que prévu (3,00 %) · score or -1 ; Overnight Rate jeu. 29 oct. 04:00 : 2,50 % en ligne avec le prévu (2,50 %) · score or +0 ; Main Refinancing Rate jeu. 29 oct. 15:45 : 2,65 % en ligne avec le prévu (2,65 %) · score or +0 ; BOJ Policy Rate sam. 31 oct. 04:00 : 1,25 % en ligne avec le prévu (1,25 %) · score or +0",
         "detail": "Forex Factory · surprise dovish à l'étranger = −1 (dollar plus ferme), hawkish = +1",
         "impact": "negatif",
         "included": true,
@@ -680,7 +680,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 32
+        "force": 38
       },
       {
         "id": "biais",
@@ -710,11 +710,11 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 49,
-    "conviction": "FAIBLE",
-    "jauge": "FAIBLE",
+    "confiance": 52,
+    "conviction": "MODÉRÉE",
+    "jauge": "FORTE",
     "direction": "HAUSSIER",
-    "force_macro": 32,
+    "force_macro": 38,
     "moyenne_technique": 66.2,
     "macro": "HAUSSIER",
     "biais": "HAUSSIER",
@@ -1303,7 +1303,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 4 043,32 $, en hausse de 2,09 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -3,33. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 73,6, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans neutre). Zone neutre : éviter de trader. RSI en surachat (> 70) : extrême, prudence. Sur 24 h, le plus haut est 4 051,31 $ et le plus bas 3 898,78 $. Dépêches Investing (48 h) : « La livre sterling progresse alors que le dollar recule après les élections de mi-mandat » ; « Le gaz européen progresse après les élections américaines et les tensions autour d’Ormuz ».",
+  "brief": "L'or spot XAU/USD cote 4 043,32 $, en hausse de 2,09 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -3,33. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 73,6, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). Zone neutre : éviter de trader. RSI en surachat (> 70) : extrême, prudence. Sur 24 h, le plus haut est 4 051,31 $ et le plus bas 3 898,78 $. Dépêches Investing (48 h) : « La livre sterling progresse alors que le dollar recule après les élections de mi-mandat » ; « Le gaz européen progresse après les élections américaines et les tensions autour d’Ormuz ».",
   "news": [
     {
       "titre": "La livre sterling progresse alors que le dollar recule après les élections de mi-mandat",
@@ -1416,7 +1416,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de -0,82 % sur 5 séances."
+      "texte": "DXY en mouvement de -0,90 % sur 5 séances."
     }
   ],
   "sources": {
@@ -1426,7 +1426,7 @@
   },
   "fetch": {
     "telechargees": 5,
-    "echecs": 0,
+    "echecs": 1,
     "demandees": 6,
     "minutes": {
       "fichiers": 2
