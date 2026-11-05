@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-05T08:15:59+01:00",
-  "generated_label": "jeudi 5 novembre 2026, 08:15",
+  "generated_at": "2026-11-05T08:54:25+01:00",
+  "generated_label": "jeudi 5 novembre 2026, 08:54",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -23,17 +23,17 @@
   "banner": {
     "direction": "HAUSSIER",
     "titre": "HAUSSIER — pression acheteuse dominante",
-    "conviction": "MODÉRÉE"
+    "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 51,
-    "label": "FORTE",
-    "conviction": "MODÉRÉE",
+    "score": 48,
+    "label": "FAIBLE",
+    "conviction": "FAIBLE",
     "direction": "HAUSSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 44,
+        "points": 38,
         "actif": true
       },
       {
@@ -43,15 +43,15 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 51,
+        "points": 48,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 51,
-    "label": "FORTE",
-    "conviction": "MODÉRÉE",
+    "score": 48,
+    "label": "FAIBLE",
+    "conviction": "FAIBLE",
     "direction": "HAUSSIER"
   },
   "sessions": {
@@ -542,23 +542,23 @@
   "macro": {
     "biais": "HAUSSIER",
     "conviction": "MODÉRÉE",
-    "force": 44,
+    "force": 38,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En repli",
-        "detail": "101,24 · -0,79 % / 5 j",
+        "detail": "101,41 · -0,62 % / 5 j",
         "impact": "positif",
         "included": true,
-        "score_jour": 1,
+        "score_jour": 0,
         "score_mois": 1,
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-05",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.237,
-        "variation": -0.7869476642531092
+        "valeur": 101.409,
+        "variation": -0.6183891883913873
       },
       {
         "id": "vix",
@@ -653,7 +653,7 @@
       {
         "id": "geo",
         "nom": "Géopolitique",
-        "etat": "En attente : Congressional Elections · dépêche : La livre sterling progresse alors que le dollar recule après les élections de mi-mandat · Le gaz européen progresse après les élections américaines et les tensions autour d’Ormuz",
+        "etat": "En attente : Congressional Elections · dépêche : Le pétrole maintient ses lourdes pertes après que les élections américaines raviven les espoirs de paix avec l’Iran · La livre sterling progresse alors que le dollar recule après les élections de mi-mandat",
         "detail": "Le prix de l'or n'est pas un moteur macro. Le VIX est noté à part. Une dépêche de tension sur 48 h peut inclure ce moteur. Calendrier : Congressional Elections mar. 3 nov. 16:16 ; Parliamentary Elections ven. 6 nov. 22:45",
         "impact": "positif",
         "included": true,
@@ -665,9 +665,9 @@
         "valeur": null,
         "variation": null,
         "news": [
+          "Le pétrole maintient ses lourdes pertes après que les élections américaines raviven les espoirs de paix avec l’Iran",
           "La livre sterling progresse alors que le dollar recule après les élections de mi-mandat",
-          "Le gaz européen progresse après les élections américaines et les tensions autour d’Ormuz",
-          "Le dollar chute à son plus bas niveau en un mois après les élections américaines"
+          "Le gaz européen progresse après les élections américaines et les tensions autour d’Ormuz"
         ]
       }
     ],
@@ -679,7 +679,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 44
+        "force": 38
       },
       {
         "id": "biais",
@@ -709,11 +709,11 @@
       }
     ],
     "label": "ALIGNEMENT TOTAL",
-    "confiance": 51,
-    "conviction": "MODÉRÉE",
-    "jauge": "FORTE",
+    "confiance": 48,
+    "conviction": "FAIBLE",
+    "jauge": "FAIBLE",
     "direction": "HAUSSIER",
-    "force_macro": 44,
+    "force_macro": 38,
     "moyenne_technique": 58.5,
     "macro": "HAUSSIER",
     "biais": "HAUSSIER",
@@ -1378,7 +1378,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 4 126,91 $, en hausse de 2,60 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est ACHETEUR : achat 59 % contre vente 41 %, écart 18 pts, conviction MODÉRÉE, delta net +23,75. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 72,5, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). RSI en surachat (> 70) : extrême, prudence. Sur 24 h, le plus haut est 4 146,78 $ et le plus bas 3 945,55 $. Dépêches Investing (48 h) : « Les devises asiatiques progressent face au recul du dollar après le vote américain » ; « L’or dépasse les 4.130$ alors que le dollar et les rendements obligataires chutent ».",
+  "brief": "L'or spot XAU/USD cote 4 126,91 $, en hausse de 2,60 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est ACHETEUR : achat 59 % contre vente 41 %, écart 18 pts, conviction MODÉRÉE, delta net +23,75. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 72,5, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). RSI en surachat (> 70) : extrême, prudence. Sur 24 h, le plus haut est 4 146,78 $ et le plus bas 3 945,55 $. Dépêches Investing (48 h) : « Les devises asiatiques progressent face au recul du dollar après le vote américain » ; « L’or dépasse 4.130$ alors que le dollar et les rendements obligataires chutent ».",
   "news": [
     {
       "titre": "Les devises asiatiques progressent face au recul du dollar après le vote américain",
@@ -1390,13 +1390,22 @@
       "ton_bucket": null
     },
     {
-      "titre": "L’or dépasse les 4.130$ alors que le dollar et les rendements obligataires chutent",
+      "titre": "L’or dépasse 4.130$ alors que le dollar et les rendements obligataires chutent",
       "lien": "https://fr.investing.com/news/commodities-news/lor-depasse-les-4100-alors-que-le-dollar-et-les-rendements-obligataires-reculent-3677128",
       "source": "Matières premières",
       "t": "2026-11-05T03:03+01:00",
       "heure": "jeu. 5 nov. 03:03",
       "ton": 0,
       "ton_bucket": null
+    },
+    {
+      "titre": "Le pétrole maintient ses lourdes pertes après que les élections américaines raviven les espoirs de paix avec l’Iran",
+      "lien": "https://fr.investing.com/news/commodities-news/le-petrole-maintient-ses-pertes-apres-les-espoirs-de-paix-avec-liran-3677078",
+      "source": "Matières premières",
+      "t": "2026-11-05T01:56+01:00",
+      "heure": "jeu. 5 nov. 01:56",
+      "ton": 1,
+      "ton_bucket": "geo"
     },
     {
       "titre": "La livre sterling progresse alors que le dollar recule après les élections de mi-mandat",
@@ -1473,7 +1482,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de -0,79 % sur 5 séances."
+      "texte": "DXY en mouvement de -0,62 % sur 5 séances."
     }
   ],
   "sources": {
@@ -1482,11 +1491,11 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
-      "fichiers": 1
+      "fichiers": 2
     }
   },
   "notifications": {
