@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-06T08:12:46+01:00",
-  "generated_label": "vendredi 6 novembre 2026, 08:12",
+  "generated_at": "2026-11-06T08:51:59+01:00",
+  "generated_label": "vendredi 6 novembre 2026, 08:51",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 40,
+    "score": 34,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 53,
+        "points": 41,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 40,
+        "points": 34,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 40,
+    "score": 34,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER"
@@ -541,24 +541,24 @@
   },
   "macro": {
     "biais": "HAUSSIER",
-    "conviction": "HAUTE",
-    "force": 53,
+    "conviction": "MODÉRÉE",
+    "force": 41,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "Stable",
-        "detail": "101,80 · -0,08 % / 5 j",
-        "impact": "positif",
+        "detail": "101,94 · +0,06 % / 5 j",
+        "impact": "negatif",
         "included": true,
-        "score_jour": 0,
-        "score_mois": 1,
+        "score_jour": -1,
+        "score_mois": 0,
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-06",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.801,
-        "variation": -0.07753705644501507
+        "valeur": 101.941,
+        "variation": 0.059878916682860786
       },
       {
         "id": "vix",
@@ -608,7 +608,7 @@
       {
         "id": "fed",
         "nom": "Fed",
-        "etat": "Federal Funds Rate mer. 28 oct. 20:30 : 4,00 % en ligne avec le prévu (4,00 %) · score or +0",
+        "etat": "Federal Funds Rate mer. 28 oct. 18:00 : 4,00 % en ligne avec le prévu (4,00 %) · score or +0",
         "detail": "Fed funds 3,88 % · US 2 ans 4,58 % · Forex Factory + FRED DFF/DGS2",
         "impact": "positif",
         "included": true,
@@ -638,7 +638,7 @@
       {
         "id": "banques",
         "nom": "Banques centrales",
-        "etat": "Official Cash Rate mer. 28 oct. 03:30 : 2,75 % plus bas que prévu (3,00 %) · score or -1 ; Overnight Rate jeu. 29 oct. 04:00 : 2,50 % en ligne avec le prévu (2,50 %) · score or +0 ; Main Refinancing Rate jeu. 29 oct. 15:45 : 2,65 % en ligne avec le prévu (2,65 %) · score or +0 ; BOJ Policy Rate sam. 31 oct. 04:00 : 1,25 % en ligne avec le prévu (1,25 %) · score or +0",
+        "etat": "Official Cash Rate mer. 28 oct. 01:00 : 2,75 % plus bas que prévu (3,00 %) · score or -1 ; Overnight Rate jeu. 29 oct. 04:00 : 2,50 % en ligne avec le prévu (2,50 %) · score or +0 ; Main Refinancing Rate jeu. 29 oct. 13:15 : 2,65 % en ligne avec le prévu (2,65 %) · score or +0 ; BOJ Policy Rate ven. 30 oct. 04:00 : 1,25 % en ligne avec le prévu (1,25 %) · score or +0",
         "detail": "Forex Factory · surprise dovish à l'étranger = −1 (dollar plus ferme), hawkish = +1",
         "impact": "neutre",
         "included": true,
@@ -653,7 +653,7 @@
       {
         "id": "geo",
         "nom": "Géopolitique",
-        "etat": "En attente : Congressional Elections · dépêche : Citi prévoit un affaiblissement du dollar face au yen après les élections américaines · HSBC : la performance des démocrates aux élections de mi-mandat pèse sur le dollar",
+        "etat": "En attente : Congressional Elections · dépêche : L’or chute sous 4.050$ alors que le dollar rebondit après les élections · Citi prévoit un affaiblissement du dollar face au yen après les élections américaines",
         "detail": "Le prix de l'or n'est pas un moteur macro. Le VIX est noté à part. Une dépêche de tension sur 48 h peut inclure ce moteur. Calendrier : Congressional Elections mar. 3 nov. 16:16 ; Parliamentary Elections ven. 6 nov. 22:45",
         "impact": "positif",
         "included": true,
@@ -665,9 +665,9 @@
         "valeur": null,
         "variation": null,
         "news": [
+          "L’or chute sous 4.050$ alors que le dollar rebondit après les élections",
           "Citi prévoit un affaiblissement du dollar face au yen après les élections américaines",
-          "HSBC : la performance des démocrates aux élections de mi-mandat pèse sur le dollar",
-          "Le pétrole remonte malgré l’incertitude sur la guerre avec l’Iran"
+          "HSBC : la performance des démocrates aux élections de mi-mandat pèse sur le dollar"
         ]
       }
     ],
@@ -679,7 +679,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 53
+        "force": 41
       },
       {
         "id": "biais",
@@ -709,11 +709,11 @@
       }
     ],
     "label": "AUCUN",
-    "confiance": 40,
+    "confiance": 34,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "BAISSIER",
-    "force_macro": 53,
+    "force_macro": 41,
     "moyenne_technique": 26.5,
     "macro": "HAUSSIER",
     "biais": "BAISSIER",
@@ -1193,7 +1193,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 4 048,99 $, en baisse de 1,82 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 52 % contre vente 48 %, écart 4 pts, conviction BASSE, delta net +6,69. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 40,2, le prix est en dessous de la moyenne 20, au-dessus de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction haute (USD (DXY) positif, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 4 140,56 $ et le plus bas 4 035,66 $. Dépêches Investing (48 h) : « Les devises asiatiques mitigées : le yen progresse, le dollar de Taïwan franchit les 33 » ; « L’or en passe de réaliser sa meilleure semaine depuis août ».",
+  "brief": "L'or spot XAU/USD cote 4 048,99 $, en baisse de 1,82 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 52 % contre vente 48 %, écart 4 pts, conviction BASSE, delta net +6,69. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 40,2, le prix est en dessous de la moyenne 20, au-dessus de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction modérée (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 4 140,56 $ et le plus bas 4 035,66 $. Dépêches Investing (48 h) : « Les devises asiatiques mitigées : le yen progresse, le dollar de Taïwan franchit les 33 » ; « L’or chute sous 4.050$ alors que le dollar rebondit après les élections ».",
   "news": [
     {
       "titre": "Les devises asiatiques mitigées : le yen progresse, le dollar de Taïwan franchit les 33",
@@ -1205,13 +1205,13 @@
       "ton_bucket": null
     },
     {
-      "titre": "L’or en passe de réaliser sa meilleure semaine depuis août",
+      "titre": "L’or chute sous 4.050$ alors que le dollar rebondit après les élections",
       "lien": "https://fr.investing.com/news/commodities-news/lor-en-passe-de-realiser-sa-meilleure-semaine-depuis-aout-3680702",
       "source": "Matières premières",
       "t": "2026-11-06T02:33+01:00",
       "heure": "ven. 6 nov. 02:33",
-      "ton": 0,
-      "ton_bucket": null
+      "ton": 1,
+      "ton_bucket": "geo"
     },
     {
       "titre": "Cette opération de change est la meilleure couverture contre le repli de l’IA, selon Goldman",
@@ -1311,11 +1311,11 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
-    "echecs": 1,
-    "demandees": 2,
+    "telechargees": 0,
+    "echecs": 0,
+    "demandees": 1,
     "minutes": {
-      "fichiers": 2
+      "fichiers": 1
     }
   },
   "notifications": {
