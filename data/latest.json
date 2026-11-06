@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-06T14:00:03+01:00",
-  "generated_label": "vendredi 6 novembre 2026, 14:00",
+  "generated_at": "2026-11-06T14:47:06+01:00",
+  "generated_label": "vendredi 6 novembre 2026, 14:47",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 24,
+    "score": 18,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 28,
+        "points": 16,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 24,
+        "points": 18,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 24,
+    "score": 18,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER"
@@ -541,15 +541,15 @@
   },
   "macro": {
     "biais": "HAUSSIER",
-    "conviction": "MODÉRÉE",
-    "force": 28,
+    "conviction": "FAIBLE",
+    "force": 16,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
-        "etat": "Stable",
-        "detail": "101,98 · +0,10 % / 5 j",
+        "etat": "En hausse",
+        "detail": "102,14 · +0,25 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": -1,
@@ -557,14 +557,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-06",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.981,
-        "variation": 0.09914169309209529
+        "valeur": 102.136,
+        "variation": 0.2512802712973229
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Aversion (risk off)",
-        "detail": "26,81 · +38,05 % / 5 j",
+        "detail": "26,98 · +38,93 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -572,14 +572,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-06",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 26.81,
-        "variation": 38.053549745704856
+        "valeur": 26.98,
+        "variation": 38.92893633492256
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "Stable",
-        "detail": "2,64 % · -3 pb · nominal 4,84 %",
+        "detail": "2,64 % · -3 pb · nominal 4,90 %",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -593,17 +593,17 @@
       {
         "id": "nominaux",
         "nom": "Taux US 10 ans",
-        "etat": "En repli",
-        "detail": "4,84 % · -6 pb",
-        "impact": "positif",
+        "etat": "En hausse",
+        "detail": "4,90 % · +6 pb",
+        "impact": "neutre",
         "included": true,
-        "score_jour": 1,
+        "score_jour": -1,
         "score_mois": 1,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-11-05",
+        "as_of": "2026-11-06",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 4.837,
-        "variation": -0.057000160217285156
+        "valeur": 4.898,
+        "variation": 0.06099987030029297
       },
       {
         "id": "fed",
@@ -682,7 +682,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 28
+        "force": 16
       },
       {
         "id": "biais",
@@ -712,11 +712,11 @@
       }
     ],
     "label": "AUCUN",
-    "confiance": 24,
+    "confiance": 18,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "BAISSIER",
-    "force_macro": 28,
+    "force_macro": 16,
     "moyenne_technique": 19.0,
     "macro": "HAUSSIER",
     "biais": "BAISSIER",
@@ -1212,13 +1212,37 @@
         "pays": "USD",
         "impact": "moyen",
         "fort": false
+      },
+      {
+        "t": "2026-11-07T05:00+01:00",
+        "heure": "sam. 7 nov. 05:00",
+        "titre": "Average Hourly Earnings m/m",
+        "pays": "USD",
+        "impact": "haut",
+        "fort": true
+      },
+      {
+        "t": "2026-11-07T05:00+01:00",
+        "heure": "sam. 7 nov. 05:00",
+        "titre": "Non-Farm Employment Change",
+        "pays": "USD",
+        "impact": "haut",
+        "fort": true
+      },
+      {
+        "t": "2026-11-07T05:00+01:00",
+        "heure": "sam. 7 nov. 05:00",
+        "titre": "Unemployment Rate",
+        "pays": "USD",
+        "impact": "haut",
+        "fort": true
       }
     ],
     "gap_weekend": false,
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 4 061,86 $, en baisse de 1,55 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 48 % contre vente 52 %, écart 4 pts, conviction BASSE, delta net -5,02. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 45,3, le prix est en dessous de la moyenne 20, au-dessus de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction modérée (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 4 138,07 $ et le plus bas 4 035,66 $. Dépêches Investing (48 h) : « La livre sterling recule face au dollar avant les chiffres de l’emploi américain » ; « Goldman abaisse ses prévisions sur l’or en raison du virage hawkish de la Fed ».",
+  "brief": "L'or spot XAU/USD cote 4 061,86 $, en baisse de 1,55 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 48 % contre vente 52 %, écart 4 pts, conviction BASSE, delta net -5,02. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 45,3, le prix est en dessous de la moyenne 20, au-dessus de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 4 138,07 $ et le plus bas 4 035,66 $. Dépêches Investing (48 h) : « La livre sterling recule face au dollar avant les chiffres de l’emploi américain » ; « Goldman abaisse ses prévisions sur l’or en raison du virage hawkish de la Fed ».",
   "news": [
     {
       "titre": "La livre sterling recule face au dollar avant les chiffres de l’emploi américain",
@@ -1327,7 +1351,7 @@
     },
     {
       "niveau": "important",
-      "texte": "VIX élevé (26,8) : aversion au risque."
+      "texte": "VIX élevé (27,0) : aversion au risque."
     }
   ],
   "sources": {
@@ -1336,9 +1360,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
