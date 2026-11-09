@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-09T08:29:08+01:00",
-  "generated_label": "lundi 9 novembre 2026, 08:29",
+  "generated_at": "2026-11-09T08:59:06+01:00",
+  "generated_label": "lundi 9 novembre 2026, 08:59",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 36,
+    "score": 40,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "HAUSSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 33,
+        "points": 40,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 36,
+        "points": 40,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 36,
+    "score": 40,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "HAUSSIER"
@@ -542,23 +542,23 @@
   "macro": {
     "biais": "HAUSSIER",
     "conviction": "MODÉRÉE",
-    "force": 33,
+    "force": 40,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "102,08 · +0,32 % / 5 j",
-        "impact": "neutre",
+        "detail": "102,01 · +0,25 % / 5 j",
+        "impact": "positif",
         "included": true,
-        "score_jour": 0,
+        "score_jour": 1,
         "score_mois": 0,
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-09",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 102.076,
-        "variation": 0.3203895812538391
+        "valeur": 102.009,
+        "variation": 0.2545480939035627
       },
       {
         "id": "vix",
@@ -674,7 +674,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 33
+        "force": 40
       },
       {
         "id": "biais",
@@ -704,11 +704,11 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 36,
+    "confiance": 40,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "HAUSSIER",
-    "force_macro": 33,
+    "force_macro": 40,
     "moyenne_technique": 40.0,
     "macro": "HAUSSIER",
     "biais": "BAISSIER",
@@ -1190,10 +1190,10 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 4 106,81 $, en hausse de 1,01 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -2,03. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 56,8, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction modérée (USD (DXY) neutre, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 4 133,88 $ et le plus bas 4 027,18 $. Dépêches Investing (48 h) : « Les devises asiatiques progressent tandis que le dollar se stabilise » ; « L’or dépasse les 4.120$ alors que les métaux précieux prolongent leur rebond ».",
+  "brief": "L'or spot XAU/USD cote 4 106,81 $, en hausse de 1,01 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -2,03. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 56,8, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 4 133,88 $ et le plus bas 4 027,18 $. Dépêches Investing (48 h) : « Le dollar se stabilise après les données d’emploi américaines ; focus sur l’IPC chinois » ; « L’or dépasse les 4.120$ alors que les métaux précieux prolongent leur rebond ».",
   "news": [
     {
-      "titre": "Les devises asiatiques progressent tandis que le dollar se stabilise",
+      "titre": "Le dollar se stabilise après les données d’emploi américaines ; focus sur l’IPC chinois",
       "lien": "https://fr.investing.com/news/forex-news/les-devises-asiatiques-progressent-tandis-que-le-dollar-se-stabilise-3683806",
       "source": "Forex",
       "t": "2026-11-09T05:33+01:00",
@@ -1236,9 +1236,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
