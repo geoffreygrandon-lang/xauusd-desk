@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-09T07:04:39+01:00",
-  "generated_label": "lundi 9 novembre 2026, 07:04",
+  "generated_at": "2026-11-09T07:38:06+01:00",
+  "generated_label": "lundi 9 novembre 2026, 07:38",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -549,7 +549,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "102,12 · +0,36 % / 5 j",
+        "detail": "102,08 · +0,32 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -557,8 +557,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-09",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 102.118,
-        "variation": 0.3616670425752457
+        "valeur": 102.076,
+        "variation": 0.3203895812538391
       },
       {
         "id": "vix",
@@ -1229,11 +1229,11 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 3,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 6,
+    "demandees": 5,
     "minutes": {
-      "fichiers": 2
+      "fichiers": 1
     }
   },
   "notifications": {
