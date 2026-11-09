@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-09T17:00:32+01:00",
-  "generated_label": "lundi 9 novembre 2026, 17:00",
+  "generated_at": "2026-11-09T17:42:49+01:00",
+  "generated_label": "lundi 9 novembre 2026, 17:42",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -570,7 +570,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "Stable",
-        "detail": "101,90 · +0,15 % / 5 j",
+        "detail": "101,83 · +0,07 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 1,
@@ -578,14 +578,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-09",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.902,
-        "variation": 0.14938616928363022
+        "valeur": 101.826,
+        "variation": 0.07468933555359338
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
-        "etat": "Aversion (risk off)",
-        "detail": "21,26 · +0,52 % / 5 j",
+        "etat": "Stable",
+        "detail": "20,82 · -1,56 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -593,14 +593,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-09",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 21.26,
-        "variation": 0.5200974578514271
+        "valeur": 20.82,
+        "variation": -1.5602833553572735
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "Stable",
-        "detail": "2,60 % · -3 pb · nominal 4,86 %",
+        "detail": "2,60 % · -3 pb · nominal 4,87 %",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -615,7 +615,7 @@
         "id": "nominaux",
         "nom": "Taux US 10 ans",
         "etat": "Stable",
-        "detail": "4,86 % · +0 pb",
+        "detail": "4,87 % · +1 pb",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -623,8 +623,8 @@
         "source": "Yahoo Finance ^TNX",
         "as_of": "2026-11-09",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 4.864,
-        "variation": 0.004999637603759766
+        "valeur": 4.874,
+        "variation": 0.014999866485595703
       },
       {
         "id": "fed",
@@ -1316,9 +1316,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
