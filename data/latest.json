@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-10T08:05:39+01:00",
-  "generated_label": "mardi 10 novembre 2026, 08:05",
+  "generated_at": "2026-11-10T08:50:37+01:00",
+  "generated_label": "mardi 10 novembre 2026, 08:50",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -548,8 +548,8 @@
       {
         "id": "dxy",
         "nom": "USD (DXY)",
-        "etat": "Stable",
-        "detail": "101,64 · -0,22 % / 5 j",
+        "etat": "En repli",
+        "detail": "101,56 · -0,31 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -557,8 +557,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-10",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 101.643,
-        "variation": -0.2228379294810896
+        "valeur": 101.559,
+        "variation": -0.30529560251956495
       },
       {
         "id": "vix",
@@ -1170,10 +1170,10 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 4 121,05 $, en hausse de 0,85 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 50 % contre vente 50 %, écart 0 pts, conviction BASSE, delta net -0,43. La séance de Asie est neutre. Le sens privilégié pour Londres est d'ATTENDRE. Le RSI 14 est à 54,1, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 4 148,58 $ et le plus bas 4 084,49 $. Dépêches Investing (48 h) : « Les devises asiatiques reculent, le dollar consolide ses pertes avant les données sur l’inflation américaine » ; « L’or recule alors que les investisseurs attendent les données sur l’inflation américaine ».",
+  "brief": "L'or spot XAU/USD cote 4 121,05 $, en hausse de 0,85 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 50 % contre vente 50 %, écart 0 pts, conviction BASSE, delta net -0,43. La séance de Asie est neutre. Le sens privilégié pour Londres est d'ATTENDRE. Le RSI 14 est à 54,1, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction modérée (USD (DXY) positif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 4 148,58 $ et le plus bas 4 084,49 $. Dépêches Investing (48 h) : « Le dollar maintient ses pertes avant les données sur l’inflation américaine » ; « L’or recule alors que les investisseurs attendent les données sur l’inflation américaine ».",
   "news": [
     {
-      "titre": "Les devises asiatiques reculent, le dollar consolide ses pertes avant les données sur l’inflation américaine",
+      "titre": "Le dollar maintient ses pertes avant les données sur l’inflation américaine",
       "lien": "https://fr.investing.com/news/forex-news/les-devises-asiatiques-reculent-le-dollar-consolide-ses-pertes-avant-les-donnees-sur-linflation-americaine-3686644",
       "source": "Forex",
       "t": "2026-11-10T05:21+01:00",
@@ -1230,9 +1230,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
-    "echecs": 1,
-    "demandees": 2,
+    "telechargees": 0,
+    "echecs": 0,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
