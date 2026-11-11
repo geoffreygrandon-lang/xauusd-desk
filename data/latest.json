@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-11T14:06:12+01:00",
-  "generated_label": "mercredi 11 novembre 2026, 14:06",
+  "generated_at": "2026-11-11T14:51:07+01:00",
+  "generated_label": "mercredi 11 novembre 2026, 14:51",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 13,
+    "score": 14,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 6,
+        "points": 8,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 13,
+        "points": 14,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 13,
+    "score": 14,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER"
@@ -538,16 +538,16 @@
     "biais": "NEUTRE"
   },
   "macro": {
-    "biais": "BAISSIER",
+    "biais": "HAUSSIER",
     "conviction": "FAIBLE",
-    "force": 6,
+    "force": 8,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "102,53 · +1,00 % / 5 j",
+        "detail": "102,69 · +1,16 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": -1,
@@ -555,14 +555,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-11",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 102.525,
-        "variation": 0.9999008652233776
+        "valeur": 102.689,
+        "variation": 1.161462742272354
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Stable",
-        "detail": "18,56 · +11,74 % / 5 j",
+        "detail": "18,45 · +11,08 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -570,14 +570,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-11",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 18.56,
-        "variation": 11.739908392149946
+        "valeur": 18.45,
+        "variation": 11.077664569387068
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "Stable",
-        "detail": "2,66 % · +4 pb · nominal 4,98 %",
+        "detail": "2,66 % · +4 pb · nominal 5,00 %",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -591,35 +591,32 @@
       {
         "id": "nominaux",
         "nom": "Taux US 10 ans",
-        "etat": "En hausse",
-        "detail": "4,98 % · +12 pb",
-        "impact": "neutre",
+        "etat": "Stable",
+        "detail": "5,00 % · +2 pb",
+        "impact": "positif",
         "included": true,
-        "score_jour": -1,
+        "score_jour": 0,
         "score_mois": 1,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-11-10",
+        "as_of": "2026-11-11",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 4.983,
-        "variation": 0.11899995803833008
+        "valeur": 4.998,
+        "variation": 0.015000343322753906
       },
       {
         "id": "fed",
         "nom": "Fed",
-        "etat": "Fed funds 3,88 % · US 2 ans 4,56 % · En attente : FOMC Member Paulson Speaks mer. 11 nov. 00:30 · dépêche : Les obligations mondiales chutent après un IPC américain brûlant et des signaux hawkish de la Fed",
+        "etat": "Fed funds 3,88 % · US 2 ans 4,56 % · En attente : FOMC Member Paulson Speaks mer. 11 nov. 00:30",
         "detail": "Fed funds 3,88 % · US 2 ans 4,56 % · Forex Factory + FRED DFF/DGS2",
-        "impact": "negatif",
+        "impact": "positif",
         "included": true,
-        "score_jour": -1,
+        "score_jour": 0.0,
         "score_mois": 0.5,
         "source": "Forex Factory + FRED DFF + DGS2",
         "as_of": "2026-11-09",
         "regle": "Jour : actual FOMC s'il est publié (hausse = −1, baisse = +1), sinon variation du Fed funds au-delà de 1 pb, et le US 2 ans au-delà de 5 pb. Mois : Fed funds ±1 pb et US 2 ans ±10 pb. Hausse des taux = −1. Sans actual et sans série : exclu, impact neutre.",
         "valeur": 3.88,
-        "variation": null,
-        "news": [
-          "Les obligations mondiales chutent après un IPC américain brûlant et des signaux hawkish de la Fed"
-        ]
+        "variation": null
       },
       {
         "id": "inflation",
@@ -674,8 +671,8 @@
       {
         "id": "macro",
         "nom": "Macro",
-        "direction": "BAISSIER",
-        "force": 6
+        "direction": "HAUSSIER",
+        "force": 8
       },
       {
         "id": "biais",
@@ -705,13 +702,13 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 13,
+    "confiance": 14,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "BAISSIER",
-    "force_macro": 6,
+    "force_macro": 8,
     "moyenne_technique": 20.5,
-    "macro": "BAISSIER",
+    "macro": "HAUSSIER",
     "biais": "BAISSIER",
     "orderflow": "BAISSIER",
     "heatmap": "Distribution",
@@ -1239,7 +1236,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 4 043,84 $, en baisse de 0,20 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 42 % contre vente 58 %, écart 16 pts, conviction MODÉRÉE, delta net -19,27. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 40,8, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est baissier, conviction faible (USD (DXY) négatif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans neutre). Sur 24 h, le plus haut est 4 079,64 $ et le plus bas 4 013,36 $. Dépêches Investing (48 h) : « La livre sterling recule face au dollar, porté par l’inflation et les paris sur la Fed » ; « Les obligations mondiales chutent après un IPC américain brûlant et des signaux hawkish de la Fed ».",
+  "brief": "L'or spot XAU/USD cote 4 043,84 $, en baisse de 0,20 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 42 % contre vente 58 %, écart 16 pts, conviction MODÉRÉE, delta net -19,27. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 40,8, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). Sur 24 h, le plus haut est 4 079,64 $ et le plus bas 4 013,36 $. Dépêches Investing (48 h) : « La livre sterling recule face au dollar, porté par l’inflation et les paris sur la Fed » ; « Le dollar se maintient alors que les paris sur une hausse de la Fed augmentent après l’IPC américain brûlant ; le yen proche d’un plus bas en 6 semaines ».",
   "news": [
     {
       "titre": "La livre sterling recule face au dollar, porté par l’inflation et les paris sur la Fed",
@@ -1249,15 +1246,6 @@
       "heure": "mer. 11 nov. 10:22",
       "ton": 0,
       "ton_bucket": null
-    },
-    {
-      "titre": "Les obligations mondiales chutent après un IPC américain brûlant et des signaux hawkish de la Fed",
-      "lien": "https://fr.investing.com/news/forex-news/les-obligations-mondiales-chutent-apres-lipc-americain-et-les-craintes-dune-hausse-de-50-pb-3689710",
-      "source": "Forex",
-      "t": "2026-11-11T10:10+01:00",
-      "heure": "mer. 11 nov. 10:10",
-      "ton": -1,
-      "ton_bucket": "fed"
     },
     {
       "titre": "Le dollar se maintient alors que les paris sur une hausse de la Fed augmentent après l’IPC américain brûlant ; le yen proche d’un plus bas en 6 semaines",
@@ -1316,7 +1304,11 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de +1,00 % sur 5 séances."
+      "texte": "Divergence entre le biais macro et l'orderflow."
+    },
+    {
+      "niveau": "attention",
+      "texte": "DXY en mouvement de +1,16 % sur 5 séances."
     }
   ],
   "sources": {
@@ -1325,9 +1317,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
