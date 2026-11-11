@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-11T08:11:38+01:00",
-  "generated_label": "mercredi 11 novembre 2026, 08:11",
+  "generated_at": "2026-11-11T08:53:04+01:00",
+  "generated_label": "mercredi 11 novembre 2026, 08:53",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -547,7 +547,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "102,31 · +0,79 % / 5 j",
+        "detail": "102,35 · +0,83 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -555,8 +555,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-11",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 102.31,
-        "variation": 0.788095168483649
+        "valeur": 102.352,
+        "variation": 0.8294702211983221
       },
       {
         "id": "vix",
@@ -1221,8 +1221,17 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 4 059,68 $, en baisse de 1,28 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 45 % contre vente 55 %, écart 10 pts, conviction MODÉRÉE, delta net -12,38. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 49,5, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction faible (USD (DXY) neutre, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans neutre). Sur 24 h, le plus haut est 4 127,60 $ et le plus bas 4 013,36 $. Dépêches Investing (48 h) : « Pourquoi le cours de l’or en dollar américain chute-t-il aujourd’hui ? » ; « La livre sterling recule alors que le dollar se stabilise sur les paris de resserrement de la Fed ».",
+  "brief": "L'or spot XAU/USD cote 4 059,68 $, en baisse de 1,28 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 45 % contre vente 55 %, écart 10 pts, conviction MODÉRÉE, delta net -12,38. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 49,5, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction faible (USD (DXY) neutre, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans neutre). Sur 24 h, le plus haut est 4 127,60 $ et le plus bas 4 013,36 $. Dépêches Investing (48 h) : « Le dollar se maintient alors que les paris sur une hausse de la Fed augmentent après l’IPC américain ; le yen proche d’un plus bas de 6 semaines » ; « Pourquoi le cours de l’or en dollar américain chute-t-il aujourd’hui ? ».",
   "news": [
+    {
+      "titre": "Le dollar se maintient alors que les paris sur une hausse de la Fed augmentent après l’IPC américain ; le yen proche d’un plus bas de 6 semaines",
+      "lien": "https://fr.investing.com/news/forex-news/les-devises-asiatiques-se-stabilisent-apres-la-publication-dun-ipc-americain-eleve-3689364",
+      "source": "Forex",
+      "t": "2026-11-11T04:46+01:00",
+      "heure": "mer. 11 nov. 04:46",
+      "ton": 0,
+      "ton_bucket": null
+    },
     {
       "titre": "Pourquoi le cours de l’or en dollar américain chute-t-il aujourd’hui ?",
       "lien": "https://fr.investing.com/news/commodities-news/pourquoi-le-cours-de-lor-en-dollar-americain-chutetil-aujourdhui--93CH-3688767",
@@ -1284,7 +1293,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de +0,79 % sur 5 séances."
+      "texte": "DXY en mouvement de +0,83 % sur 5 séances."
     }
   ],
   "sources": {
@@ -1293,9 +1302,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
