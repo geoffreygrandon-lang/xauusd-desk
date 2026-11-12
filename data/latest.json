@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-12T08:18:27+01:00",
-  "generated_label": "jeudi 12 novembre 2026, 08:18",
+  "generated_at": "2026-11-12T08:54:41+01:00",
+  "generated_label": "jeudi 12 novembre 2026, 08:54",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -549,7 +549,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "102,99 · +1,42 % / 5 j",
+        "detail": "102,97 · +1,40 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -557,8 +557,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-12",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 102.989,
-        "variation": 1.4170313324310788
+        "valeur": 102.967,
+        "variation": 1.3953715158160236
       },
       {
         "id": "vix",
@@ -1154,10 +1154,10 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 965,60 $, en baisse de 2,30 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 42 % contre vente 58 %, écart 16 pts, conviction MODÉRÉE, delta net -19,04. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 26,4, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). RSI en survente (< 30) : extrême, prudence. Sur 24 h, le plus haut est 4 066,79 $ et le plus bas 3 962,24 $. Dépêches Investing (48 h) : « Les devises asiatiques restent sous pression, le dollar à un sommet de 19 mois ; le yen approche les 160 » ; « L’or passe sous les 4.000$ alors que les paris hawkish de la Fed pèsent sur le métal ».",
+  "brief": "L'or spot XAU/USD cote 3 965,60 $, en baisse de 2,30 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 42 % contre vente 58 %, écart 16 pts, conviction MODÉRÉE, delta net -19,04. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 26,4, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). RSI en survente (< 30) : extrême, prudence. Sur 24 h, le plus haut est 4 066,79 $ et le plus bas 3 962,24 $. Dépêches Investing (48 h) : « Le dollar atteint un sommet de 19 mois sur les paris de hausse de la Fed ; le yen approche les 160 » ; « L’or passe sous les 4.000$ alors que les paris hawkish de la Fed pèsent sur le métal ».",
   "news": [
     {
-      "titre": "Les devises asiatiques restent sous pression, le dollar à un sommet de 19 mois ; le yen approche les 160",
+      "titre": "Le dollar atteint un sommet de 19 mois sur les paris de hausse de la Fed ; le yen approche les 160",
       "lien": "https://fr.investing.com/news/forex-news/les-devises-asiatiques-restent-sous-pression-le-dollar-a-un-sommet-de-19-mois--le-yen-approche-les-160-3691508",
       "source": "Forex",
       "t": "2026-11-12T04:55+01:00",
@@ -1226,7 +1226,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de +1,42 % sur 5 séances."
+      "texte": "DXY en mouvement de +1,40 % sur 5 séances."
     }
   ],
   "sources": {
@@ -1235,9 +1235,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
-    "echecs": 1,
-    "demandees": 6,
+    "telechargees": 0,
+    "echecs": 0,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
