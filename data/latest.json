@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-12T14:09:16+01:00",
-  "generated_label": "jeudi 12 novembre 2026, 14:09",
+  "generated_at": "2026-11-12T14:51:28+01:00",
+  "generated_label": "jeudi 12 novembre 2026, 14:51",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 37,
+    "score": 34,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 8,
+        "points": 1,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 37,
+        "points": 34,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 37,
+    "score": 34,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER"
@@ -542,14 +542,14 @@
   "macro": {
     "biais": "HAUSSIER",
     "conviction": "FAIBLE",
-    "force": 8,
+    "force": 1,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "102,91 · +1,34 % / 5 j",
+        "detail": "102,94 · +1,37 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -557,14 +557,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-12",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 102.912,
-        "variation": 1.341210704862873
+        "valeur": 102.942,
+        "variation": 1.3707515993930144
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Stable",
-        "detail": "18,21 · -35,38 % / 5 j",
+        "detail": "18,99 · -32,61 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -572,14 +572,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-12",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 18.21,
-        "variation": -35.379705864914236
+        "valeur": 18.99,
+        "variation": -32.611782947247534
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "Stable",
-        "detail": "2,66 % · +4 pb · nominal 5,00 %",
+        "detail": "2,66 % · +4 pb · nominal 5,05 %",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -593,22 +593,22 @@
       {
         "id": "nominaux",
         "nom": "Taux US 10 ans",
-        "etat": "Stable",
-        "detail": "5,00 % · +2 pb",
-        "impact": "positif",
+        "etat": "En hausse",
+        "detail": "5,05 % · +5 pb",
+        "impact": "neutre",
         "included": true,
-        "score_jour": 0,
+        "score_jour": -1,
         "score_mois": 1,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-11-11",
+        "as_of": "2026-11-12",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 4.998,
-        "variation": 0.015000343322753906
+        "valeur": 5.052,
+        "variation": 0.053999900817871094
       },
       {
         "id": "fed",
         "nom": "Fed",
-        "etat": "Fed funds 3,88 % · US 2 ans 4,56 % · En attente : FOMC Member Paulson Speaks mer. 11 nov. 00:30 · dépêche : Le dollar atteint un sommet en 2025 sur fond de paris hawkish sur la Fed · L’or chute sous les 4.000$ alors que les paris hawkish sur la Fed pèsent sur le métal",
+        "etat": "Fed funds 3,88 % · US 2 ans 4,56 % · En attente : FOMC Member Hammack Speaks jeu. 12 nov. 14:30 · dépêche : Le dollar atteint un sommet en 2025 sur fond de paris hawkish sur la Fed",
         "detail": "Fed funds 3,88 % · US 2 ans 4,56 % · Forex Factory + FRED DFF/DGS2",
         "impact": "negatif",
         "included": true,
@@ -620,8 +620,7 @@
         "valeur": 3.88,
         "variation": null,
         "news": [
-          "Le dollar atteint un sommet en 2025 sur fond de paris hawkish sur la Fed",
-          "L’or chute sous les 4.000$ alors que les paris hawkish sur la Fed pèsent sur le métal"
+          "Le dollar atteint un sommet en 2025 sur fond de paris hawkish sur la Fed"
         ]
       },
       {
@@ -678,7 +677,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 8
+        "force": 1
       },
       {
         "id": "biais",
@@ -708,11 +707,11 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 37,
+    "confiance": 34,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "BAISSIER",
-    "force_macro": 8,
+    "force_macro": 1,
     "moyenne_technique": 66.2,
     "macro": "HAUSSIER",
     "biais": "BAISSIER",
@@ -1227,7 +1226,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 936,59 $, en baisse de 2,51 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 44 % contre vente 56 %, écart 12 pts, conviction MODÉRÉE, delta net -13,66. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 29,3, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans positif). RSI en survente (< 30) : extrême, prudence. Sur 24 h, le plus haut est 4 055,96 $ et le plus bas 3 924,30 $. Dépêches Investing (48 h) : « Le dollar atteint un sommet en 2025 sur fond de paris hawkish sur la Fed » ; « L’or chute sous les 4.000$ alors que les paris hawkish sur la Fed pèsent sur le métal ».",
+  "brief": "L'or spot XAU/USD cote 3 936,59 $, en baisse de 2,51 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 44 % contre vente 56 %, écart 12 pts, conviction MODÉRÉE, delta net -13,66. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 29,3, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque neutre, Taux réels US 10 ans positif, Taux US 10 ans neutre). RSI en survente (< 30) : extrême, prudence. Sur 24 h, le plus haut est 4 055,96 $ et le plus bas 3 924,30 $. Dépêches Investing (48 h) : « Le dollar atteint un sommet en 2025 sur fond de paris hawkish sur la Fed » ; « L’or chute sous les 4.000$ alors que les paris hawkish sur la Fed pèsent sur le métal ».",
   "news": [
     {
       "titre": "Le dollar atteint un sommet en 2025 sur fond de paris hawkish sur la Fed",
@@ -1272,7 +1271,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de +1,34 % sur 5 séances."
+      "texte": "DXY en mouvement de +1,37 % sur 5 séances."
     }
   ],
   "sources": {
@@ -1281,11 +1280,11 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
-      "fichiers": 2
+      "fichiers": 1
     }
   },
   "notifications": {
