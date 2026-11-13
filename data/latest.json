@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-13T08:13:57+01:00",
-  "generated_label": "vendredi 13 novembre 2026, 08:13",
+  "generated_at": "2026-11-13T08:54:16+01:00",
+  "generated_label": "vendredi 13 novembre 2026, 08:54",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -547,7 +547,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "103,19 · +0,87 % / 5 j",
+        "detail": "103,13 · +0,81 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -555,8 +555,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-13",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.191,
-        "variation": 0.8709665823580064
+        "valeur": 103.133,
+        "variation": 0.8142719044534332
       },
       {
         "id": "vix",
@@ -636,7 +636,7 @@
       {
         "id": "banques",
         "nom": "Banques centrales",
-        "etat": "Cash Rate mar. 3 nov. 06:00 : 4,85 % en ligne avec le prévu (4,85 %) · score or +0 ; MPC Official Bank Rate Votes ven. 6 nov. 05:00 : 9,00 % plus haut que prévu (7,00 %) · score or +1 ; Official Bank Rate ven. 6 nov. 05:00 : 4,00 % en ligne avec le prévu (4,00 %) · score or +0",
+        "etat": "Cash Rate mar. 3 nov. 03:30 : 4,85 % en ligne avec le prévu (4,85 %) · score or +0 ; MPC Official Bank Rate Votes ven. 6 nov. 05:00 : 9,00 % plus haut que prévu (7,00 %) · score or +1 ; Official Bank Rate ven. 6 nov. 05:00 : 4,00 % en ligne avec le prévu (4,00 %) · score or +0",
         "detail": "Forex Factory · surprise dovish à l'étranger = −1 (dollar plus ferme), hawkish = +1",
         "impact": "positif",
         "included": true,
@@ -1278,7 +1278,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de +0,87 % sur 5 séances."
+      "texte": "DXY en mouvement de +0,81 % sur 5 séances."
     },
     {
       "niveau": "attention",
@@ -1291,11 +1291,11 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 1,
-    "demandees": 4,
+    "demandees": 1,
     "minutes": {
-      "fichiers": 2
+      "fichiers": 1
     }
   },
   "notifications": {
