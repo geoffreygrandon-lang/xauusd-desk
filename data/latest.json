@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-13T14:05:02+01:00",
-  "generated_label": "vendredi 13 novembre 2026, 14:05",
+  "generated_at": "2026-11-13T14:50:01+01:00",
+  "generated_label": "vendredi 13 novembre 2026, 14:50",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 26,
+    "score": 23,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 13,
+        "points": 7,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 26,
+        "points": 23,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 26,
+    "score": 23,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER"
@@ -540,16 +540,16 @@
     "biais": "BAISSIER"
   },
   "macro": {
-    "biais": "BAISSIER",
+    "biais": "HAUSSIER",
     "conviction": "FAIBLE",
-    "force": 13,
+    "force": 7,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "103,27 · +0,94 % / 5 j",
+        "detail": "103,14 · +0,82 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -557,14 +557,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-13",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.266,
-        "variation": 0.9442773800167743
+        "valeur": 103.139,
+        "variation": 0.820133785120757
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Stable",
-        "detail": "18,19 · -29,06 % / 5 j",
+        "detail": "17,65 · -31,16 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -572,14 +572,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-13",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 18.19,
-        "variation": -29.056158474787587
+        "valeur": 17.65,
+        "variation": -31.162246338991505
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "En hausse",
-        "detail": "2,78 % · +13 pb · nominal 5,10 %",
+        "detail": "2,78 % · +13 pb · nominal 5,12 %",
         "impact": "neutre",
         "included": true,
         "score_jour": -1,
@@ -593,17 +593,17 @@
       {
         "id": "nominaux",
         "nom": "Taux US 10 ans",
-        "etat": "En hausse",
-        "detail": "5,10 % · +11 pb",
-        "impact": "negatif",
+        "etat": "Stable",
+        "detail": "5,12 % · +1 pb",
+        "impact": "neutre",
         "included": true,
-        "score_jour": -1,
+        "score_jour": 0,
         "score_mois": 0,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-11-12",
+        "as_of": "2026-11-13",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 5.103,
-        "variation": 0.10500001907348633
+        "valeur": 5.1150002,
+        "variation": 0.012000083923339844
       },
       {
         "id": "fed",
@@ -656,17 +656,20 @@
       {
         "id": "geo",
         "nom": "Géopolitique",
-        "etat": "En attente : dépêches géopolitiques",
+        "etat": "En attente : dépêches géopolitiques · dépêche : Le pétrole en passe d’une deuxième perte hebdomadaire sur fond d’apaisement des tensions entre les États-Unis et l’Iran",
         "detail": "Le prix de l'or n'est pas un moteur macro. Le VIX est noté à part. Une dépêche de tension sur 48 h peut inclure ce moteur.",
-        "impact": "neutre",
-        "included": false,
-        "score_jour": null,
+        "impact": "positif",
+        "included": true,
+        "score_jour": 1,
         "score_mois": null,
         "source": "Investing.com, dépêches 48 h",
         "as_of": null,
         "regle": "Inclus seulement s'il y a une dépêche de tension, sanction, guerre, élection ou tarif sur 48 h (+1). Sinon exclu, impact neutre. Le cours de l'or ne compte pas.",
         "valeur": null,
-        "variation": null
+        "variation": null,
+        "news": [
+          "Le pétrole en passe d’une deuxième perte hebdomadaire sur fond d’apaisement des tensions entre les États-Unis et l’Iran"
+        ]
       }
     ],
     "calendrier": "Forex Factory"
@@ -676,8 +679,8 @@
       {
         "id": "macro",
         "nom": "Macro",
-        "direction": "BAISSIER",
-        "force": 13
+        "direction": "HAUSSIER",
+        "force": 7
       },
       {
         "id": "biais",
@@ -707,13 +710,13 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 26,
+    "confiance": 23,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "BAISSIER",
-    "force_macro": 13,
+    "force_macro": 7,
     "moyenne_technique": 38.8,
-    "macro": "BAISSIER",
+    "macro": "HAUSSIER",
     "biais": "BAISSIER",
     "orderflow": "NEUTRE",
     "heatmap": "Distribution",
@@ -1225,14 +1228,39 @@
         "pays": "USD",
         "impact": "haut",
         "fort": true
+      },
+      {
+        "t": "2026-11-14T05:00+01:00",
+        "heure": "sam. 14 nov. 05:00",
+        "titre": "Core PPI m/m",
+        "pays": "USD",
+        "impact": "haut",
+        "fort": true
+      },
+      {
+        "t": "2026-11-14T05:00+01:00",
+        "heure": "sam. 14 nov. 05:00",
+        "titre": "PPI m/m",
+        "pays": "USD",
+        "impact": "haut",
+        "fort": true
       }
     ],
     "gap_weekend": false,
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 888,84 $, en baisse de 0,03 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -3,30. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 37,7, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est baissier, conviction faible (USD (DXY) négatif, Sentiment de risque neutre, Taux réels US 10 ans neutre, Taux US 10 ans négatif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 955,43 $ et le plus bas 3 852,35 $. Dépêches Investing (48 h) : « Goldman Sachs prévoit une hausse des prix du gaz TTF en cas de perturbation du GNL du Golfe » ; « Goldman prévoit un cuivre à 15.600$ la tonne d’ici décembre 2027 ».",
+  "brief": "L'or spot XAU/USD cote 3 888,84 $, en baisse de 0,03 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -3,30. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 37,7, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque neutre, Taux réels US 10 ans neutre, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 955,43 $ et le plus bas 3 852,35 $. Dépêches Investing (48 h) : « Goldman Sachs abaisse ses prévisions sur le minerai de fer en raison de la demande d’acier en Chine » ; « Goldman Sachs prévoit une hausse des prix du gaz TTF en cas de perturbation du GNL du Golfe ».",
   "news": [
+    {
+      "titre": "Goldman Sachs abaisse ses prévisions sur le minerai de fer en raison de la demande d’acier en Chine",
+      "lien": "https://fr.investing.com/news/commodities-news/goldman-sachs-abaisse-ses-previsions-sur-le-minerai-de-fer-en-raison-de-la-demande-dacier-en-chine-93CH-3695363",
+      "source": "Matières premières",
+      "t": "2026-11-13T14:17+01:00",
+      "heure": "ven. 13 nov. 14:17",
+      "ton": 0,
+      "ton_bucket": null
+    },
     {
       "titre": "Goldman Sachs prévoit une hausse des prix du gaz TTF en cas de perturbation du GNL du Golfe",
       "lien": "https://fr.investing.com/news/commodities-news/goldman-sachs-prevoit-une-hausse-des-prix-du-gaz-ttf-en-cas-de-perturbation-du-gnl-du-golfe-93CH-3694676",
@@ -1279,6 +1307,15 @@
       "ton_bucket": null
     },
     {
+      "titre": "Le pétrole en passe d’une deuxième perte hebdomadaire sur fond d’apaisement des tensions entre les États-Unis et l’Iran",
+      "lien": "https://fr.investing.com/news/commodities-news/les-prix-du-petrole-se-maintiennent-alors-que-trump-ecarte-vance-des-negociations-avec-liran-3694140",
+      "source": "Matières premières",
+      "t": "2026-11-13T01:11+01:00",
+      "heure": "ven. 13 nov. 01:11",
+      "ton": 1,
+      "ton_bucket": "geo"
+    },
+    {
       "titre": "Le dollar est-il enfin prêt à franchir un cap ? BCA donne son avis",
       "lien": "https://fr.investing.com/news/forex-news/le-dollar-estil-enfin-pret-a-franchir-un-cap--bca-donne-son-avis-3693077",
       "source": "Forex",
@@ -1313,7 +1350,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de +0,94 % sur 5 séances."
+      "texte": "DXY en mouvement de +0,82 % sur 5 séances."
     },
     {
       "niveau": "attention",
@@ -1326,9 +1363,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
-    "echecs": 0,
-    "demandees": 2,
+    "telechargees": 0,
+    "echecs": 1,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
