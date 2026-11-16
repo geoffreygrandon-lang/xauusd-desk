@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-16T17:44:23+01:00",
-  "generated_label": "lundi 16 novembre 2026, 17:44",
+  "generated_at": "2026-11-16T17:55:52+01:00",
+  "generated_label": "lundi 16 novembre 2026, 17:55",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -570,7 +570,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "103,51 · +1,83 % / 5 j",
+        "detail": "103,53 · +1,85 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -578,14 +578,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-16",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.513,
-        "variation": 1.8327584204984455
+        "valeur": 103.535,
+        "variation": 1.8544044347609472
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Aversion (risk off)",
-        "detail": "20,92 · +5,02 % / 5 j",
+        "detail": "20,96 · +5,22 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 1,
@@ -593,14 +593,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-16",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 20.92,
-        "variation": 5.020080302058147
+        "valeur": 20.96,
+        "variation": 5.220878535117955
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "En hausse",
-        "detail": "2,86 % · +22 pb · nominal 5,13 %",
+        "detail": "2,86 % · +22 pb · nominal 5,14 %",
         "impact": "negatif",
         "included": true,
         "score_jour": -1,
@@ -615,7 +615,7 @@
         "id": "nominaux",
         "nom": "Taux US 10 ans",
         "etat": "Stable",
-        "detail": "5,13 % · -2 pb",
+        "detail": "5,14 % · -1 pb",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -623,8 +623,8 @@
         "source": "Yahoo Finance ^TNX",
         "as_of": "2026-11-16",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 5.131,
-        "variation": -0.02299976348876953
+        "valeur": 5.141,
+        "variation": -0.013000011444091797
       },
       {
         "id": "fed",
@@ -1269,7 +1269,7 @@
       "ton_bucket": "geo"
     },
     {
-      "titre": "Le dollar atteint un sommet de 19 mois, le yen sous pression d’intervention",
+      "titre": "Le rallye du dollar s’accélère alors que la récession japonaise pèse sur le yen",
       "lien": "https://fr.investing.com/news/forex-news/les-devises-asiatiques-stagnent-alors-que-le-dollar-reste-proche-dun-sommet-de-19-mois-3696787",
       "source": "Forex",
       "t": "2026-11-16T05:43+01:00",
@@ -1303,7 +1303,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de +1,83 % sur 5 séances."
+      "texte": "DXY en mouvement de +1,85 % sur 5 séances."
     },
     {
       "niveau": "attention",
