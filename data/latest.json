@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-17T14:05:32+01:00",
-  "generated_label": "mardi 17 novembre 2026, 14:05",
+  "generated_at": "2026-11-17T14:51:02+01:00",
+  "generated_label": "mardi 17 novembre 2026, 14:51",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 22,
+    "score": 18,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 7,
+        "points": 0,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 22,
+        "points": 18,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 22,
+    "score": 18,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER"
@@ -540,16 +540,16 @@
     "biais": "BAISSIER"
   },
   "macro": {
-    "biais": "HAUSSIER",
+    "biais": "NEUTRE",
     "conviction": "FAIBLE",
-    "force": 7,
+    "force": 0,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "103,59 · +1,33 % / 5 j",
+        "detail": "103,74 · +1,48 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -557,29 +557,29 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-17",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.591,
-        "variation": 1.3313117640065582
+        "valeur": 103.739,
+        "variation": 1.476078457010046
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Aversion (risk off)",
-        "detail": "22,63 · +16,29 % / 5 j",
+        "detail": "23,02 · +18,29 % / 5 j",
         "impact": "positif",
         "included": true,
-        "score_jour": 0,
+        "score_jour": 1,
         "score_mois": 1,
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-17",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 22.63,
-        "variation": 16.28982644106763
+        "valeur": 23.02,
+        "variation": 18.293944197210056
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "En hausse",
-        "detail": "2,91 % · +31 pb · nominal 5,12 %",
+        "detail": "2,91 % · +31 pb · nominal 5,14 %",
         "impact": "negatif",
         "included": true,
         "score_jour": -1,
@@ -594,16 +594,16 @@
         "id": "nominaux",
         "nom": "Taux US 10 ans",
         "etat": "Stable",
-        "detail": "5,12 % · -3 pb",
+        "detail": "5,14 % · +2 pb",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
         "score_mois": 0,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-11-16",
+        "as_of": "2026-11-17",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 5.121,
-        "variation": -0.03299999237060547
+        "valeur": 5.141,
+        "variation": 0.019999980926513672
       },
       {
         "id": "fed",
@@ -653,20 +653,17 @@
       {
         "id": "geo",
         "nom": "Géopolitique",
-        "etat": "En attente : dépêches géopolitiques · dépêche : Le gaz européen recule malgré les tensions au Moyen-Orient",
+        "etat": "En attente : dépêches géopolitiques",
         "detail": "Le prix de l'or n'est pas un moteur macro. Le VIX est noté à part. Une dépêche de tension sur 48 h peut inclure ce moteur.",
-        "impact": "positif",
-        "included": true,
-        "score_jour": 1,
+        "impact": "neutre",
+        "included": false,
+        "score_jour": null,
         "score_mois": null,
         "source": "Investing.com, dépêches 48 h",
         "as_of": null,
         "regle": "Inclus seulement s'il y a une dépêche de tension, sanction, guerre, élection ou tarif sur 48 h (+1). Sinon exclu, impact neutre. Le cours de l'or ne compte pas.",
         "valeur": null,
-        "variation": null,
-        "news": [
-          "Le gaz européen recule malgré les tensions au Moyen-Orient"
-        ]
+        "variation": null
       }
     ],
     "calendrier": "Forex Factory"
@@ -676,8 +673,8 @@
       {
         "id": "macro",
         "nom": "Macro",
-        "direction": "HAUSSIER",
-        "force": 7
+        "direction": "NEUTRE",
+        "force": 0
       },
       {
         "id": "biais",
@@ -707,13 +704,13 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 22,
+    "confiance": 18,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "BAISSIER",
-    "force_macro": 7,
+    "force_macro": 0,
     "moyenne_technique": 36.2,
-    "macro": "HAUSSIER",
+    "macro": "NEUTRE",
     "biais": "BAISSIER",
     "orderflow": "NEUTRE",
     "heatmap": "Distribution",
@@ -1174,8 +1171,17 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 861,11 $, en baisse de 0,11 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -3,57. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 46,6, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 888,84 $ et le plus bas 3 841,00 $. Dépêches Investing (48 h) : « Citi prévoit un affaiblissement du réal brésilien à 5,50 par dollar en 2027 » ; « L’or au plus bas depuis plus d’un an : Timing idéal sur ces 12 actions minières ? ».",
+  "brief": "L'or spot XAU/USD cote 3 861,11 $, en baisse de 0,11 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -3,57. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 46,6, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est neutre, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 888,84 $ et le plus bas 3 841,00 $. Dépêches Investing (48 h) : « Quand Goldman prévoit que l’or atteindra 5.600$/oz » ; « Citi prévoit un affaiblissement du réal brésilien à 5,50 par dollar en 2027 ».",
   "news": [
+    {
+      "titre": "Quand Goldman prévoit que l’or atteindra 5.600$/oz",
+      "lien": "https://fr.investing.com/news/commodities-news/quand-goldman-prevoit-que-lor-atteindra-5600oz-3700264",
+      "source": "Matières premières",
+      "t": "2026-11-17T13:32+01:00",
+      "heure": "mar. 17 nov. 13:32",
+      "ton": 0,
+      "ton_bucket": null
+    },
     {
       "titre": "Citi prévoit un affaiblissement du réal brésilien à 5,50 par dollar en 2027",
       "lien": "https://fr.investing.com/news/forex-news/citi-prevoit-un-affaiblissement-du-real-bresilien-a-550-par-dollar-en-2027-93CH-3700001",
@@ -1204,7 +1210,7 @@
       "ton_bucket": null
     },
     {
-      "titre": "L’or rebondit vers 3.900$ après un plus bas de 14 mois",
+      "titre": "L’or se stabilise après avoir atteint son plus bas niveau en plus d’un an",
       "lien": "https://fr.investing.com/news/commodities-news/lor-proche-dun-plus-bas-en-14-mois-sous-la-pression-de-la-fed-3699219",
       "source": "Matières premières",
       "t": "2026-11-17T02:39+01:00",
@@ -1220,15 +1226,6 @@
       "heure": "lun. 16 nov. 11:12",
       "ton": 0,
       "ton_bucket": null
-    },
-    {
-      "titre": "Le gaz européen recule malgré les tensions au Moyen-Orient",
-      "lien": "https://fr.investing.com/news/commodities-news/le-gaz-europeen-recule-malgre-les-tensions-au-moyenorient-3697213",
-      "source": "Matières premières",
-      "t": "2026-11-16T11:11+01:00",
-      "heure": "lun. 16 nov. 11:11",
-      "ton": 1,
-      "ton_bucket": "geo"
     },
     {
       "titre": "Le dollar atteint un sommet de 19 mois, porté par les signaux hawkish de la Fed",
@@ -1247,7 +1244,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de +1,33 % sur 5 séances."
+      "texte": "DXY en mouvement de +1,48 % sur 5 séances."
     },
     {
       "niveau": "attention",
@@ -1260,9 +1257,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
