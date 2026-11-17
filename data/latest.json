@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-17T08:16:38+01:00",
-  "generated_label": "mardi 17 novembre 2026, 08:16",
+  "generated_at": "2026-11-17T08:57:01+01:00",
+  "generated_label": "mardi 17 novembre 2026, 08:57",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 12,
+    "score": 8,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "HAUSSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 14,
+        "points": 7,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 12,
+        "points": 8,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 12,
+    "score": 8,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "HAUSSIER"
@@ -542,14 +542,14 @@
   "macro": {
     "biais": "HAUSSIER",
     "conviction": "FAIBLE",
-    "force": 14,
+    "force": 7,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "103,52 · +1,26 % / 5 j",
+        "detail": "103,55 · +1,29 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -557,8 +557,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-17",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.515,
-        "variation": 1.2569656563820224
+        "valeur": 103.545,
+        "variation": 1.2863100546132684
       },
       {
         "id": "vix",
@@ -608,17 +608,20 @@
       {
         "id": "fed",
         "nom": "Fed",
-        "etat": "Fed funds 3,88 % · US 2 ans 4,88 % · En attente : FOMC Member Goolsbee Speaks mar. 17 nov. 00:30",
+        "etat": "Fed funds 3,88 % · US 2 ans 4,88 % · En attente : FOMC Member Goolsbee Speaks mar. 17 nov. 00:30 · dépêche : Le dollar atteint un nouveau sommet de 19 mois sur les paris de resserrement de la Fed",
         "detail": "Fed funds 3,88 % · US 2 ans 4,88 % · Forex Factory + FRED DFF/DGS2",
-        "impact": "neutre",
+        "impact": "negatif",
         "included": true,
-        "score_jour": 0.0,
+        "score_jour": -1,
         "score_mois": 0.0,
         "source": "Forex Factory + FRED DFF + DGS2",
         "as_of": "2026-11-13",
         "regle": "Jour : actual FOMC s'il est publié (hausse = −1, baisse = +1), sinon variation du Fed funds au-delà de 1 pb, et le US 2 ans au-delà de 5 pb. Mois : Fed funds ±1 pb et US 2 ans ±10 pb. Hausse des taux = −1. Sans actual et sans série : exclu, impact neutre.",
         "valeur": 3.88,
-        "variation": null
+        "variation": null,
+        "news": [
+          "Le dollar atteint un nouveau sommet de 19 mois sur les paris de resserrement de la Fed"
+        ]
       },
       {
         "id": "inflation",
@@ -653,7 +656,7 @@
       {
         "id": "geo",
         "nom": "Géopolitique",
-        "etat": "En attente : dépêches géopolitiques · dépêche : Le gaz européen recule malgré les tensions au Moyen-Orient · Les prix du pétrole chutent malgré les tensions au Moyen-Orient",
+        "etat": "En attente : dépêches géopolitiques · dépêche : Le gaz européen recule malgré les tensions au Moyen-Orient",
         "detail": "Le prix de l'or n'est pas un moteur macro. Le VIX est noté à part. Une dépêche de tension sur 48 h peut inclure ce moteur.",
         "impact": "positif",
         "included": true,
@@ -665,8 +668,7 @@
         "valeur": null,
         "variation": null,
         "news": [
-          "Le gaz européen recule malgré les tensions au Moyen-Orient",
-          "Les prix du pétrole chutent malgré les tensions au Moyen-Orient"
+          "Le gaz européen recule malgré les tensions au Moyen-Orient"
         ]
       }
     ],
@@ -678,7 +680,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 14
+        "force": 7
       },
       {
         "id": "biais",
@@ -708,11 +710,11 @@
       }
     ],
     "label": "AUCUN",
-    "confiance": 12,
+    "confiance": 8,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "HAUSSIER",
-    "force_macro": 14,
+    "force_macro": 7,
     "moyenne_technique": 9.5,
     "macro": "HAUSSIER",
     "biais": "HAUSSIER",
@@ -1138,16 +1140,25 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 870,78 $, en hausse de 0,37 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 48 % contre vente 52 %, écart 4 pts, conviction BASSE, delta net -5,34. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 50,4, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 888,84 $ et le plus bas 3 832,14 $. Dépêches Investing (48 h) : « Les devises asiatiques sous pression alors que le dollar atteint un sommet de 19 mois » ; « L’or rebondit vers 3.900$ après un plus bas de 14 mois ».",
+  "brief": "L'or spot XAU/USD cote 3 870,78 $, en hausse de 0,37 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 48 % contre vente 52 %, écart 4 pts, conviction BASSE, delta net -5,34. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 50,4, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 888,84 $ et le plus bas 3 832,14 $. Dépêches Investing (48 h) : « L’or au plus bas depuis plus d’un an : Timing idéal sur ces 12 actions minières ? » ; « Le dollar atteint un nouveau sommet de 19 mois sur les paris de resserrement de la Fed ».",
   "news": [
     {
-      "titre": "Les devises asiatiques sous pression alors que le dollar atteint un sommet de 19 mois",
+      "titre": "L’or au plus bas depuis plus d’un an : Timing idéal sur ces 12 actions minières ?",
+      "lien": "https://fr.investing.com/news/commodities-news/lor-au-plus-bas-depuis-plus-dun-an--timing-ideal-sur-ces-12-actions-minieres--3699476",
+      "source": "Matières premières",
+      "t": "2026-11-17T08:33+01:00",
+      "heure": "mar. 17 nov. 08:33",
+      "ton": 0,
+      "ton_bucket": null
+    },
+    {
+      "titre": "Le dollar atteint un nouveau sommet de 19 mois sur les paris de resserrement de la Fed",
       "lien": "https://fr.investing.com/news/forex-news/les-devises-asiatiques-sous-pression-alors-que-le-dollar-atteint-un-sommet-de-19-mois-3699268",
       "source": "Forex",
       "t": "2026-11-17T05:29+01:00",
       "heure": "mar. 17 nov. 05:29",
-      "ton": 0,
-      "ton_bucket": null
+      "ton": -1,
+      "ton_bucket": "fed"
     },
     {
       "titre": "L’or rebondit vers 3.900$ après un plus bas de 14 mois",
@@ -1193,15 +1204,6 @@
       "heure": "lun. 16 nov. 02:43",
       "ton": 0,
       "ton_bucket": null
-    },
-    {
-      "titre": "Les prix du pétrole chutent malgré les tensions au Moyen-Orient",
-      "lien": "https://fr.investing.com/news/commodities-news/les-prix-du-petrole-reculent-malgre-les-tensions-au-moyenorient-3696722",
-      "source": "Matières premières",
-      "t": "2026-11-16T00:45+01:00",
-      "heure": "lun. 16 nov. 00:45",
-      "ton": 1,
-      "ton_bucket": "geo"
     }
   ],
   "alertes": [
@@ -1211,7 +1213,7 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de +1,26 % sur 5 séances."
+      "texte": "DXY en mouvement de +1,29 % sur 5 séances."
     },
     {
       "niveau": "attention",
@@ -1224,9 +1226,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 6,
+    "demandees": 2,
     "minutes": {
       "fichiers": 2
     }
