@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-17T16:27:51+01:00",
-  "generated_label": "mardi 17 novembre 2026, 16:27",
+  "generated_at": "2026-11-17T16:56:39+01:00",
+  "generated_label": "mardi 17 novembre 2026, 16:56",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -105,16 +105,37 @@
         "nom": "Londres",
         "fenetre": "07:55 – 16:55",
         "jour": "2026-11-17",
-        "statut": "en_cours",
+        "statut": "terminee",
         "debut": "2026-11-17T07:55:00+01:00",
         "fin": "2026-11-17T16:55:00+01:00",
-        "biais": null,
-        "biais_provisoire": "baissière",
-        "score": null,
+        "biais": "baissière",
+        "biais_provisoire": null,
+        "score": -3,
         "variation_pct": -0.2978,
         "range": 42.38999999999987,
         "structure": "plus bas",
-        "composantes": [],
+        "composantes": [
+          {
+            "nom": "Variation",
+            "points": -1,
+            "detail": "-0,30 % (seuil ±0,15 %)"
+          },
+          {
+            "nom": "Clôture vs ouverture",
+            "points": -1,
+            "detail": "3 859,31 $ contre 3 870,84 $"
+          },
+          {
+            "nom": "Position dans le range",
+            "points": 0,
+            "detail": "53 % du range (seuils 33 % / 67 %)"
+          },
+          {
+            "nom": "Structure",
+            "points": -1,
+            "detail": "plus bas"
+          }
+        ],
         "bougies": 8,
         "open": 3870.835,
         "high": 3879.045,
@@ -145,11 +166,11 @@
     ]
   },
   "prefere": {
-    "phrase": "SENS PRIVILÉGIÉ POUR LONDRES : ACHAT",
-    "session": "Londres",
-    "direction": "ACHAT",
-    "base_session": "Asie",
-    "base_biais": "haussière",
+    "phrase": "SENS PRIVILÉGIÉ POUR NEW YORK : VENTE",
+    "session": "New York",
+    "direction": "VENTE",
+    "base_session": "Londres",
+    "base_biais": "baissière",
     "warnings": [
       "Zone neutre : éviter de trader"
     ]
@@ -1119,7 +1140,7 @@
       }
     ]
   },
-  "gameplan": "Autour du prix, la demande la plus proche est à 3 856,11 $ (-0,08 %, VWAP NY) et l'offre la plus proche est à 3 864,90 $ (+0,14 %, VWAP jour). Zone de valeur 3 850,00 $ – 3 875,00 $, POC 3 870,00 $ – 3 875,00 $.\n\nSens privilégié ACHAT. Zone d'entrée : le premier paquet de demande, VWAP NY vers 3 856,11 $. Confirmation : rejet du niveau, puis clôture horaire qui repasse au-dessus de la zone, avec un signal orderflow ACHETEUR (actuellement NEUTRE). Objectifs : 3 864,90 $, 3 872,77 $, 3 875,00 $. Rester à plat si la clôture horaire revient dans la zone de valeur. Invalidation : clôture horaire sous 3 850,00 $.",
+  "gameplan": "Autour du prix, la demande la plus proche est à 3 856,11 $ (-0,08 %, VWAP NY) et l'offre la plus proche est à 3 864,90 $ (+0,14 %, VWAP jour). Zone de valeur 3 850,00 $ – 3 875,00 $, POC 3 870,00 $ – 3 875,00 $.\n\nSens privilégié VENTE. Zone d'entrée : le premier paquet d'offre, VWAP jour vers 3 864,90 $. Confirmation : rejet du niveau, puis clôture horaire qui repasse sous la zone, avec un signal orderflow VENDEUR (actuellement NEUTRE). Objectifs : 3 856,11 $, 3 850,00 $, 3 843,33 $. Rester à plat si la clôture horaire revient dans la zone de valeur. Invalidation : clôture horaire au-dessus de 3 872,77 $.",
   "risque": {
     "ouverture": 3855.98,
     "dernier": 3859.31,
@@ -1195,7 +1216,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 859,31 $, en hausse de 0,01 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -4,05. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 46,6, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est baissier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 888,84 $ et le plus bas 3 836,66 $. Dépêches Investing (48 h) : « Quand Goldman prévoit que l’or atteindra 5.600$/oz » ; « Citi prévoit un affaiblissement du réal brésilien à 5,50 par dollar en 2027 ».",
+  "brief": "L'or spot XAU/USD cote 3 859,31 $, en hausse de 0,01 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -4,05. La séance de Londres est baissière. Le sens privilégié pour New York est la VENTE. Le RSI 14 est à 46,6, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est baissier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 888,84 $ et le plus bas 3 836,66 $. Dépêches Investing (48 h) : « Quand Goldman prévoit que l’or atteindra 5.600$/oz » ; « Citi prévoit un affaiblissement du réal brésilien à 5,50 par dollar en 2027 ».",
   "news": [
     {
       "titre": "Quand Goldman prévoit que l’or atteindra 5.600$/oz",
@@ -1281,9 +1302,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
