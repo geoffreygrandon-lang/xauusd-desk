@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-18T16:29:38+01:00",
-  "generated_label": "mercredi 18 novembre 2026, 16:29",
+  "generated_at": "2026-11-18T16:59:27+01:00",
+  "generated_label": "mercredi 18 novembre 2026, 16:59",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -105,16 +105,37 @@
         "nom": "Londres",
         "fenetre": "07:55 – 16:55",
         "jour": "2026-11-18",
-        "statut": "en_cours",
+        "statut": "terminee",
         "debut": "2026-11-18T07:55:00+01:00",
         "fin": "2026-11-18T16:55:00+01:00",
-        "biais": null,
-        "biais_provisoire": "baissière",
-        "score": null,
+        "biais": "baissière",
+        "biais_provisoire": null,
+        "score": -3,
         "variation_pct": -0.2758,
         "range": 47.784999999999854,
         "structure": "plus bas",
-        "composantes": [],
+        "composantes": [
+          {
+            "nom": "Variation",
+            "points": -1,
+            "detail": "-0,28 % (seuil ±0,15 %)"
+          },
+          {
+            "nom": "Clôture vs ouverture",
+            "points": -1,
+            "detail": "3 767,03 $ contre 3 777,45 $"
+          },
+          {
+            "nom": "Position dans le range",
+            "points": 0,
+            "detail": "51 % du range (seuils 33 % / 67 %)"
+          },
+          {
+            "nom": "Structure",
+            "points": -1,
+            "detail": "plus bas"
+          }
+        ],
         "bougies": 8,
         "open": 3777.455,
         "high": 3790.335,
@@ -145,10 +166,10 @@
     ]
   },
   "prefere": {
-    "phrase": "SENS PRIVILÉGIÉ POUR LONDRES : VENTE",
-    "session": "Londres",
+    "phrase": "SENS PRIVILÉGIÉ POUR NEW YORK : VENTE",
+    "session": "New York",
     "direction": "VENTE",
-    "base_session": "Asie",
+    "base_session": "Londres",
     "base_biais": "baissière",
     "warnings": []
   },
@@ -1308,7 +1329,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 767,03 $, en baisse de 2,80 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 40 % contre vente 60 %, écart 20 pts, conviction ÉLEVÉE, delta net -33,61. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 36,9, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est neutre, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). Sur 24 h, le plus haut est 3 890,69 $ et le plus bas 3 742,55 $. Dépêches Investing (48 h) : « Pourquoi l’or ne monte-t-il pas malgré des fondamentaux haussiers ? » ; « UBS prévoit l’or à 5.000$ d’ici fin 2027 et le Brent à 80$ ».",
+  "brief": "L'or spot XAU/USD cote 3 767,03 $, en baisse de 2,80 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 40 % contre vente 60 %, écart 20 pts, conviction ÉLEVÉE, delta net -33,61. La séance de Londres est baissière. Le sens privilégié pour New York est la VENTE. Le RSI 14 est à 36,9, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est neutre, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). Sur 24 h, le plus haut est 3 890,69 $ et le plus bas 3 742,55 $. Dépêches Investing (48 h) : « Pourquoi l’or ne monte-t-il pas malgré des fondamentaux haussiers ? » ; « UBS prévoit l’or à 5.000$ d’ici fin 2027 et le Brent à 80$ ».",
   "news": [
     {
       "titre": "Pourquoi l’or ne monte-t-il pas malgré des fondamentaux haussiers ?",
@@ -1412,9 +1433,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
