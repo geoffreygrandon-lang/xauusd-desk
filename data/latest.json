@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-18T12:59:38+01:00",
-  "generated_label": "mercredi 18 novembre 2026, 12:59",
+  "generated_at": "2026-11-18T13:30:56+01:00",
+  "generated_label": "mercredi 18 novembre 2026, 13:30",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -10,11 +10,11 @@
   },
   "price": {
     "last": 3763.935,
-    "time": "2026-11-18T12:59+01:00",
-    "time_label": "18/11 12:59",
-    "en_cours": true,
-    "change_24h": -103.985,
-    "change_24h_pct": -2.688,
+    "time": "2026-11-18T13:00+01:00",
+    "time_label": "18/11 13:00",
+    "en_cours": false,
+    "change_24h": -97.18,
+    "change_24h_pct": -2.517,
     "change_jour": -88.525,
     "change_jour_pct": -2.298,
     "granularite": "horaire",
@@ -26,30 +26,30 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 41,
+    "score": 34,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 14,
+        "points": 0,
         "actif": true
       },
       {
         "label": "Moyenne technique (biais, momentum, tendance, heatmap)",
-        "points": 68.8,
+        "points": 67.5,
         "actif": true
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 41,
+        "points": 34,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 41,
+    "score": 34,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER"
@@ -157,31 +157,22 @@
   "orderflow": {
     "signal": "VENDEUR",
     "conviction": "MODÉRÉE",
-    "buy_pct": 42,
-    "sell_pct": 58,
-    "gap": 16,
-    "net_delta": -28.1228,
-    "buy_volume": 70.5359,
-    "sell_volume": 98.6587,
+    "buy_pct": 43,
+    "sell_pct": 57,
+    "gap": 14,
+    "net_delta": -23.0445,
+    "buy_volume": 70.8277,
+    "sell_volume": 93.8722,
     "bougies": 40,
     "complet": true,
     "candles": [
-      {
-        "t": "2026-11-16T15:00:00Z",
-        "label": "16/11 16h",
-        "buy": 0.182,
-        "sell": 5.6336,
-        "delta": -5.4516,
-        "cum_delta": -5.4516,
-        "c": 3858.87
-      },
       {
         "t": "2026-11-16T16:00:00Z",
         "label": "16/11 17h",
         "buy": 4.2018,
         "sell": 0.3687,
         "delta": 3.833,
-        "cum_delta": -1.6186,
+        "cum_delta": 3.833,
         "c": 3863.885
       },
       {
@@ -190,7 +181,7 @@
         "buy": 0.4029,
         "sell": 4.1668,
         "delta": -3.764,
-        "cum_delta": -5.3825,
+        "cum_delta": 0.0691,
         "c": 3856.098
       },
       {
@@ -199,7 +190,7 @@
         "buy": 5.4112,
         "sell": 0.2379,
         "delta": 5.1733,
-        "cum_delta": -0.2092,
+        "cum_delta": 5.2424,
         "c": 3855.555
       },
       {
@@ -208,7 +199,7 @@
         "buy": 3.6942,
         "sell": 0.8746,
         "delta": 2.8197,
-        "cum_delta": 2.6105,
+        "cum_delta": 8.0621,
         "c": 3863.815
       },
       {
@@ -217,7 +208,7 @@
         "buy": 0.1651,
         "sell": 4.601,
         "delta": -4.4358,
-        "cum_delta": -1.8253,
+        "cum_delta": 3.6263,
         "c": 3851.355
       },
       {
@@ -226,7 +217,7 @@
         "buy": 1.6168,
         "sell": 0.2687,
         "delta": 1.348,
-        "cum_delta": -0.4773,
+        "cum_delta": 4.9743,
         "c": 3862.561
       },
       {
@@ -235,7 +226,7 @@
         "buy": 0.2354,
         "sell": 4.0239,
         "delta": -3.7884,
-        "cum_delta": -4.2657,
+        "cum_delta": 1.1859,
         "c": 3852.385
       },
       {
@@ -244,7 +235,7 @@
         "buy": 5.017,
         "sell": 1.3645,
         "delta": 3.6525,
-        "cum_delta": -0.6133,
+        "cum_delta": 4.8383,
         "c": 3866.085
       },
       {
@@ -253,7 +244,7 @@
         "buy": 3.6477,
         "sell": 1.185,
         "delta": 2.4627,
-        "cum_delta": 1.8494,
+        "cum_delta": 7.301,
         "c": 3870.023
       },
       {
@@ -262,7 +253,7 @@
         "buy": 0.8987,
         "sell": 2.7784,
         "delta": -1.8797,
-        "cum_delta": -0.0303,
+        "cum_delta": 5.4213,
         "c": 3870.638
       },
       {
@@ -271,7 +262,7 @@
         "buy": 2.6822,
         "sell": 0.135,
         "delta": 2.5473,
-        "cum_delta": 2.517,
+        "cum_delta": 7.9686,
         "c": 3874.915
       },
       {
@@ -280,7 +271,7 @@
         "buy": 2.7092,
         "sell": 1.6861,
         "delta": 1.0231,
-        "cum_delta": 3.5401,
+        "cum_delta": 8.9917,
         "c": 3880.975
       },
       {
@@ -289,7 +280,7 @@
         "buy": 0.2928,
         "sell": 3.8015,
         "delta": -3.5086,
-        "cum_delta": 0.0315,
+        "cum_delta": 5.4831,
         "c": 3870.775
       },
       {
@@ -298,7 +289,7 @@
         "buy": 0.3167,
         "sell": 2.6878,
         "delta": -2.3711,
-        "cum_delta": -2.3396,
+        "cum_delta": 3.112,
         "c": 3871.127
       },
       {
@@ -307,7 +298,7 @@
         "buy": 2.1421,
         "sell": 1.2719,
         "delta": 0.8702,
-        "cum_delta": -1.4694,
+        "cum_delta": 3.9822,
         "c": 3869.395
       },
       {
@@ -316,7 +307,7 @@
         "buy": 1.6623,
         "sell": 1.4814,
         "delta": 0.1808,
-        "cum_delta": -1.2886,
+        "cum_delta": 4.163,
         "c": 3865.395
       },
       {
@@ -325,7 +316,7 @@
         "buy": 0.251,
         "sell": 2.4602,
         "delta": -2.2091,
-        "cum_delta": -3.4977,
+        "cum_delta": 1.9539,
         "c": 3853.845
       },
       {
@@ -334,7 +325,7 @@
         "buy": 1.9729,
         "sell": 0.3979,
         "delta": 1.575,
-        "cum_delta": -1.9227,
+        "cum_delta": 3.5289,
         "c": 3867.92
       },
       {
@@ -343,7 +334,7 @@
         "buy": 1.2274,
         "sell": 1.319,
         "delta": -0.0916,
-        "cum_delta": -2.0144,
+        "cum_delta": 3.4373,
         "c": 3861.115
       },
       {
@@ -352,7 +343,7 @@
         "buy": 2.5361,
         "sell": 2.3565,
         "delta": 0.1797,
-        "cum_delta": -1.8347,
+        "cum_delta": 3.6169,
         "c": 3851.068
       },
       {
@@ -361,7 +352,7 @@
         "buy": 1.9666,
         "sell": 3.2787,
         "delta": -1.312,
-        "cum_delta": -3.1467,
+        "cum_delta": 2.3049,
         "c": 3859.306
       },
       {
@@ -370,7 +361,7 @@
         "buy": 3.7016,
         "sell": 2.6985,
         "delta": 1.0031,
-        "cum_delta": -2.1437,
+        "cum_delta": 3.3079,
         "c": 3875.568
       },
       {
@@ -379,7 +370,7 @@
         "buy": 1.9522,
         "sell": 4.1024,
         "delta": -2.1503,
-        "cum_delta": -4.294,
+        "cum_delta": 1.1576,
         "c": 3866.116
       },
       {
@@ -388,7 +379,7 @@
         "buy": 0.5217,
         "sell": 4.0944,
         "delta": -3.5727,
-        "cum_delta": -7.8667,
+        "cum_delta": -2.4151,
         "c": 3862.975
       },
       {
@@ -397,7 +388,7 @@
         "buy": 0.1921,
         "sell": 3.8698,
         "delta": -3.6776,
-        "cum_delta": -11.5443,
+        "cum_delta": -6.0927,
         "c": 3854.877
       },
       {
@@ -406,7 +397,7 @@
         "buy": 0.2384,
         "sell": 2.9756,
         "delta": -2.7372,
-        "cum_delta": -14.2814,
+        "cum_delta": -8.8298,
         "c": 3846.94
       },
       {
@@ -415,7 +406,7 @@
         "buy": 1.7177,
         "sell": 2.0499,
         "delta": -0.3323,
-        "cum_delta": -14.6137,
+        "cum_delta": -9.1621,
         "c": 3847.355
       },
       {
@@ -424,7 +415,7 @@
         "buy": 0.496,
         "sell": 1.4416,
         "delta": -0.9456,
-        "cum_delta": -15.5593,
+        "cum_delta": -10.1077,
         "c": 3848.51
       },
       {
@@ -433,7 +424,7 @@
         "buy": 0.0241,
         "sell": 4.1284,
         "delta": -4.1043,
-        "cum_delta": -19.6636,
+        "cum_delta": -14.212,
         "c": 3814.497
       },
       {
@@ -442,7 +433,7 @@
         "buy": 1.054,
         "sell": 5.4989,
         "delta": -4.4449,
-        "cum_delta": -24.1085,
+        "cum_delta": -18.6569,
         "c": 3809.395
       },
       {
@@ -451,7 +442,7 @@
         "buy": 1.6844,
         "sell": 3.392,
         "delta": -1.7075,
-        "cum_delta": -25.816,
+        "cum_delta": -20.3644,
         "c": 3797.874
       },
       {
@@ -460,7 +451,7 @@
         "buy": 0.6467,
         "sell": 3.898,
         "delta": -3.2512,
-        "cum_delta": -29.0673,
+        "cum_delta": -23.6157,
         "c": 3788.13
       },
       {
@@ -469,7 +460,7 @@
         "buy": 1.7857,
         "sell": 1.9998,
         "delta": -0.2141,
-        "cum_delta": -29.2814,
+        "cum_delta": -23.8298,
         "c": 3786.135
       },
       {
@@ -478,7 +469,7 @@
         "buy": 2.5805,
         "sell": 2.5567,
         "delta": 0.0238,
-        "cum_delta": -29.2576,
+        "cum_delta": -23.806,
         "c": 3788.845
       },
       {
@@ -487,7 +478,7 @@
         "buy": 0.5649,
         "sell": 4.0019,
         "delta": -3.437,
-        "cum_delta": -32.6946,
+        "cum_delta": -27.243,
         "c": 3777.455
       },
       {
@@ -496,7 +487,7 @@
         "buy": 2.4235,
         "sell": 0.958,
         "delta": 1.4654,
-        "cum_delta": -31.2291,
+        "cum_delta": -25.7775,
         "c": 3773.965
       },
       {
@@ -505,7 +496,7 @@
         "buy": 3.1439,
         "sell": 1.0075,
         "delta": 2.1363,
-        "cum_delta": -29.0928,
+        "cum_delta": -23.6412,
         "c": 3769.865
       },
       {
@@ -514,7 +505,7 @@
         "buy": 2.7115,
         "sell": 1.639,
         "delta": 1.0726,
-        "cum_delta": -28.0202,
+        "cum_delta": -22.5686,
         "c": 3778.585
       },
       {
@@ -523,57 +514,66 @@
         "buy": 1.8648,
         "sell": 1.9673,
         "delta": -0.1026,
-        "cum_delta": -28.1228,
+        "cum_delta": -22.6712,
         "c": 3772.852
+      },
+      {
+        "t": "2026-11-18T11:00:00Z",
+        "label": "18/11 12h",
+        "buy": 0.4738,
+        "sell": 0.8471,
+        "delta": -0.3733,
+        "cum_delta": -23.0445,
+        "c": 3763.935
       }
     ],
     "heatmap": "Distribution",
     "heatmap_x_pct": 98.5
   },
   "technicals": {
-    "sma20": 3818.516,
-    "sma100": 3877.293,
-    "rsi14": 26.89,
+    "sma20": 3814.159,
+    "sma100": 3875.147,
+    "rsi14": 24.67,
     "vs_sma20": "en dessous",
     "vs_sma100": "en dessous",
     "tendance": "Baissière",
     "biais": "BAISSIER"
   },
   "macro": {
-    "biais": "HAUSSIER",
+    "biais": "NEUTRE",
     "conviction": "FAIBLE",
-    "force": 14,
+    "force": 0,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "103,74 · +0,81 % / 5 j",
+        "detail": "103,81 · +0,87 % / 5 j",
         "impact": "negatif",
         "included": true,
-        "score_jour": 0,
+        "score_jour": -1,
         "score_mois": -1,
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-18",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.744,
-        "variation": 0.8104164844142692
+        "valeur": 103.806,
+        "variation": 0.8706598599411949
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Aversion (risk off)",
-        "detail": "25,46 · +30,83 % / 5 j",
+        "detail": "24,25 · +38,65 % / 5 j",
         "impact": "positif",
         "included": true,
-        "score_jour": 1,
+        "score_jour": 0,
         "score_mois": 1,
         "source": "Yahoo Finance ^VIX",
-        "as_of": "2026-11-17",
+        "as_of": "2026-11-18",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 25.46,
-        "variation": 30.832478326206424
+        "valeur": 24.25,
+        "variation": 38.65065933302559
       },
       {
         "id": "reels",
@@ -676,8 +676,8 @@
       {
         "id": "macro",
         "nom": "Macro",
-        "direction": "HAUSSIER",
-        "force": 14
+        "direction": "NEUTRE",
+        "force": 0
       },
       {
         "id": "biais",
@@ -689,7 +689,7 @@
         "id": "momentum",
         "nom": "Momentum",
         "direction": "BAISSIER",
-        "force": 40
+        "force": 35
       },
       {
         "id": "tendance",
@@ -707,13 +707,13 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 41,
+    "confiance": 34,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "BAISSIER",
-    "force_macro": 14,
-    "moyenne_technique": 68.8,
-    "macro": "HAUSSIER",
+    "force_macro": 0,
+    "moyenne_technique": 67.5,
+    "macro": "NEUTRE",
     "biais": "BAISSIER",
     "orderflow": "BAISSIER",
     "heatmap": "Distribution",
@@ -1272,10 +1272,10 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 763,93 $, en baisse de 2,69 % sur 24 h (dernière heure encore en cours). L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 42 % contre vente 58 %, écart 16 pts, conviction MODÉRÉE, delta net -28,12. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 26,9, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). RSI en survente (< 30) : extrême, prudence. Sur 24 h, le plus haut est 3 890,69 $ et le plus bas 3 757,16 $. Dépêches Investing (48 h) : « Le dollar proche d’un sommet de 19 mois, porté par les anticipations de hausse de la Fed » ; « Les prix du pétrole reculent alors que les tensions au Moyen-Orient persistent ».",
+  "brief": "L'or spot XAU/USD cote 3 763,93 $, en baisse de 2,52 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 43 % contre vente 57 %, écart 14 pts, conviction MODÉRÉE, delta net -23,04. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 24,7, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est neutre, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). RSI en survente (< 30) : extrême, prudence. Sur 24 h, le plus haut est 3 890,69 $ et le plus bas 3 757,16 $. Dépêches Investing (48 h) : « Le dollar atteint un sommet de 19 mois lors d’une 7e hausse consécutive » ; « Les prix du pétrole reculent alors que les tensions au Moyen-Orient persistent ».",
   "news": [
     {
-      "titre": "Le dollar proche d’un sommet de 19 mois, porté par les anticipations de hausse de la Fed",
+      "titre": "Le dollar atteint un sommet de 19 mois lors d’une 7e hausse consécutive",
       "lien": "https://fr.investing.com/news/forex-news/les-devises-asiatiques-sous-pression-alors-que-le-dollar-reste-proche-dun-sommet-de-19-mois-3701605",
       "source": "Forex",
       "t": "2026-11-18T05:57+01:00",
@@ -1350,23 +1350,15 @@
   "alertes": [
     {
       "niveau": "info",
-      "texte": "Orderflow VENDEUR, conviction MODÉRÉE, écart 16 pts."
+      "texte": "Orderflow VENDEUR, conviction MODÉRÉE, écart 14 pts."
     },
     {
       "niveau": "important",
-      "texte": "RSI 14 en survente (26,9 < 30)."
+      "texte": "RSI 14 en survente (24,7 < 30)."
     },
     {
       "niveau": "attention",
-      "texte": "Divergence entre le biais macro et l'orderflow."
-    },
-    {
-      "niveau": "attention",
-      "texte": "DXY en mouvement de +0,81 % sur 5 séances."
-    },
-    {
-      "niveau": "important",
-      "texte": "VIX élevé (25,5) : aversion au risque."
+      "texte": "DXY en mouvement de +0,87 % sur 5 séances."
     },
     {
       "niveau": "attention",
@@ -1379,9 +1371,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 2,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
