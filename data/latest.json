@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-19T14:16:13+01:00",
-  "generated_label": "jeudi 19 novembre 2026, 14:16",
+  "generated_at": "2026-11-19T14:54:04+01:00",
+  "generated_label": "jeudi 19 novembre 2026, 14:54",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -547,7 +547,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "103,73 · +0,55 % / 5 j",
+        "detail": "103,67 · +0,49 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -555,14 +555,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-19",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.733,
-        "variation": 0.545704710701962
+        "valeur": 103.674,
+        "variation": 0.4885193768284998
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Aversion (risk off)",
-        "detail": "22,27 · +19,09 % / 5 j",
+        "detail": "22,64 · +21,07 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -570,14 +570,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-19",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 22.27,
-        "variation": 19.090906680065025
+        "valeur": 22.64,
+        "variation": 21.06951051316244
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "En hausse",
-        "detail": "2,89 % · +23 pb · nominal 5,07 %",
+        "detail": "2,89 % · +23 pb · nominal 5,08 %",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -592,21 +592,21 @@
         "id": "nominaux",
         "nom": "Taux US 10 ans",
         "etat": "Stable",
-        "detail": "5,07 % · -4 pb",
+        "detail": "5,08 % · +2 pb",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
         "score_mois": 0,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-11-18",
+        "as_of": "2026-11-19",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 5.066,
-        "variation": -0.037000179290771484
+        "valeur": 5.085,
+        "variation": 0.01900005340576172
       },
       {
         "id": "fed",
         "nom": "Fed",
-        "etat": "Fed funds 3,88 % · US 2 ans 4,80 % · En attente : FOMC Member Kashkari Speaks mer. 18 nov. 22:15 · dépêche : Le dollar proche d’un sommet de 19 mois après les minutes hawkish de la Fed",
+        "etat": "Fed funds 3,88 % · US 2 ans 4,80 % · En attente : FOMC Member Hammack Speaks jeu. 19 nov. 14:50 · dépêche : Le dollar proche d’un sommet de 19 mois après les minutes hawkish de la Fed",
         "detail": "Fed funds 3,88 % · US 2 ans 4,80 % · Forex Factory + FRED DFF/DGS2",
         "impact": "negatif",
         "included": true,
@@ -1375,10 +1375,6 @@
     },
     {
       "niveau": "attention",
-      "texte": "DXY en mouvement de +0,55 % sur 5 séances."
-    },
-    {
-      "niveau": "attention",
       "texte": "Taux réels US 10 ans : variation de +23 points de base."
     }
   ],
@@ -1388,9 +1384,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
