@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-20T20:42:04+01:00",
-  "generated_label": "vendredi 20 novembre 2026, 20:42",
+  "generated_at": "2026-11-20T21:00:02+01:00",
+  "generated_label": "vendredi 20 novembre 2026, 21:00",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -13,8 +13,8 @@
     "time": "2026-11-20T20:00+01:00",
     "time_label": "20/11 20:00",
     "en_cours": false,
-    "change_24h": -132.445,
-    "change_24h_pct": -3.611,
+    "change_24h": -124.785,
+    "change_24h_pct": -3.41,
     "change_jour": -92.34,
     "change_jour_pct": -2.546,
     "granularite": "horaire",
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 45,
+    "score": 43,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 36,
+        "points": 31,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 45,
+        "points": 43,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 45,
+    "score": 43,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER"
@@ -147,16 +147,37 @@
         "nom": "New York",
         "fenetre": "13:55 – 21:00",
         "jour": "2026-11-20",
-        "statut": "en_cours",
+        "statut": "terminee",
         "debut": "2026-11-20T13:55:00+01:00",
         "fin": "2026-11-20T21:00:00+01:00",
-        "biais": null,
-        "biais_provisoire": "baissière",
-        "score": null,
+        "biais": "baissière",
+        "biais_provisoire": null,
+        "score": -3,
         "variation_pct": -1.065,
         "range": 83.03999999999996,
         "structure": "plus bas",
-        "composantes": [],
+        "composantes": [
+          {
+            "nom": "Variation",
+            "points": -1,
+            "detail": "-1,06 % (seuil ±0,15 %)"
+          },
+          {
+            "nom": "Clôture vs ouverture",
+            "points": -1,
+            "detail": "3 535,12 $ contre 3 573,18 $"
+          },
+          {
+            "nom": "Position dans le range",
+            "points": 0,
+            "detail": "39 % du range (seuils 33 % / 67 %)"
+          },
+          {
+            "nom": "Structure",
+            "points": -1,
+            "detail": "plus bas"
+          }
+        ],
         "bougies": 6,
         "open": 3573.175,
         "high": 3585.73,
@@ -166,10 +187,10 @@
     ]
   },
   "prefere": {
-    "phrase": "SENS PRIVILÉGIÉ POUR NEW YORK : VENTE",
-    "session": "New York",
+    "phrase": "SENS PRIVILÉGIÉ POUR ASIE : VENTE",
+    "session": "Asie",
     "direction": "VENTE",
-    "base_session": "Londres",
+    "base_session": "New York",
     "base_biais": "baissière",
     "warnings": [
       "Zone neutre : éviter de trader"
@@ -563,7 +584,7 @@
   "macro": {
     "biais": "HAUSSIER",
     "conviction": "MODÉRÉE",
-    "force": 36,
+    "force": 31,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
@@ -662,11 +683,11 @@
       {
         "id": "banques",
         "nom": "Banques centrales",
-        "etat": "En attente : 1-y Loan Prime Rate, 5-y Loan Prime Rate",
+        "etat": "1-y Loan Prime Rate ven. 20 nov. 02:00 : 3,00 % en ligne avec le prévu (3,00 %) · score or +0 ; 5-y Loan Prime Rate ven. 20 nov. 02:00 : 3,50 % en ligne avec le prévu (3,50 %) · score or +0",
         "detail": "Forex Factory · surprise dovish à l'étranger = −1 (dollar plus ferme), hawkish = +1",
         "impact": "neutre",
-        "included": false,
-        "score_jour": null,
+        "included": true,
+        "score_jour": 0.0,
         "score_mois": null,
         "source": "Forex Factory",
         "as_of": null,
@@ -702,7 +723,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 36
+        "force": 31
       },
       {
         "id": "biais",
@@ -732,11 +753,11 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 45,
+    "confiance": 43,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "BAISSIER",
-    "force_macro": 36,
+    "force_macro": 31,
     "moyenne_technique": 54.8,
     "macro": "HAUSSIER",
     "biais": "BAISSIER",
@@ -1450,13 +1471,29 @@
         "pays": "USD",
         "impact": "moyen",
         "fort": false
+      },
+      {
+        "t": "2026-11-21T05:00+01:00",
+        "heure": "sam. 21 nov. 05:00",
+        "titre": "Revised UoM Consumer Sentiment",
+        "pays": "USD",
+        "impact": "moyen",
+        "fort": false
+      },
+      {
+        "t": "2026-11-21T05:00+01:00",
+        "heure": "sam. 21 nov. 05:00",
+        "titre": "Revised UoM Inflation Expectations",
+        "pays": "USD",
+        "impact": "moyen",
+        "fort": false
       }
     ],
     "gap_weekend": false,
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 535,12 $, en baisse de 3,61 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -4,93. La séance de Londres est baissière. Le sens privilégié pour New York est la VENTE. Le RSI 14 est à 30,4, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction modérée (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans neutre, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 692,16 $ et le plus bas 3 502,69 $. Dépêches Investing (48 h) : « UBS anticipe une nouvelle baisse de l’euro face au dollar » ; « UBS prévoit un rebond de la livre sterling fin 2027 avec les baisses de taux de la Fed ».",
+  "brief": "L'or spot XAU/USD cote 3 535,12 $, en baisse de 3,41 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 49 % contre vente 51 %, écart 2 pts, conviction BASSE, delta net -4,93. La séance de New York est baissière. Le sens privilégié pour Asie est la VENTE. Le RSI 14 est à 30,4, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction modérée (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans neutre, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 692,16 $ et le plus bas 3 502,69 $. Dépêches Investing (48 h) : « UBS anticipe une nouvelle baisse de l’euro face au dollar » ; « UBS prévoit un rebond de la livre sterling fin 2027 avec les baisses de taux de la Fed ».",
   "news": [
     {
       "titre": "UBS anticipe une nouvelle baisse de l’euro face au dollar",
@@ -1571,7 +1608,7 @@
   "fetch": {
     "telechargees": 0,
     "echecs": 0,
-    "demandees": 1,
+    "demandees": 2,
     "minutes": {
       "fichiers": 2
     }
