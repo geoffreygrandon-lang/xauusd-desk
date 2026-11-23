@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-23T14:18:16+01:00",
-  "generated_label": "lundi 23 novembre 2026, 14:18",
+  "generated_at": "2026-11-23T14:58:50+01:00",
+  "generated_label": "lundi 23 novembre 2026, 14:58",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 18,
+    "score": 11,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "HAUSSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 14,
+        "points": 0,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 18,
+        "points": 11,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 18,
+    "score": 11,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "HAUSSIER"
@@ -540,31 +540,31 @@
     "biais": "NEUTRE"
   },
   "macro": {
-    "biais": "HAUSSIER",
+    "biais": "NEUTRE",
     "conviction": "FAIBLE",
-    "force": 14,
+    "force": 0,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "103,90 · +0,34 % / 5 j",
+        "detail": "104,10 · +0,53 % / 5 j",
         "impact": "negatif",
         "included": true,
-        "score_jour": 0,
+        "score_jour": -1,
         "score_mois": -1,
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-23",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.899,
-        "variation": 0.3370342956562333
+        "valeur": 104.099,
+        "variation": 0.5301747518107562
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Aversion (risk off)",
-        "detail": "30,96 · +35,14 % / 5 j",
+        "detail": "31,47 · +37,36 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -572,14 +572,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-23",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 30.96,
-        "variation": 35.13749144773507
+        "valeur": 31.47,
+        "variation": 37.36359460041337
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "Stable",
-        "detail": "2,88 % · +2 pb · nominal 4,91 %",
+        "detail": "2,88 % · +2 pb · nominal 4,92 %",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -593,17 +593,17 @@
       {
         "id": "nominaux",
         "nom": "Taux US 10 ans",
-        "etat": "En repli",
-        "detail": "4,91 % · -14 pb",
-        "impact": "positif",
+        "etat": "Stable",
+        "detail": "4,92 % · +1 pb",
+        "impact": "neutre",
         "included": true,
-        "score_jour": 1,
+        "score_jour": 0,
         "score_mois": 0,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-11-20",
+        "as_of": "2026-11-23",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 4.912,
-        "variation": -0.1399998664855957
+        "valeur": 4.9240003,
+        "variation": 0.012000083923339844
       },
       {
         "id": "fed",
@@ -676,8 +676,8 @@
       {
         "id": "macro",
         "nom": "Macro",
-        "direction": "HAUSSIER",
-        "force": 14
+        "direction": "NEUTRE",
+        "force": 0
       },
       {
         "id": "biais",
@@ -706,14 +706,14 @@
         "x_pct": 13.7
       }
     ],
-    "label": "ALIGNEMENT PARTIEL",
-    "confiance": 18,
+    "label": "AUCUN",
+    "confiance": 11,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "HAUSSIER",
-    "force_macro": 14,
+    "force_macro": 0,
     "moyenne_technique": 22.8,
-    "macro": "HAUSSIER",
+    "macro": "NEUTRE",
     "biais": "HAUSSIER",
     "orderflow": "NEUTRE",
     "heatmap": "Accumulation",
@@ -1244,8 +1244,44 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 617,00 $, en hausse de 2,59 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 51 % contre vente 49 %, écart 2 pts, conviction BASSE, delta net +5,41. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 55,8, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 637,11 $ et le plus bas 3 502,69 $. Dépêches Investing (48 h) : « UBS dégrade le Dollar néo-zélandais Dollar américain en raison de perspectives intérieures faibles » ; « Goldman prévoit un rebond de l’or après la vague de ventes forcées ».",
+  "brief": "L'or spot XAU/USD cote 3 617,00 $, en hausse de 2,59 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 51 % contre vente 49 %, écart 2 pts, conviction BASSE, delta net +5,41. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 55,8, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est neutre, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 637,11 $ et le plus bas 3 502,69 $. Dépêches Investing (48 h) : « Le Dollar américain Yen japonais devrait revenir dans les 140 en 2027 » ; « Deutsche Bank relève ses prévisions sur le dollar grâce à l’essor de l’IA ».",
   "news": [
+    {
+      "titre": "Le Dollar américain Yen japonais devrait revenir dans les 140 en 2027",
+      "lien": "https://fr.investing.com/news/forex-news/le-dollar-americain-yen-japonais-devrait-revenir-dans-les-140-en-2027-93CH-3709218",
+      "source": "Forex",
+      "t": "2026-11-23T14:20+01:00",
+      "heure": "lun. 23 nov. 14:20",
+      "ton": 0,
+      "ton_bucket": null
+    },
+    {
+      "titre": "Deutsche Bank relève ses prévisions sur le dollar grâce à l’essor de l’IA",
+      "lien": "https://fr.investing.com/news/forex-news/deutsche-bank-releve-ses-previsions-sur-le-dollar-grace-a-lessor-de-lia-93CH-3709217",
+      "source": "Forex",
+      "t": "2026-11-23T14:19+01:00",
+      "heure": "lun. 23 nov. 14:19",
+      "ton": 0,
+      "ton_bucket": null
+    },
+    {
+      "titre": "Voici quand racheter de l’or selon BCA Research",
+      "lien": "https://fr.investing.com/news/commodities-news/voici-quand-racheter-de-lor-selon-bca-research-3709150",
+      "source": "Matières premières",
+      "t": "2026-11-23T13:58+01:00",
+      "heure": "lun. 23 nov. 13:58",
+      "ton": 0,
+      "ton_bucket": null
+    },
+    {
+      "titre": "Le dollar canadien se stabilise près d’un plus bas en 19 mois",
+      "lien": "https://fr.investing.com/news/forex-news/le-dollar-canadien-se-stabilise-pres-dun-plus-bas-en-19-mois-3708948",
+      "source": "Forex",
+      "t": "2026-11-23T13:22+01:00",
+      "heure": "lun. 23 nov. 13:22",
+      "ton": 0,
+      "ton_bucket": null
+    },
     {
       "titre": "UBS dégrade le Dollar néo-zélandais Dollar américain en raison de perspectives intérieures faibles",
       "lien": "https://fr.investing.com/news/forex-news/ubs-degrade-le-dollar-neozelandais-dollar-americain-en-raison-de-perspectives-interieures-faibles-93CH-3708821",
@@ -1307,8 +1343,12 @@
       "texte": "Orderflow NEUTRE : zone neutre, éviter de trader."
     },
     {
+      "niveau": "attention",
+      "texte": "DXY en mouvement de +0,53 % sur 5 séances."
+    },
+    {
       "niveau": "important",
-      "texte": "VIX élevé (31,0) : aversion au risque."
+      "texte": "VIX élevé (31,5) : aversion au risque."
     }
   ],
   "sources": {
@@ -1317,9 +1357,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 1
     }
