@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-23T21:29:09+01:00",
-  "generated_label": "lundi 23 novembre 2026, 21:29",
+  "generated_at": "2026-11-23T21:57:13+01:00",
+  "generated_label": "lundi 23 novembre 2026, 21:57",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -1331,22 +1331,6 @@
     "variation_pct": 2.19,
     "evenements": [
       {
-        "t": "2026-11-23T15:45+01:00",
-        "heure": "lun. 23 nov. 15:45",
-        "titre": "Flash Manufacturing PMI",
-        "pays": "USD",
-        "impact": "moyen",
-        "fort": false
-      },
-      {
-        "t": "2026-11-23T15:45+01:00",
-        "heure": "lun. 23 nov. 15:45",
-        "titre": "Flash Services PMI",
-        "pays": "USD",
-        "impact": "moyen",
-        "fort": false
-      },
-      {
         "t": "2026-11-24T05:00+01:00",
         "heure": "mar. 24 nov. 05:00",
         "titre": "French Flash Services PMI",
@@ -1393,6 +1377,14 @@
         "pays": "USD",
         "impact": "haut",
         "fort": true
+      },
+      {
+        "t": "2026-11-25T14:30+01:00",
+        "heure": "mer. 25 nov. 14:30",
+        "titre": "Prelim GDP Price Index q/q",
+        "pays": "USD",
+        "impact": "moyen",
+        "fort": false
       }
     ],
     "gap_weekend": false,
@@ -1504,10 +1496,10 @@
   },
   "fetch": {
     "telechargees": 0,
-    "echecs": 1,
+    "echecs": 0,
     "demandees": 1,
     "minutes": {
-      "fichiers": 1
+      "fichiers": 2
     }
   },
   "notifications": {
