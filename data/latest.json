@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-24T21:04:09+01:00",
-  "generated_label": "mardi 24 novembre 2026, 21:04",
+  "generated_at": "2026-11-24T21:31:44+01:00",
+  "generated_label": "mardi 24 novembre 2026, 21:31",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -23,17 +23,17 @@
   "banner": {
     "direction": "BAISSIER",
     "titre": "BAISSIER — pression vendeuse dominante",
-    "conviction": "FAIBLE"
+    "conviction": "MODÉRÉE"
   },
   "confidence": {
-    "score": 48,
-    "label": "FAIBLE",
-    "conviction": "FAIBLE",
+    "score": 52,
+    "label": "FORTE",
+    "conviction": "MODÉRÉE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 25,
+        "points": 33,
         "actif": true
       },
       {
@@ -43,15 +43,15 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 48,
+        "points": 52,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 48,
-    "label": "FAIBLE",
-    "conviction": "FAIBLE",
+    "score": 52,
+    "label": "FORTE",
+    "conviction": "MODÉRÉE",
     "direction": "BAISSIER"
   },
   "sessions": {
@@ -584,14 +584,14 @@
   "macro": {
     "biais": "HAUSSIER",
     "conviction": "MODÉRÉE",
-    "force": 25,
+    "force": 33,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "103,81 · +0,31 % / 5 j",
+        "detail": "103,80 · +0,30 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 1,
@@ -599,29 +599,29 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-24",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.813,
-        "variation": 0.3121129412860982
+        "valeur": 103.802,
+        "variation": 0.30148236138354123
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Aversion (risk off)",
-        "detail": "26,39 · +3,65 % / 5 j",
+        "detail": "26,90 · +5,66 % / 5 j",
         "impact": "positif",
         "included": true,
-        "score_jour": 0,
+        "score_jour": 1,
         "score_mois": 1,
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-24",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 26.39,
-        "variation": 3.6527900181385418
+        "valeur": 26.9,
+        "variation": 5.655933172974202
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "En repli",
-        "detail": "2,77 % · -14 pb · nominal 4,91 %",
+        "detail": "2,77 % · -14 pb · nominal 4,90 %",
         "impact": "positif",
         "included": true,
         "score_jour": 1,
@@ -636,7 +636,7 @@
         "id": "nominaux",
         "nom": "Taux US 10 ans",
         "etat": "Stable",
-        "detail": "4,91 % · -1 pb",
+        "detail": "4,90 % · -1 pb",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
@@ -644,8 +644,8 @@
         "source": "Yahoo Finance ^TNX",
         "as_of": "2026-11-24",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 4.912,
-        "variation": -0.006000518798828125
+        "valeur": 4.904,
+        "variation": -0.01399993896484375
       },
       {
         "id": "fed",
@@ -716,7 +716,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 25
+        "force": 33
       },
       {
         "id": "biais",
@@ -746,11 +746,11 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 48,
-    "conviction": "FAIBLE",
-    "jauge": "FAIBLE",
+    "confiance": 52,
+    "conviction": "MODÉRÉE",
+    "jauge": "FORTE",
     "direction": "BAISSIER",
-    "force_macro": 25,
+    "force_macro": 33,
     "moyenne_technique": 72.0,
     "macro": "HAUSSIER",
     "biais": "BAISSIER",
@@ -1428,7 +1428,7 @@
     },
     {
       "niveau": "important",
-      "texte": "VIX élevé (26,4) : aversion au risque."
+      "texte": "VIX élevé (26,9) : aversion au risque."
     },
     {
       "niveau": "attention",
@@ -1441,9 +1441,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
