@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-24T14:16:54+01:00",
-  "generated_label": "mardi 24 novembre 2026, 14:16",
+  "generated_at": "2026-11-24T14:55:17+01:00",
+  "generated_label": "mardi 24 novembre 2026, 14:55",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -549,7 +549,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "En hausse",
-        "detail": "103,96 · +0,45 % / 5 j",
+        "detail": "103,92 · +0,41 % / 5 j",
         "impact": "neutre",
         "included": true,
         "score_jour": 1,
@@ -557,14 +557,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-24",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.958,
-        "variation": 0.45221985602125414
+        "valeur": 103.918,
+        "variation": 0.413567893171666
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Aversion (risk off)",
-        "detail": "29,04 · +14,06 % / 5 j",
+        "detail": "29,41 · +15,51 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 1,
@@ -572,14 +572,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-24",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 29.04,
-        "variation": 14.061280281969966
+        "valeur": 29.41,
+        "variation": 15.514536154671147
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "En repli",
-        "detail": "2,77 % · -14 pb · nominal 4,92 %",
+        "detail": "2,77 % · -14 pb · nominal 4,89 %",
         "impact": "positif",
         "included": true,
         "score_jour": 1,
@@ -594,16 +594,16 @@
         "id": "nominaux",
         "nom": "Taux US 10 ans",
         "etat": "Stable",
-        "detail": "4,92 % · +1 pb",
+        "detail": "4,89 % · -2 pb",
         "impact": "neutre",
         "included": true,
         "score_jour": 0,
         "score_mois": 0,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-11-23",
+        "as_of": "2026-11-24",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 4.918,
-        "variation": 0.006000041961669922
+        "valeur": 4.894,
+        "variation": -0.024000167846679688
       },
       {
         "id": "fed",
@@ -1230,8 +1230,17 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 642,18 $, en baisse de 0,33 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 53 % contre vente 47 %, écart 6 pts, conviction BASSE, delta net +13,57. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 55,5, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction modérée (USD (DXY) neutre, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 689,59 $ et le plus bas 3 607,36 $. Dépêches Investing (48 h) : « Citi voit l’euro sous-évalué et vise 1,11+ avant de miser sur la baisse du dollar » ; « Une longue chute de l’IA menace le statut refuge du dollar ».",
+  "brief": "L'or spot XAU/USD cote 3 642,18 $, en baisse de 0,33 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 53 % contre vente 47 %, écart 6 pts, conviction BASSE, delta net +13,57. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 55,5, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction modérée (USD (DXY) neutre, Sentiment de risque positif, Taux réels US 10 ans positif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 689,59 $ et le plus bas 3 607,36 $. Dépêches Investing (48 h) : « Les contrats à terme sur le blé de Chicago reculent face à un dollar plus fort » ; « Citi voit l’euro sous-évalué et vise 1,11+ avant de miser sur la baisse du dollar ».",
   "news": [
+    {
+      "titre": "Les contrats à terme sur le blé de Chicago reculent face à un dollar plus fort",
+      "lien": "https://fr.investing.com/news/commodities-news/les-contrats-a-terme-sur-le-ble-de-chicago-reculent-face-a-un-dollar-plus-fort-93CH-3711002",
+      "source": "Matières premières",
+      "t": "2026-11-24T13:54+01:00",
+      "heure": "mar. 24 nov. 13:54",
+      "ton": 0,
+      "ton_bucket": null
+    },
     {
       "titre": "Citi voit l’euro sous-évalué et vise 1,11+ avant de miser sur la baisse du dollar",
       "lien": "https://fr.investing.com/news/forex-news/citi-voit-leuro-sousevalue-et-vise-111-avant-de-miser-sur-la-baisse-du-dollar-93CH-3710396",
@@ -1278,7 +1287,7 @@
       "ton_bucket": null
     },
     {
-      "titre": "L’or recule après un fort rebond, focus sur l’inflation et la Fed",
+      "titre": "L’or recule après un fort rebond, l’inflation et la Fed dans le viseur",
       "lien": "https://fr.investing.com/news/commodities-news/lor-rebondit-alors-que-les-actions-dnvidia-dopent-les-marches-3709976",
       "source": "Matières premières",
       "t": "2026-11-24T02:43+01:00",
@@ -1330,15 +1339,6 @@
       "heure": "lun. 23 nov. 13:04",
       "ton": 0,
       "ton_bucket": null
-    },
-    {
-      "titre": "Goldman prévoit un rebond de l’or après la vague de ventes forcées",
-      "lien": "https://fr.investing.com/news/commodities-news/goldman-prevoit-un-rebond-de-lor-apres-la-vague-de-ventes-forcees-93CH-3708794",
-      "source": "Matières premières",
-      "t": "2026-11-23T13:00+01:00",
-      "heure": "lun. 23 nov. 13:00",
-      "ton": 0,
-      "ton_bucket": null
     }
   ],
   "alertes": [
@@ -1348,7 +1348,7 @@
     },
     {
       "niveau": "important",
-      "texte": "VIX élevé (29,0) : aversion au risque."
+      "texte": "VIX élevé (29,4) : aversion au risque."
     },
     {
       "niveau": "attention",
@@ -1361,9 +1361,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 2
     }
