@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-25T13:02:23+01:00",
-  "generated_label": "mercredi 25 novembre 2026, 13:02",
+  "generated_at": "2026-11-25T13:38:57+01:00",
+  "generated_label": "mercredi 25 novembre 2026, 13:38",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 43,
+    "score": 47,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 7,
+        "points": 14,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 43,
+        "points": 47,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 43,
+    "score": 47,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "BAISSIER"
@@ -542,14 +542,14 @@
   "macro": {
     "biais": "HAUSSIER",
     "conviction": "FAIBLE",
-    "force": 7,
+    "force": 14,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "Stable",
-        "detail": "103,99 · +0,13 % / 5 j",
+        "detail": "103,94 · +0,08 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -557,23 +557,23 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-25",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.992,
-        "variation": 0.12709046216970696
+        "valeur": 103.942,
+        "variation": 0.07895314070863015
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Aversion (risk off)",
-        "detail": "26,36 · +3,53 % / 5 j",
+        "detail": "30,81 · +25,45 % / 5 j",
         "impact": "positif",
         "included": true,
-        "score_jour": 0,
+        "score_jour": 1,
         "score_mois": 1,
         "source": "Yahoo Finance ^VIX",
-        "as_of": "2026-11-24",
+        "as_of": "2026-11-25",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 26.36,
-        "variation": 3.5349629153278017
+        "valeur": 30.81,
+        "variation": 25.447883289521005
       },
       {
         "id": "reels",
@@ -608,7 +608,7 @@
       {
         "id": "fed",
         "nom": "Fed",
-        "etat": "Fed funds 3,88 % · US 2 ans 4,63 % · En attente : FOMC Member Williams Speaks lun. 23 nov. 22:00",
+        "etat": "Fed funds 3,88 % · US 2 ans 4,63 % · En attente : FOMC Member Bowman Speaks mer. 25 nov. 13:25",
         "detail": "Fed funds 3,88 % · US 2 ans 4,63 % · Forex Factory + FRED DFF/DGS2",
         "impact": "neutre",
         "included": true,
@@ -653,7 +653,7 @@
       {
         "id": "geo",
         "nom": "Géopolitique",
-        "etat": "En attente : dépêches géopolitiques · dépêche : Devises asiatiques en baisse face au dollar sur fond de risques tarifaires ; l’Aussie au plus bas depuis 11 mois",
+        "etat": "En attente : dépêches géopolitiques · dépêche : Le pétrole recule sur fond d’excédent d’offre et de tensions au Moyen-Orient",
         "detail": "Le prix de l'or n'est pas un moteur macro. Le VIX est noté à part. Une dépêche de tension sur 48 h peut inclure ce moteur.",
         "impact": "positif",
         "included": true,
@@ -665,7 +665,7 @@
         "valeur": null,
         "variation": null,
         "news": [
-          "Devises asiatiques en baisse face au dollar sur fond de risques tarifaires ; l’Aussie au plus bas depuis 11 mois"
+          "Le pétrole recule sur fond d’excédent d’offre et de tensions au Moyen-Orient"
         ]
       }
     ],
@@ -677,7 +677,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 7
+        "force": 14
       },
       {
         "id": "biais",
@@ -707,11 +707,11 @@
       }
     ],
     "label": "ALIGNEMENT PARTIEL",
-    "confiance": 43,
+    "confiance": 47,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "BAISSIER",
-    "force_macro": 7,
+    "force_macro": 14,
     "moyenne_technique": 79.5,
     "macro": "HAUSSIER",
     "biais": "BAISSIER",
@@ -1316,25 +1316,52 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 490,33 $, en baisse de 4,17 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 40 % contre vente 60 %, écart 20 pts, conviction ÉLEVÉE, delta net -37,78. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 24,4, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). RSI en survente (< 30) : extrême, prudence. Sur 24 h, le plus haut est 3 646,57 $ et le plus bas 3 484,84 $. Dépêches Investing (48 h) : « Devises asiatiques en baisse face au dollar sur fond de risques tarifaires ; l’Aussie au plus bas depuis 11 mois » ; « L’or reste proche de ses plus bas en 15 mois avant les données PCE ».",
+  "brief": "L'or spot XAU/USD cote 3 490,33 $, en baisse de 4,17 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 40 % contre vente 60 %, écart 20 pts, conviction ÉLEVÉE, delta net -37,78. La séance de Asie est baissière. Le sens privilégié pour Londres est la VENTE. Le RSI 14 est à 24,4, le prix est en dessous de la moyenne 20, en dessous de la moyenne 100. Tendance : Baissière. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). RSI en survente (< 30) : extrême, prudence. Sur 24 h, le plus haut est 3 646,57 $ et le plus bas 3 484,84 $. Dépêches Investing (48 h) : « L’Euro Dollar américain pourrait monter à 1,12 avant de chuter à 1,05, selon BCA » ; « La livre sterling chute alors que les investisseurs se replient sur le dollar ».",
   "news": [
     {
-      "titre": "Devises asiatiques en baisse face au dollar sur fond de risques tarifaires ; l’Aussie au plus bas depuis 11 mois",
+      "titre": "L’Euro Dollar américain pourrait monter à 1,12 avant de chuter à 1,05, selon BCA",
+      "lien": "https://fr.investing.com/news/forex-news/leuro-dollar-americain-pourrait-monter-a-112-avant-de-chuter-a-105-selon-bca-93CH-3712587",
+      "source": "Forex",
+      "t": "2026-11-25T12:39+01:00",
+      "heure": "mer. 25 nov. 12:39",
+      "ton": 0,
+      "ton_bucket": null
+    },
+    {
+      "titre": "La livre sterling chute alors que les investisseurs se replient sur le dollar",
+      "lien": "https://fr.investing.com/news/forex-news/la-livre-sterling-chute-alors-que-les-investisseurs-se-replient-sur-le-dollar-3712295",
+      "source": "Forex",
+      "t": "2026-11-25T10:48+01:00",
+      "heure": "mer. 25 nov. 10:48",
+      "ton": 0,
+      "ton_bucket": null
+    },
+    {
+      "titre": "Le dollar se raffermit avant les données clés sur l’inflation américaine",
       "lien": "https://fr.investing.com/news/forex-news/devises-asiatiques-en-baisse-face-au-dollar-sur-fond-de-risques-tarifaires--laussie-au-plus-bas-depuis-11-mois-3712027",
       "source": "Forex",
       "t": "2026-11-25T06:50+01:00",
       "heure": "mer. 25 nov. 06:50",
-      "ton": 1,
-      "ton_bucket": "geo"
+      "ton": 0,
+      "ton_bucket": null
     },
     {
-      "titre": "L’or reste proche de ses plus bas en 15 mois avant les données PCE",
+      "titre": "L’or proche de ses plus bas en 15 mois avant les données PCE",
       "lien": "https://fr.investing.com/news/commodities-news/lor-reste-proche-de-ses-plus-bas-en-15-mois-avant-les-donnees-pce-3711945",
       "source": "Matières premières",
       "t": "2026-11-25T03:58+01:00",
       "heure": "mer. 25 nov. 03:58",
       "ton": 0,
       "ton_bucket": null
+    },
+    {
+      "titre": "Le pétrole recule sur fond d’excédent d’offre et de tensions au Moyen-Orient",
+      "lien": "https://fr.investing.com/news/commodities-news/le-petrole-mitige-alors-que-les-attaques-dans-le-detroit-dormuz-sintensifient-3711903",
+      "source": "Matières premières",
+      "t": "2026-11-25T02:26+01:00",
+      "heure": "mer. 25 nov. 02:26",
+      "ton": 1,
+      "ton_bucket": "geo"
     },
     {
       "titre": "Le dollar canadien rebondit depuis un plus bas de 19 mois",
@@ -1398,33 +1425,6 @@
       "heure": "mar. 24 nov. 04:39",
       "ton": 0,
       "ton_bucket": null
-    },
-    {
-      "titre": "L’or recule après un fort rebond, l’inflation et la Fed dans le viseur",
-      "lien": "https://fr.investing.com/news/commodities-news/lor-rebondit-alors-que-les-actions-dnvidia-dopent-les-marches-3709976",
-      "source": "Matières premières",
-      "t": "2026-11-24T02:43+01:00",
-      "heure": "mar. 24 nov. 02:43",
-      "ton": 0,
-      "ton_bucket": null
-    },
-    {
-      "titre": "Le Dollar américain Yen japonais devrait revenir dans les 140 en 2027",
-      "lien": "https://fr.investing.com/news/forex-news/le-dollar-americain-yen-japonais-devrait-revenir-dans-les-140-en-2027-93CH-3709218",
-      "source": "Forex",
-      "t": "2026-11-23T14:20+01:00",
-      "heure": "lun. 23 nov. 14:20",
-      "ton": 0,
-      "ton_bucket": null
-    },
-    {
-      "titre": "Deutsche Bank relève ses prévisions sur le dollar grâce à l’essor de l’IA",
-      "lien": "https://fr.investing.com/news/forex-news/deutsche-bank-releve-ses-previsions-sur-le-dollar-grace-a-lessor-de-lia-93CH-3709217",
-      "source": "Forex",
-      "t": "2026-11-23T14:19+01:00",
-      "heure": "lun. 23 nov. 14:19",
-      "ton": 0,
-      "ton_bucket": null
     }
   ],
   "alertes": [
@@ -1442,7 +1442,7 @@
     },
     {
       "niveau": "important",
-      "texte": "VIX élevé (26,4) : aversion au risque."
+      "texte": "VIX élevé (30,8) : aversion au risque."
     },
     {
       "niveau": "attention",
@@ -1455,9 +1455,9 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 2,
+    "demandees": 1,
     "minutes": {
       "fichiers": 1
     }
