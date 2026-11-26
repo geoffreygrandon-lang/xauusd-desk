@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-26T07:01:51+01:00",
-  "generated_label": "jeudi 26 novembre 2026, 07:01",
+  "generated_at": "2026-11-26T07:31:40+01:00",
+  "generated_label": "jeudi 26 novembre 2026, 07:31",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -547,7 +547,7 @@
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "Stable",
-        "detail": "103,81 · -0,08 % / 5 j",
+        "detail": "103,78 · -0,11 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -555,8 +555,8 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-26",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.812,
-        "variation": -0.08470169838837671
+        "valeur": 103.782,
+        "variation": -0.11357444030975487
       },
       {
         "id": "vix",
@@ -1245,8 +1245,17 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 580,20 $, en hausse de 1,83 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 43 % contre vente 57 %, écart 14 pts, conviction MODÉRÉE, delta net -26,49. La séance de Asie est neutre. Le sens privilégié pour Londres est d'ATTENDRE. Le RSI 14 est à 56,6, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans positif). Sur 24 h, le plus haut est 3 607,05 $ et le plus bas 3 426,41 $. Dépêches Investing (48 h) : « Devises asiatiques : le won stable après la hausse de la BOK, le dollar se stabilise » ; « L’or recule alors que les données d’inflation américaines renforcent les paris sur une hausse des taux de la Fed ».",
+  "brief": "L'or spot XAU/USD cote 3 580,20 $, en hausse de 1,83 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 43 % contre vente 57 %, écart 14 pts, conviction MODÉRÉE, delta net -26,49. La séance de Asie est neutre. Le sens privilégié pour Londres est d'ATTENDRE. Le RSI 14 est à 56,6, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans positif). Sur 24 h, le plus haut est 3 607,05 $ et le plus bas 3 426,41 $. Dépêches Investing (48 h) : « L’or sur un creux de 13 mois : Timing idéal ? Décryptage et plan complet » ; « Devises asiatiques : le won stable après la hausse de la BOK, le dollar se stabilise ».",
   "news": [
+    {
+      "titre": "L’or sur un creux de 13 mois : Timing idéal ? Décryptage et plan complet",
+      "lien": "https://fr.investing.com/news/commodities-news/lor-sur-un-creux-de-13-mois--timing-ideal--decryptage-et-plan-complet-3713712",
+      "source": "Matières premières",
+      "t": "2026-11-26T06:53+01:00",
+      "heure": "jeu. 26 nov. 06:53",
+      "ton": 0,
+      "ton_bucket": null
+    },
     {
       "titre": "Devises asiatiques : le won stable après la hausse de la BOK, le dollar se stabilise",
       "lien": "https://fr.investing.com/news/forex-news/devises-asiatiques--le-won-stable-apres-la-hausse-de-la-bok-le-dollar-se-stabilise-3713670",
@@ -1345,15 +1354,6 @@
       "heure": "mar. 24 nov. 10:46",
       "ton": 0,
       "ton_bucket": null
-    },
-    {
-      "titre": "UBS prévoit le Dollar américain Yen japonais à 158 jusqu’en 2027",
-      "lien": "https://fr.investing.com/news/forex-news/ubs-prevoit-le-dollar-americain-yen-japonais-a-158-jusquen-2027-93CH-3710368",
-      "source": "Forex",
-      "t": "2026-11-24T10:44+01:00",
-      "heure": "mar. 24 nov. 10:44",
-      "ton": 0,
-      "ton_bucket": null
     }
   ],
   "alertes": [
@@ -1380,7 +1380,7 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 3,
+    "telechargees": 0,
     "echecs": 0,
     "demandees": 6,
     "minutes": {
