@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-26T13:02:01+01:00",
-  "generated_label": "jeudi 26 novembre 2026, 13:02",
+  "generated_at": "2026-11-26T13:38:16+01:00",
+  "generated_label": "jeudi 26 novembre 2026, 13:38",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -26,14 +26,14 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 20,
+    "score": 22,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "NEUTRE",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 17,
+        "points": 21,
         "actif": true
       },
       {
@@ -43,13 +43,13 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 20,
+        "points": 22,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 20,
+    "score": 22,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "NEUTRE"
@@ -539,15 +539,15 @@
   },
   "macro": {
     "biais": "HAUSSIER",
-    "conviction": "FAIBLE",
-    "force": 17,
+    "conviction": "MODÉRÉE",
+    "force": 21,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "Stable",
-        "detail": "103,77 · -0,13 % / 5 j",
+        "detail": "103,76 · -0,14 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -555,23 +555,23 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-26",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.77,
-        "variation": -0.1251250056816592
+        "valeur": 103.759,
+        "variation": -0.13570629284053662
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
-        "etat": "Aversion (risk off)",
-        "detail": "28,29 · +15,19 % / 5 j",
+        "etat": "Stable",
+        "detail": "26,91 · -5,38 % / 5 j",
         "impact": "positif",
         "included": true,
-        "score_jour": 1,
+        "score_jour": 0,
         "score_mois": 1,
         "source": "Yahoo Finance ^VIX",
-        "as_of": "2026-11-25",
+        "as_of": "2026-11-26",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 28.29,
-        "variation": 15.18730264940516
+        "valeur": 26.91,
+        "variation": -5.379749148785329
       },
       {
         "id": "reels",
@@ -651,17 +651,20 @@
       {
         "id": "geo",
         "nom": "Géopolitique",
-        "etat": "En attente : dépêches géopolitiques",
+        "etat": "En attente : dépêches géopolitiques · dépêche : Les prix du gaz en Europe restent stables malgré les tensions au Moyen-Orient",
         "detail": "Le prix de l'or n'est pas un moteur macro. Le VIX est noté à part. Une dépêche de tension sur 48 h peut inclure ce moteur.",
-        "impact": "neutre",
-        "included": false,
-        "score_jour": null,
+        "impact": "positif",
+        "included": true,
+        "score_jour": 1,
         "score_mois": null,
         "source": "Investing.com, dépêches 48 h",
         "as_of": null,
         "regle": "Inclus seulement s'il y a une dépêche de tension, sanction, guerre, élection ou tarif sur 48 h (+1). Sinon exclu, impact neutre. Le cours de l'or ne compte pas.",
         "valeur": null,
-        "variation": null
+        "variation": null,
+        "news": [
+          "Les prix du gaz en Europe restent stables malgré les tensions au Moyen-Orient"
+        ]
       }
     ],
     "calendrier": "Forex Factory"
@@ -672,7 +675,7 @@
         "id": "macro",
         "nom": "Macro",
         "direction": "HAUSSIER",
-        "force": 17
+        "force": 21
       },
       {
         "id": "biais",
@@ -702,11 +705,11 @@
       }
     ],
     "label": "AUCUN",
-    "confiance": 20,
+    "confiance": 22,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "NEUTRE",
-    "force_macro": 17,
+    "force_macro": 21,
     "moyenne_technique": 22.2,
     "macro": "HAUSSIER",
     "biais": "BAISSIER",
@@ -1244,8 +1247,26 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 566,95 $, en hausse de 1,29 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 43 % contre vente 57 %, écart 14 pts, conviction MODÉRÉE, delta net -24,59. La séance de Asie est neutre. Le sens privilégié pour Londres est d'ATTENDRE. Le RSI 14 est à 52,5, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans positif). Sur 24 h, le plus haut est 3 607,05 $ et le plus bas 3 426,41 $. Dépêches Investing (48 h) : « L’or sur un creux de 13 mois : Timing idéal ? Décryptage et plan complet » ; « Devises asiatiques : le won stable après la hausse de la BOK, le dollar se stabilise ».",
+  "brief": "L'or spot XAU/USD cote 3 566,95 $, en hausse de 1,29 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est VENDEUR : achat 43 % contre vente 57 %, écart 14 pts, conviction MODÉRÉE, delta net -24,59. La séance de Asie est neutre. Le sens privilégié pour Londres est d'ATTENDRE. Le RSI 14 est à 52,5, le prix est au-dessus de la moyenne 20, en dessous de la moyenne 100. Tendance : Neutre. Le biais macro est haussier, conviction modérée (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans positif). Sur 24 h, le plus haut est 3 607,05 $ et le plus bas 3 426,41 $. Dépêches Investing (48 h) : « Les prix du gaz en Europe restent stables malgré les tensions au Moyen-Orient » ; « La livre sterling stable alors que le dollar se stabilise pendant Thanksgiving ».",
   "news": [
+    {
+      "titre": "Les prix du gaz en Europe restent stables malgré les tensions au Moyen-Orient",
+      "lien": "https://fr.investing.com/news/commodities-news/les-prix-du-gaz-en-europe-restent-stables-malgre-les-tensions-au-moyenorient-3713977",
+      "source": "Matières premières",
+      "t": "2026-11-26T12:14+01:00",
+      "heure": "jeu. 26 nov. 12:14",
+      "ton": 1,
+      "ton_bucket": "geo"
+    },
+    {
+      "titre": "La livre sterling stable alors que le dollar se stabilise pendant Thanksgiving",
+      "lien": "https://fr.investing.com/news/forex-news/la-livre-sterling-stable-alors-que-le-dollar-se-stabilise-pendant-thanksgiving-3713900",
+      "source": "Forex",
+      "t": "2026-11-26T10:34+01:00",
+      "heure": "jeu. 26 nov. 10:34",
+      "ton": 0,
+      "ton_bucket": null
+    },
     {
       "titre": "L’or sur un creux de 13 mois : Timing idéal ? Décryptage et plan complet",
       "lien": "https://fr.investing.com/news/commodities-news/lor-sur-un-creux-de-13-mois--timing-ideal--decryptage-et-plan-complet-3713712",
@@ -1256,7 +1277,7 @@
       "ton_bucket": null
     },
     {
-      "titre": "Devises asiatiques : le won stable après la hausse de la BOK, le dollar se stabilise",
+      "titre": "Le dollar marque une pause avant Thanksgiving ; l’euro recule",
       "lien": "https://fr.investing.com/news/forex-news/devises-asiatiques--le-won-stable-apres-la-hausse-de-la-bok-le-dollar-se-stabilise-3713670",
       "source": "Forex",
       "t": "2026-11-26T05:48+01:00",
@@ -1265,7 +1286,7 @@
       "ton_bucket": null
     },
     {
-      "titre": "Les prix au comptant de l’or reculent face à un dollar plus fort",
+      "titre": "Les prix de l’or au comptant reculent tandis que le dollar se raffermit",
       "lien": "https://fr.investing.com/news/commodities-news/lor-recule-alors-que-les-donnees-dinflation-americaines-renforcent-les-paris-sur-une-hausse-des-taux-de-la-fed-3713650",
       "source": "Matières premières",
       "t": "2026-11-26T04:20+01:00",
@@ -1348,7 +1369,7 @@
     },
     {
       "niveau": "important",
-      "texte": "VIX élevé (28,3) : aversion au risque."
+      "texte": "VIX élevé (26,9) : aversion au risque."
     },
     {
       "niveau": "attention",
@@ -1361,11 +1382,11 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 2,
+    "telechargees": 0,
     "echecs": 0,
-    "demandees": 3,
+    "demandees": 1,
     "minutes": {
-      "fichiers": 2
+      "fichiers": 1
     }
   },
   "notifications": {
