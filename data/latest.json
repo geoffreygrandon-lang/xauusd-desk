@@ -1,8 +1,8 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-27T17:01:55+01:00",
-  "generated_label": "vendredi 27 novembre 2026, 17:01",
+  "generated_at": "2026-11-27T17:44:03+01:00",
+  "generated_label": "vendredi 27 novembre 2026, 17:44",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
@@ -21,19 +21,19 @@
     "ouverture_jour": 3565.7
   },
   "banner": {
-    "direction": "HAUSSIER",
-    "titre": "HAUSSIER — pression acheteuse dominante",
+    "direction": "NEUTRE",
+    "titre": "NEUTRE — pressions équilibrées",
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 25,
+    "score": 18,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
-    "direction": "HAUSSIER",
+    "direction": "NEUTRE",
     "parts": [
       {
         "label": "Force macro (moteurs avec donnée, jour et mois)",
-        "points": 14,
+        "points": 0,
         "actif": true
       },
       {
@@ -43,16 +43,16 @@
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 25,
+        "points": 18,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 25,
+    "score": 18,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
-    "direction": "HAUSSIER"
+    "direction": "NEUTRE"
   },
   "sessions": {
     "jour": "2026-11-27",
@@ -561,16 +561,16 @@
     "biais": "HAUSSIER"
   },
   "macro": {
-    "biais": "HAUSSIER",
+    "biais": "NEUTRE",
     "conviction": "FAIBLE",
-    "force": 14,
+    "force": 0,
     "derniere_mise_a_jour_manuelle": null,
     "drivers": [
       {
         "id": "dxy",
         "nom": "USD (DXY)",
         "etat": "Stable",
-        "detail": "103,99 · +0,09 % / 5 j",
+        "detail": "104,01 · +0,11 % / 5 j",
         "impact": "negatif",
         "included": true,
         "score_jour": -1,
@@ -578,14 +578,14 @@
         "source": "Yahoo Finance DX-Y.NYB",
         "as_of": "2026-11-27",
         "regle": "Jour et mois : mouvement du DXY inférieur à 0,25 % = 0. Au-delà, baisse = +1 pour l'or, hausse = −1. L'impact est le signe de la somme.",
-        "valeur": 103.994,
-        "variation": 0.09047330956594621
+        "valeur": 104.013,
+        "variation": 0.1087574213116816
       },
       {
         "id": "vix",
         "nom": "Sentiment de risque",
         "etat": "Stable",
-        "detail": "26,49 · -26,19 % / 5 j",
+        "detail": "25,19 · -29,81 % / 5 j",
         "impact": "positif",
         "included": true,
         "score_jour": 0,
@@ -593,14 +593,14 @@
         "source": "Yahoo Finance ^VIX",
         "as_of": "2026-11-27",
         "regle": "Jour et mois : VIX ≥ 20 et en hausse → +1 (risk off, positif pour l'or). VIX ≤ 16 et en baisse → −1. Sinon 0. L'impact est le signe de la somme.",
-        "valeur": 26.49,
-        "variation": -26.191138975726663
+        "valeur": 25.19,
+        "variation": -29.813315791465193
       },
       {
         "id": "reels",
         "nom": "Taux réels US 10 ans",
         "etat": "En repli",
-        "detail": "2,79 % · -10 pb · nominal 4,91 %",
+        "detail": "2,79 % · -10 pb · nominal 4,92 %",
         "impact": "negatif",
         "included": true,
         "score_jour": 0,
@@ -614,17 +614,17 @@
       {
         "id": "nominaux",
         "nom": "Taux US 10 ans",
-        "etat": "En repli",
-        "detail": "4,91 % · -6 pb",
-        "impact": "positif",
+        "etat": "En hausse",
+        "detail": "4,92 % · +7 pb",
+        "impact": "neutre",
         "included": true,
-        "score_jour": 1,
+        "score_jour": -1,
         "score_mois": 1,
         "source": "Yahoo Finance ^TNX",
-        "as_of": "2026-11-25",
+        "as_of": "2026-11-27",
         "regle": "Jour : ±5 pb (hausse du taux nominal = −1 pour l'or). Mois : ±10 pb. Un niveau sans variation n'entre pas dans la moyenne.",
-        "valeur": 4.91,
-        "variation": -0.055999755859375
+        "valeur": 4.922,
+        "variation": 0.07399988174438477
       },
       {
         "id": "fed",
@@ -697,8 +697,8 @@
       {
         "id": "macro",
         "nom": "Macro",
-        "direction": "HAUSSIER",
-        "force": 14
+        "direction": "NEUTRE",
+        "force": 0
       },
       {
         "id": "biais",
@@ -728,13 +728,13 @@
       }
     ],
     "label": "AUCUN",
-    "confiance": 25,
+    "confiance": 18,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
-    "direction": "HAUSSIER",
-    "force_macro": 14,
+    "direction": "NEUTRE",
+    "force_macro": 0,
     "moyenne_technique": 35.8,
-    "macro": "HAUSSIER",
+    "macro": "NEUTRE",
     "biais": "BAISSIER",
     "orderflow": "NEUTRE",
     "heatmap": "Neutre",
@@ -1251,7 +1251,7 @@
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 627,24 $, en hausse de 1,55 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 50 % contre vente 50 %, écart 0 pts, conviction BASSE, delta net +1,25. La séance de Londres est baissière. Le sens privilégié pour New York est la VENTE. Le RSI 14 est à 52,1, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans positif). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 685,20 $ et le plus bas 3 557,41 $. Dépêches Investing (48 h) : « Bernstein trace une feuille de route haussière pour l’or jusqu’en 2027 » ; « Goldman Sachs prévoit une remontée de l’Euro Dollar américain vers 1,12 d’ici la fin de l’année ».",
+  "brief": "L'or spot XAU/USD cote 3 627,24 $, en hausse de 1,55 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 50 % contre vente 50 %, écart 0 pts, conviction BASSE, delta net +1,25. La séance de Londres est baissière. Le sens privilégié pour New York est la VENTE. Le RSI 14 est à 52,1, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est neutre, conviction faible (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans neutre). Zone neutre : éviter de trader. Sur 24 h, le plus haut est 3 685,20 $ et le plus bas 3 557,41 $. Dépêches Investing (48 h) : « Bernstein trace une feuille de route haussière pour l’or jusqu’en 2027 » ; « Goldman Sachs prévoit une remontée de l’Euro Dollar américain vers 1,12 d’ici la fin de l’année ».",
   "news": [
     {
       "titre": "Bernstein trace une feuille de route haussière pour l’or jusqu’en 2027",
@@ -1351,7 +1351,7 @@
     },
     {
       "niveau": "important",
-      "texte": "VIX élevé (26,5) : aversion au risque."
+      "texte": "VIX élevé (25,2) : aversion au risque."
     },
     {
       "niveau": "attention",
@@ -1364,11 +1364,11 @@
     "macro": "Yahoo Finance (DXY, VIX, US 10 ans) et FRED (DFII10, T10YIE, DFF, DGS2). Fed et banques : actual Forex Factory s'il est publié, sinon les séries de taux. Géopolitique : dépêches 48 h. Le prix de l'or n'est pas un moteur macro."
   },
   "fetch": {
-    "telechargees": 1,
-    "echecs": 1,
-    "demandees": 2,
+    "telechargees": 0,
+    "echecs": 0,
+    "demandees": 1,
     "minutes": {
-      "fichiers": 2
+      "fichiers": 1
     }
   },
   "notifications": {
