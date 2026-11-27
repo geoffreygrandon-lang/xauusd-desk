@@ -1,22 +1,22 @@
 {
   "version": 1,
   "instrument": "XAU/USD",
-  "generated_at": "2026-11-27T11:56:37+01:00",
-  "generated_label": "vendredi 27 novembre 2026, 11:56",
+  "generated_at": "2026-11-27T12:58:25+01:00",
+  "generated_label": "vendredi 27 novembre 2026, 12:58",
   "timezone": "Europe/Paris",
   "market": {
     "ouvert": true,
     "libelle": "Marché ouvert"
   },
   "price": {
-    "last": 3673.745,
-    "time": "2026-11-27T11:00+01:00",
-    "time_label": "27/11 11:00",
+    "last": 3679.225,
+    "time": "2026-11-27T12:00+01:00",
+    "time_label": "27/11 12:00",
     "en_cours": false,
-    "change_24h": 118.135,
-    "change_24h_pct": 3.322,
-    "change_jour": 108.045,
-    "change_jour_pct": 3.03,
+    "change_24h": 112.27,
+    "change_24h_pct": 3.148,
+    "change_jour": 113.525,
+    "change_jour_pct": 3.184,
     "granularite": "horaire",
     "ouverture_jour": 3565.7
   },
@@ -26,7 +26,7 @@
     "conviction": "FAIBLE"
   },
   "confidence": {
-    "score": 43,
+    "score": 46,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "HAUSSIER",
@@ -38,18 +38,18 @@
       },
       {
         "label": "Moyenne technique (biais, momentum, tendance, heatmap)",
-        "points": 65.0,
+        "points": 72.0,
         "actif": true
       },
       {
         "label": "Confiance = 0,5 × macro + 0,5 × moyenne technique",
-        "points": 43,
+        "points": 46,
         "actif": true
       }
     ]
   },
   "jauge": {
-    "score": 43,
+    "score": 46,
     "label": "FAIBLE",
     "conviction": "FAIBLE",
     "direction": "HAUSSIER"
@@ -111,15 +111,15 @@
         "biais": null,
         "biais_provisoire": "haussière",
         "score": null,
-        "variation_pct": 0.527,
+        "variation_pct": 0.677,
         "range": 32.6550000000002,
         "structure": "plus hauts",
         "composantes": [],
-        "bougies": 3,
+        "bougies": 4,
         "open": 3654.485,
         "high": 3685.195,
         "low": 3652.54,
-        "close": 3673.745
+        "close": 3679.225
       },
       {
         "id": "ny",
@@ -151,38 +151,28 @@
     "base_session": "Asie",
     "base_biais": "haussière",
     "warnings": [
-      "Zone neutre : éviter de trader",
       "RSI en surachat (> 70) : extrême, prudence"
     ]
   },
   "orderflow": {
-    "signal": "NEUTRE",
-    "conviction": "BASSE",
-    "buy_pct": 52,
-    "sell_pct": 48,
-    "gap": 4,
-    "net_delta": 7.7083,
-    "buy_volume": 85.2518,
-    "sell_volume": 77.5436,
+    "signal": "ACHETEUR",
+    "conviction": "MODÉRÉE",
+    "buy_pct": 55,
+    "sell_pct": 45,
+    "gap": 10,
+    "net_delta": 14.5458,
+    "buy_volume": 86.531,
+    "sell_volume": 71.9853,
     "bougies": 40,
     "complet": true,
     "candles": [
-      {
-        "t": "2026-11-25T13:00:00Z",
-        "label": "25/11 14h",
-        "buy": 1.1532,
-        "sell": 5.8107,
-        "delta": -4.6575,
-        "cum_delta": -4.6575,
-        "c": 3476.465
-      },
       {
         "t": "2026-11-25T14:00:00Z",
         "label": "25/11 15h",
         "buy": 3.3446,
         "sell": 3.3316,
         "delta": 0.0131,
-        "cum_delta": -4.6444,
+        "cum_delta": 0.0131,
         "c": 3471.825
       },
       {
@@ -191,7 +181,7 @@
         "buy": 2.8593,
         "sell": 4.1124,
         "delta": -1.253,
-        "cum_delta": -5.8975,
+        "cum_delta": -1.24,
         "c": 3445.475
       },
       {
@@ -200,7 +190,7 @@
         "buy": 5.7692,
         "sell": 0.2913,
         "delta": 5.478,
-        "cum_delta": -0.4195,
+        "cum_delta": 4.238,
         "c": 3467.625
       },
       {
@@ -209,7 +199,7 @@
         "buy": 5.5436,
         "sell": 1.3109,
         "delta": 4.2327,
-        "cum_delta": 3.8132,
+        "cum_delta": 8.4708,
         "c": 3514.718
       },
       {
@@ -218,7 +208,7 @@
         "buy": 4.1225,
         "sell": 2.0368,
         "delta": 2.0857,
-        "cum_delta": 5.8989,
+        "cum_delta": 10.5564,
         "c": 3537.628
       },
       {
@@ -227,7 +217,7 @@
         "buy": 2.6429,
         "sell": 2.7207,
         "delta": -0.0777,
-        "cum_delta": 5.8212,
+        "cum_delta": 10.4787,
         "c": 3546.135
       },
       {
@@ -236,7 +226,7 @@
         "buy": 3.9533,
         "sell": 1.7201,
         "delta": 2.2331,
-        "cum_delta": 8.0543,
+        "cum_delta": 12.7118,
         "c": 3574.635
       },
       {
@@ -245,7 +235,7 @@
         "buy": 1.0996,
         "sell": 2.204,
         "delta": -1.1044,
-        "cum_delta": 6.9499,
+        "cum_delta": 11.6074,
         "c": 3576.035
       },
       {
@@ -254,7 +244,7 @@
         "buy": 0.6574,
         "sell": 2.8911,
         "delta": -2.2337,
-        "cum_delta": 4.7162,
+        "cum_delta": 9.3737,
         "c": 3562.558
       },
       {
@@ -263,7 +253,7 @@
         "buy": 4.129,
         "sell": 3.0538,
         "delta": 1.0753,
-        "cum_delta": 5.7915,
+        "cum_delta": 10.449,
         "c": 3569.934
       },
       {
@@ -272,7 +262,7 @@
         "buy": 2.9521,
         "sell": 2.5865,
         "delta": 0.3657,
-        "cum_delta": 6.1572,
+        "cum_delta": 10.8147,
         "c": 3588.585
       },
       {
@@ -281,7 +271,7 @@
         "buy": 0.117,
         "sell": 4.7635,
         "delta": -4.6465,
-        "cum_delta": 1.5106,
+        "cum_delta": 6.1682,
         "c": 3575.075
       },
       {
@@ -290,7 +280,7 @@
         "buy": 2.1725,
         "sell": 0.6744,
         "delta": 1.4981,
-        "cum_delta": 3.0088,
+        "cum_delta": 7.6663,
         "c": 3593.855
       },
       {
@@ -299,7 +289,7 @@
         "buy": 0.4149,
         "sell": 4.0176,
         "delta": -3.6026,
-        "cum_delta": -0.5938,
+        "cum_delta": 4.0637,
         "c": 3580.195
       },
       {
@@ -308,7 +298,7 @@
         "buy": 1.9974,
         "sell": 3.6292,
         "delta": -1.6318,
-        "cum_delta": -2.2256,
+        "cum_delta": 2.4319,
         "c": 3569.04
       },
       {
@@ -317,7 +307,7 @@
         "buy": 0.4828,
         "sell": 2.5024,
         "delta": -2.0195,
-        "cum_delta": -4.2451,
+        "cum_delta": 0.4124,
         "c": 3564.755
       },
       {
@@ -326,7 +316,7 @@
         "buy": 2.1231,
         "sell": 0.6456,
         "delta": 1.4774,
-        "cum_delta": -2.7677,
+        "cum_delta": 1.8898,
         "c": 3572.285
       },
       {
@@ -335,7 +325,7 @@
         "buy": 2.0304,
         "sell": 0.7471,
         "delta": 1.2833,
-        "cum_delta": -1.4844,
+        "cum_delta": 3.1731,
         "c": 3574.735
       },
       {
@@ -344,7 +334,7 @@
         "buy": 0.4284,
         "sell": 2.2638,
         "delta": -1.8354,
-        "cum_delta": -3.3198,
+        "cum_delta": 1.3377,
         "c": 3555.61
       },
       {
@@ -353,7 +343,7 @@
         "buy": 1.7912,
         "sell": 0.5053,
         "delta": 1.286,
-        "cum_delta": -2.0339,
+        "cum_delta": 2.6236,
         "c": 3566.955
       },
       {
@@ -362,7 +352,7 @@
         "buy": 1.3261,
         "sell": 1.3144,
         "delta": 0.0118,
-        "cum_delta": -2.0221,
+        "cum_delta": 2.6354,
         "c": 3568.665
       },
       {
@@ -371,7 +361,7 @@
         "buy": 2.995,
         "sell": 1.2325,
         "delta": 1.7624,
-        "cum_delta": -0.2597,
+        "cum_delta": 4.3978,
         "c": 3571.545
       },
       {
@@ -380,7 +370,7 @@
         "buy": 3.0228,
         "sell": 1.1105,
         "delta": 1.9123,
-        "cum_delta": 1.6526,
+        "cum_delta": 6.3101,
         "c": 3581.515
       },
       {
@@ -389,7 +379,7 @@
         "buy": 1.1749,
         "sell": 2.1762,
         "delta": -1.0014,
-        "cum_delta": 0.6512,
+        "cum_delta": 5.3087,
         "c": 3573.395
       },
       {
@@ -398,7 +388,7 @@
         "buy": 0.7922,
         "sell": 2.0073,
         "delta": -1.2151,
-        "cum_delta": -0.5639,
+        "cum_delta": 4.0936,
         "c": 3571.775
       },
       {
@@ -407,7 +397,7 @@
         "buy": 0.3999,
         "sell": 0.8878,
         "delta": -0.4878,
-        "cum_delta": -1.0517,
+        "cum_delta": 3.6058,
         "c": 3567.305
       },
       {
@@ -416,7 +406,7 @@
         "buy": 0.4171,
         "sell": 0.2507,
         "delta": 0.1664,
-        "cum_delta": -0.8853,
+        "cum_delta": 3.7722,
         "c": 3568.095
       },
       {
@@ -425,7 +415,7 @@
         "buy": 0.0585,
         "sell": 0.2061,
         "delta": -0.1476,
-        "cum_delta": -1.0329,
+        "cum_delta": 3.6246,
         "c": 3566.13
       },
       {
@@ -434,7 +424,7 @@
         "buy": 0.9776,
         "sell": 0.324,
         "delta": 0.6535,
-        "cum_delta": -0.3794,
+        "cum_delta": 4.2781,
         "c": 3567.795
       },
       {
@@ -443,7 +433,7 @@
         "buy": 0.5391,
         "sell": 2.5594,
         "delta": -2.0203,
-        "cum_delta": -2.3997,
+        "cum_delta": 2.2578,
         "c": 3560.84
       },
       {
@@ -452,7 +442,7 @@
         "buy": 5.69,
         "sell": 0.0186,
         "delta": 5.6713,
-        "cum_delta": 3.2716,
+        "cum_delta": 7.9291,
         "c": 3594.045
       },
       {
@@ -461,7 +451,7 @@
         "buy": 4.6755,
         "sell": 2.1378,
         "delta": 2.5378,
-        "cum_delta": 5.8094,
+        "cum_delta": 10.4669,
         "c": 3622.425
       },
       {
@@ -470,7 +460,7 @@
         "buy": 2.1546,
         "sell": 2.0416,
         "delta": 0.113,
-        "cum_delta": 5.9223,
+        "cum_delta": 10.5799,
         "c": 3629.215
       },
       {
@@ -479,7 +469,7 @@
         "buy": 1.1048,
         "sell": 0.8639,
         "delta": 0.241,
-        "cum_delta": 6.1633,
+        "cum_delta": 10.8208,
         "c": 3632.945
       },
       {
@@ -488,7 +478,7 @@
         "buy": 1.2298,
         "sell": 3.4526,
         "delta": -2.2229,
-        "cum_delta": 3.9404,
+        "cum_delta": 8.5979,
         "c": 3641.765
       },
       {
@@ -497,7 +487,7 @@
         "buy": 3.7101,
         "sell": 0.4069,
         "delta": 3.3031,
-        "cum_delta": 7.2435,
+        "cum_delta": 11.901,
         "c": 3654.485
       },
       {
@@ -506,7 +496,7 @@
         "buy": 1.2319,
         "sell": 1.6633,
         "delta": -0.4314,
-        "cum_delta": 6.8121,
+        "cum_delta": 11.4696,
         "c": 3658.065
       },
       {
@@ -515,7 +505,7 @@
         "buy": 3.4536,
         "sell": 0.589,
         "delta": 2.8647,
-        "cum_delta": 9.6768,
+        "cum_delta": 14.3343,
         "c": 3677.435
       },
       {
@@ -524,17 +514,26 @@
         "buy": 0.5138,
         "sell": 2.4823,
         "delta": -1.9685,
-        "cum_delta": 7.7083,
+        "cum_delta": 12.3658,
         "c": 3673.745
+      },
+      {
+        "t": "2026-11-27T10:00:00Z",
+        "label": "27/11 11h",
+        "buy": 2.4324,
+        "sell": 0.2524,
+        "delta": 2.18,
+        "cum_delta": 14.5458,
+        "c": 3679.225
       }
     ],
     "heatmap": "Accumulation",
-    "heatmap_x_pct": 3.3
+    "heatmap_x_pct": 1.6
   },
   "technicals": {
-    "sma20": 3602.407,
-    "sma100": 3587.209,
-    "rsi14": 75.74,
+    "sma20": 3608.021,
+    "sma100": 3588.764,
+    "rsi14": 76.69,
     "vs_sma20": "au-dessus",
     "vs_sma100": "au-dessus",
     "tendance": "Haussière",
@@ -684,13 +683,13 @@
         "id": "biais",
         "nom": "Biais",
         "direction": "HAUSSIER",
-        "force": 63
+        "force": 66
       },
       {
         "id": "momentum",
         "nom": "Momentum",
-        "direction": "NEUTRE",
-        "force": 4
+        "direction": "HAUSSIER",
+        "force": 25
       },
       {
         "id": "tendance",
@@ -702,21 +701,21 @@
         "id": "heatmap",
         "nom": "Heatmap",
         "direction": "HAUSSIER",
-        "force": 93,
+        "force": 97,
         "etat": "Accumulation",
-        "x_pct": 3.3
+        "x_pct": 1.6
       }
     ],
-    "label": "ALIGNEMENT PARTIEL",
-    "confiance": 43,
+    "label": "ALIGNEMENT TOTAL",
+    "confiance": 46,
     "conviction": "FAIBLE",
     "jauge": "FAIBLE",
     "direction": "HAUSSIER",
     "force_macro": 21,
-    "moyenne_technique": 65.0,
+    "moyenne_technique": 72.0,
     "macro": "HAUSSIER",
     "biais": "HAUSSIER",
-    "orderflow": "NEUTRE",
+    "orderflow": "HAUSSIER",
     "heatmap": "Accumulation",
     "tendance": "HAUSSIER"
   },
@@ -724,143 +723,135 @@
     {
       "nom": "Plus haut 24 h",
       "prix": 3685.2,
-      "distance": 11.45,
-      "distance_pct": 0.31,
+      "distance": 5.97,
+      "distance_pct": 0.16,
       "type": "marche"
     },
     {
       "nom": "Plus bas 24 h",
       "prix": 3551.95,
-      "distance": -121.79,
-      "distance_pct": -3.32,
+      "distance": -127.27,
+      "distance_pct": -3.46,
       "type": "marche"
     },
     {
       "nom": "Plus haut 5 jours",
       "prix": 3689.59,
-      "distance": 15.85,
-      "distance_pct": 0.43,
+      "distance": 10.37,
+      "distance_pct": 0.28,
       "type": "marche"
     },
     {
       "nom": "Plus bas 5 jours",
       "prix": 3426.41,
-      "distance": -247.34,
-      "distance_pct": -6.73,
+      "distance": -252.82,
+      "distance_pct": -6.87,
       "type": "marche"
     },
     {
       "nom": "Plus haut 20 jours",
       "prix": 4148.58,
-      "distance": 474.83,
-      "distance_pct": 12.93,
+      "distance": 469.35,
+      "distance_pct": 12.76,
       "type": "marche"
     },
     {
       "nom": "Plus bas 20 jours",
       "prix": 3426.41,
-      "distance": -247.34,
-      "distance_pct": -6.73,
+      "distance": -252.82,
+      "distance_pct": -6.87,
       "type": "marche"
     },
     {
       "nom": "Asie plus haut",
       "prix": 3666.53,
-      "distance": -7.22,
-      "distance_pct": -0.2,
+      "distance": -12.7,
+      "distance_pct": -0.35,
       "type": "seance"
     },
     {
       "nom": "Asie plus bas",
       "prix": 3557.41,
-      "distance": -116.34,
-      "distance_pct": -3.17,
+      "distance": -121.82,
+      "distance_pct": -3.31,
       "type": "seance"
     },
     {
       "nom": "Londres plus haut",
       "prix": 3685.2,
-      "distance": 11.45,
-      "distance_pct": 0.31,
+      "distance": 5.97,
+      "distance_pct": 0.16,
       "type": "seance"
     },
     {
       "nom": "Londres plus bas",
       "prix": 3652.54,
-      "distance": -21.2,
-      "distance_pct": -0.58,
+      "distance": -26.68,
+      "distance_pct": -0.73,
       "type": "seance"
     },
     {
       "nom": "Nombre rond centaine",
       "prix": 3600.0,
-      "distance": -73.74,
-      "distance_pct": -2.01,
+      "distance": -79.22,
+      "distance_pct": -2.15,
       "type": "centaine"
-    },
-    {
-      "nom": "Nombre rond dizaine",
-      "prix": 3640.0,
-      "distance": -33.74,
-      "distance_pct": -0.92,
-      "type": "dizaine"
     },
     {
       "nom": "Nombre rond cinquantaine",
       "prix": 3650.0,
-      "distance": -23.74,
-      "distance_pct": -0.65,
+      "distance": -29.22,
+      "distance_pct": -0.79,
       "type": "cinquantaine"
     },
     {
       "nom": "Nombre rond dizaine",
       "prix": 3660.0,
-      "distance": -13.74,
-      "distance_pct": -0.37,
+      "distance": -19.22,
+      "distance_pct": -0.52,
       "type": "dizaine"
     },
     {
       "nom": "Nombre rond dizaine",
       "prix": 3670.0,
-      "distance": -3.74,
-      "distance_pct": -0.1,
+      "distance": -9.22,
+      "distance_pct": -0.25,
       "type": "dizaine"
     },
     {
       "nom": "Nombre rond dizaine",
       "prix": 3680.0,
-      "distance": 6.26,
-      "distance_pct": 0.17,
+      "distance": 0.78,
+      "distance_pct": 0.02,
       "type": "dizaine"
     },
     {
       "nom": "Nombre rond dizaine",
       "prix": 3690.0,
-      "distance": 16.26,
-      "distance_pct": 0.44,
+      "distance": 10.78,
+      "distance_pct": 0.29,
       "type": "dizaine"
     },
     {
       "nom": "Nombre rond centaine",
       "prix": 3700.0,
-      "distance": 26.26,
-      "distance_pct": 0.71,
+      "distance": 20.78,
+      "distance_pct": 0.56,
       "type": "centaine"
+    },
+    {
+      "nom": "Nombre rond dizaine",
+      "prix": 3710.0,
+      "distance": 30.78,
+      "distance_pct": 0.84,
+      "type": "dizaine"
     }
   ],
   "niveaux": {
-    "vwap_jour": 3627.73,
+    "vwap_jour": 3630.65,
     "vwap_ny": null,
     "ouverture": 3565.7,
     "offre": [
-      {
-        "prix": 3675.0,
-        "labels": [
-          "Rond 3675"
-        ],
-        "label": "Rond 3675",
-        "distance_pct": 0.03
-      },
       {
         "prix": 3685.2,
         "labels": [
@@ -868,7 +859,7 @@
           "Haut jour"
         ],
         "label": "Haut Londres, Haut jour",
-        "distance_pct": 0.31
+        "distance_pct": 0.16
       },
       {
         "prix": 3689.59,
@@ -876,7 +867,7 @@
           "Haut semaine"
         ],
         "label": "Haut semaine",
-        "distance_pct": 0.43
+        "distance_pct": 0.28
       },
       {
         "prix": 3700.0,
@@ -884,7 +875,7 @@
           "Rond 3700"
         ],
         "label": "Rond 3700",
-        "distance_pct": 0.71
+        "distance_pct": 0.56
       },
       {
         "prix": 3725.0,
@@ -892,17 +883,33 @@
           "Rond 3725"
         ],
         "label": "Rond 3725",
-        "distance_pct": 1.4
+        "distance_pct": 1.24
+      },
+      {
+        "prix": 3750.0,
+        "labels": [
+          "Rond 3750"
+        ],
+        "label": "Rond 3750",
+        "distance_pct": 1.92
       }
     ],
     "demande": [
+      {
+        "prix": 3675.0,
+        "labels": [
+          "Rond 3675"
+        ],
+        "label": "Rond 3675",
+        "distance_pct": -0.11
+      },
       {
         "prix": 3666.53,
         "labels": [
           "Haut Asie"
         ],
         "label": "Haut Asie",
-        "distance_pct": -0.2
+        "distance_pct": -0.35
       },
       {
         "prix": 3652.54,
@@ -910,7 +917,7 @@
           "Bas Londres"
         ],
         "label": "Bas Londres",
-        "distance_pct": -0.58
+        "distance_pct": -0.73
       },
       {
         "prix": 3650.0,
@@ -918,15 +925,15 @@
           "Rond 3650"
         ],
         "label": "Rond 3650",
-        "distance_pct": -0.65
+        "distance_pct": -0.79
       },
       {
-        "prix": 3627.73,
+        "prix": 3630.65,
         "labels": [
           "VWAP jour"
         ],
         "label": "VWAP jour",
-        "distance_pct": -1.25
+        "distance_pct": -1.32
       },
       {
         "prix": 3625.0,
@@ -934,7 +941,7 @@
           "Rond 3625"
         ],
         "label": "Rond 3625",
-        "distance_pct": -1.33
+        "distance_pct": -1.47
       },
       {
         "prix": 3607.05,
@@ -942,7 +949,7 @@
           "Haut veille"
         ],
         "label": "Haut veille",
-        "distance_pct": -1.82
+        "distance_pct": -1.96
       },
       {
         "prix": 3572.5,
@@ -950,7 +957,7 @@
           "POC"
         ],
         "label": "POC",
-        "distance_pct": -2.76
+        "distance_pct": -2.9
       },
       {
         "prix": 3557.41,
@@ -959,7 +966,7 @@
           "Bas jour"
         ],
         "label": "Bas Asie, Bas jour",
-        "distance_pct": -3.17
+        "distance_pct": -3.31
       },
       {
         "prix": 3551.06,
@@ -967,7 +974,7 @@
           "Bas veille"
         ],
         "label": "Bas veille",
-        "distance_pct": -3.34
+        "distance_pct": -3.48
       },
       {
         "prix": 3426.41,
@@ -975,21 +982,21 @@
           "Bas semaine"
         ],
         "label": "Bas semaine",
-        "distance_pct": -6.73
+        "distance_pct": -6.87
       }
     ],
-    "prix": 3673.74
+    "prix": 3679.22
   },
   "profil": {
     "poc_bas": 3570,
     "poc_haut": 3575,
     "poc": 3572.5,
     "va_bas": 3555,
-    "va_haut": 3600,
-    "x_pct": 3.3,
+    "va_haut": 3635,
+    "x_pct": 1.6,
     "etat": "Accumulation",
     "direction": "HAUSSIER",
-    "force": 93,
+    "force": 97,
     "bins": [
       {
         "bas": 3550,
@@ -1108,7 +1115,7 @@
         "haut": 3635,
         "volume": 3.2471,
         "poc": false,
-        "va": false
+        "va": true
       },
       {
         "bas": 3635,
@@ -1155,28 +1162,28 @@
       {
         "bas": 3665,
         "haut": 3670,
-        "volume": 1.3647,
+        "volume": 1.7003,
         "poc": false,
         "va": false
       },
       {
         "bas": 3670,
         "haut": 3675,
-        "volume": 1.7053,
+        "volume": 2.824,
         "poc": false,
         "va": false
       },
       {
         "bas": 3675,
         "haut": 3680,
-        "volume": 1.912,
+        "volume": 3.0306,
         "poc": false,
         "va": false
       },
       {
         "bas": 3680,
         "haut": 3685,
-        "volume": 1.2089,
+        "volume": 1.3208,
         "poc": false,
         "va": false
       },
@@ -1189,18 +1196,18 @@
       }
     ]
   },
-  "gameplan": "Autour du prix, la demande la plus proche est à 3 666,53 $ (-0,20 %, Haut Asie) et l'offre la plus proche est à 3 675,00 $ (+0,03 %, Rond 3675). Zone de valeur 3 555,00 $ – 3 600,00 $, POC 3 570,00 $ – 3 575,00 $.\n\nSens privilégié ACHAT. Zone d'entrée : le premier paquet de demande, Haut Asie vers 3 666,53 $. Confirmation : rejet du niveau, puis clôture horaire qui repasse au-dessus de la zone, avec un signal orderflow ACHETEUR (actuellement NEUTRE). Objectifs : 3 675,00 $, 3 685,20 $, 3 689,59 $. Rester à plat si la clôture horaire revient dans la zone de valeur. Invalidation : clôture horaire sous 3 652,54 $.\n\nRSI au-dessus de 70 : ne pas acheter le plus haut.",
+  "gameplan": "Autour du prix, la demande la plus proche est à 3 675,00 $ (-0,11 %, Rond 3675) et l'offre la plus proche est à 3 685,20 $ (+0,16 %, Haut Londres, Haut jour). Zone de valeur 3 555,00 $ – 3 635,00 $, POC 3 570,00 $ – 3 575,00 $.\n\nSens privilégié ACHAT. Zone d'entrée : le premier paquet de demande, Rond 3675 vers 3 675,00 $. Confirmation : rejet du niveau, puis clôture horaire qui repasse au-dessus de la zone, avec un signal orderflow ACHETEUR (actuellement ACHETEUR). Objectifs : 3 685,20 $, 3 689,59 $, 3 700,00 $. Rester à plat si la clôture horaire revient dans la zone de valeur. Invalidation : clôture horaire sous 3 666,53 $.\n\nRSI au-dessus de 70 : ne pas acheter le plus haut.",
   "risque": {
     "ouverture": 3565.7,
-    "dernier": 3673.74,
-    "variation": 108.05,
-    "variation_pct": 3.03,
+    "dernier": 3679.22,
+    "variation": 113.53,
+    "variation_pct": 3.18,
     "evenements": [],
     "gap_weekend": false,
     "gap_texte": null,
     "calendrier_ok": true
   },
-  "brief": "L'or spot XAU/USD cote 3 673,74 $, en hausse de 3,32 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est NEUTRE : achat 52 % contre vente 48 %, écart 4 pts, conviction BASSE, delta net +7,71. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 75,7, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction modérée (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans positif). Zone neutre : éviter de trader. RSI en surachat (> 70) : extrême, prudence. Sur 24 h, le plus haut est 3 685,20 $ et le plus bas 3 551,95 $. Dépêches Investing (48 h) : « Les devises asiatiques s’affaiblissent sous la pression du pétrole ; le dollar recule » ; « L’or rebondit de 1,8 % après un plus bas de plus d’un an ».",
+  "brief": "L'or spot XAU/USD cote 3 679,22 $, en hausse de 3,15 % sur 24 h. L'orderflow estimé sur 40 bougies horaires est ACHETEUR : achat 55 % contre vente 45 %, écart 10 pts, conviction MODÉRÉE, delta net +14,55. La séance de Asie est haussière. Le sens privilégié pour Londres est l'ACHAT. Le RSI 14 est à 76,7, le prix est au-dessus de la moyenne 20, au-dessus de la moyenne 100. Tendance : Haussière. Le biais macro est haussier, conviction modérée (USD (DXY) négatif, Sentiment de risque positif, Taux réels US 10 ans négatif, Taux US 10 ans positif). RSI en surachat (> 70) : extrême, prudence. Sur 24 h, le plus haut est 3 685,20 $ et le plus bas 3 551,95 $. Dépêches Investing (48 h) : « Les devises asiatiques s’affaiblissent sous la pression du pétrole ; le dollar recule » ; « L’or rebondit de 1,8 % après un plus bas de plus d’un an ».",
   "news": [
     {
       "titre": "Les devises asiatiques s’affaiblissent sous la pression du pétrole ; le dollar recule",
@@ -1291,25 +1298,16 @@
       "heure": "mer. 25 nov. 15:30",
       "ton": 0,
       "ton_bucket": null
-    },
-    {
-      "titre": "L’Euro Dollar américain pourrait monter à 1,12 avant de chuter à 1,05, selon BCA",
-      "lien": "https://fr.investing.com/news/forex-news/leuro-dollar-americain-pourrait-monter-a-112-avant-de-chuter-a-105-selon-bca-93CH-3712587",
-      "source": "Forex",
-      "t": "2026-11-25T12:39+01:00",
-      "heure": "mer. 25 nov. 12:39",
-      "ton": 0,
-      "ton_bucket": null
     }
   ],
   "alertes": [
     {
-      "niveau": "important",
-      "texte": "Orderflow NEUTRE : zone neutre, éviter de trader."
+      "niveau": "info",
+      "texte": "Orderflow ACHETEUR, conviction MODÉRÉE, écart 10 pts."
     },
     {
       "niveau": "important",
-      "texte": "RSI 14 en surachat (75,7 > 70)."
+      "texte": "RSI 14 en surachat (76,7 > 70)."
     },
     {
       "niveau": "important",
@@ -1328,9 +1326,9 @@
   "fetch": {
     "telechargees": 1,
     "echecs": 0,
-    "demandees": 4,
+    "demandees": 2,
     "minutes": {
-      "fichiers": 2
+      "fichiers": 1
     }
   },
   "notifications": {
